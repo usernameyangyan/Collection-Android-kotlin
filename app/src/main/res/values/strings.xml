@@ -1,0 +1,80 @@
+<resources>
+	<string name="app_name">Collection-master-kotlin</string>
+
+	<string name="activity_main_title">Collection-kotlin</string>
+	<string name="activity_pull_refresh_title">RecyclerView</string>
+	<string name="fragment_refresh_title">Refresh/LoadingMore</string>
+	<string name="fragment_header_title">AddHeader/EmptyView</string>
+	<string name="fragment_auto_title">NoMoreData/AutoRefresh</string>
+
+	<string name="activity_base_adapter_title">BaseAdapter</string>
+	<string name="activity_item_click_title">ItemClick/ItemLongClick</string>
+	<string name="activity_drag_delete_title">item拖拽/item滑动删除</string>
+	<string name="activity_multiple_title">多布局</string>
+
+	<string name="activity_wechat_title">资讯精选</string>
+
+	<string name="activity_base_ui_title">Base</string>
+	<string name="activity_state_view">StateView</string>
+	<string name="activity_permission">权限管理</string>
+
+
+	<string name="default_refresh">默认</string>
+	<string name="definition_refresh">自定义</string>
+	<string name="google_refresh">Google刷新</string>
+
+	<string name="news_title">新闻资讯</string>
+	<string name="world_news">资讯1</string>
+	<string name="guonei_news">资讯2</string>
+	<string name="nba_news">资讯3</string>
+	<string name="all_title">MVP+RxJava+Retrofit</string>
+
+	<string name="fen_ye_cache">分页缓存</string>
+	<string name="limit_time_cache">缓存限时</string>
+
+	<string name="add_header">AddHeader</string>
+	<string name="set_empty">EmptyView</string>
+
+	<string name="no_more_data">NoMoreData</string>
+	<string name="auto_refresh">AutoRefresh</string>
+
+	<string name="data_manager_title">DataManager</string>
+
+	<string name="retrofit_manager">Retrofit</string>
+	<string name="sharePreference_manager">SP</string>
+	<string name="sqlite_manager">SQLite</string>
+	<string name="sharepreference_tip">这里只提供一个事例，具体的使用文档有详细说明</string>
+
+	<string name="use_common_result">公用Result类</string>
+	<string name="no_use_common_result">不使用公用Result类</string>
+
+	<string name="dialog_title">dialog使用</string>
+	<string name="dialog_sample_1">实例一：默认样式</string>
+	<string name="dialog_sample_2">实例二：Loading样式</string>
+	<string name="dialog_sample_3">实例三：修改按钮提示</string>
+	<string name="dialog_sample_4">实例四：自定义样式</string>
+	<string name="dialog_sample_5">实例五：单选选择</string>
+
+	<string name="status_bar_title">修改状态栏</string>
+	<string name="status_bar_bg">状态栏背景颜色</string>
+	<string name="status_bar_light_black">改变状态栏背景的同时把字体变为黑色</string>
+	<string name="status_bar_scroll_black">改变状态栏背景的同时默认系统状态字体颜色</string>
+	<string name="status_bar_tran">透明状态栏</string>
+	<string name="status_bar_tran_black">黑字透明状态栏</string>
+	<string name="status_bar_setting">点击修改状态栏背景色</string>
+
+	<string name="popup_title">PopupWindow的使用</string>
+	<string name="popup_slide_bottom">从底部弹出</string>
+	<string name="popup_slide_btn">跟随按钮显示</string>
+	<string name="popup_tip_btn">提示框</string>
+	<string name="popup_menu_list">列表菜单</string>
+
+	<string name="custom_view_title">自定义组件</string>
+	<string name="tab_Indicator_title">样式展示</string>
+	<string name="custom_tab_diff">CommonTabLayout的不同样式</string>
+
+
+	<string name="use_fragment_animation_1">跳转动画1</string>
+	<string name="use_fragment_animation_2">跳转动画2</string>
+	<string name="use_fragment_t">页面跳转</string>
+</resources>

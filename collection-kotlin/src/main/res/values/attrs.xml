@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<declare-styleable name="StateView">
+		<!--加载动画-->
+		<attr name="loadingViewAnimation" format="reference"/>
+		<!--加载提示-->
+		<attr name="loadingText" format="string"/>
+		<!--空布局显示图片-->
+		<attr name="emptyImage" format="reference"/>
+		<attr name="emptyText" format="string"/>
+		<attr name="emptyViewRes" format="reference"/>
+		<!--断网显示图片-->
+		<attr name="disConnectImage" format="reference"/>
+		<attr name="disConnectText" format="string"/>
+		<!-- 文字大小 -->
+		<attr name="tipTextSize" format="dimension"/>
+		<!-- 文字颜色 -->
+		<attr name="tipTextColor" format="color"/>
+	</declare-styleable>
+
+	<attr name="styleStateView" format="reference"/>
+
+	<style name="StateView">
+	</style>
+
+	<style name="StateView.Config">
+		<item name="loadingText">正在加载中...</item>
+		<item name="emptyImage">@mipmap/collection_library_ic_bttom_loading_01</item>
+		<item name="emptyText">没有数据...</item>
+		<item name="disConnectImage">@mipmap/collection_library_icon_disconnect</item>
+		<item name="disConnectText">发生错误，请点击重试...</item>
+
+		<item name="tipTextSize">14sp</item>
+		<item name="tipTextColor">#8a000000</item>
+	</style>
+
+
+	<declare-styleable name="CommonTabLayout">
+		<attr name="tab_tabIndicatorWidth"/>
+		<attr name="tab_tabIndicatorHeight" />
+		<attr name="tab_tabIndicatorColor"/>
+		<attr name="tab_indicator_marginLeft"/>
+		<attr name="tab_indicator_marginRight"/>
+		<attr name="tab_indicator_marginTop"/>
+		<attr name="tab_indicator_marginBottom"/>
+		<attr name="tab_tabTextColor"/>
+		<attr name="tab_tabTextSize"/>
+		<attr name="tab_tabSelectedTextColor"/>
+		<attr name="tab_padding"/>
+		<attr name="tab_tabBackground"/>
+		<attr name="tab_tabContentStart" />
+		<attr name="tab_indicator_corner"/>
+		<attr name="tab_textAllCaps"/>
+		<attr name="tab_indicator_gravity">
+			<enum name="bottom" value="0"/>
+			<enum name="top" value="1"/>
+		</attr>
+		<attr name="tab_tabMode">
+			<enum name="scrollable" value="0"/>
+			<enum name="fixed" value="1"/>
+		</attr>
+		<attr name="tab_indicator_style">
+			<enum name="line" value="0"/>
+			<enum name="triangle" value="1"/>
+			<enum name="block" value="2"/>
+		</attr>
+	</declare-styleable>
+
+	<declare-styleable name="OutSideFrameTabLayout">
+		<attr name="tab_tabIndicatorColor" />
+		<attr name="tab_indicator_corner" />
+		<attr name="tab_indicator_marginLeft"/>
+		<attr name="tab_indicator_marginRight"/>
+		<attr name="tab_indicator_marginTop"/>
+		<attr name="tab_indicator_marginBottom"/>
+		<attr name="tab_tabTextColor"/>
+		<attr name="tab_tabTextSize"/>
+		<attr name="tab_tabSelectedTextColor"/>
+		<attr name="tab_padding" />
+		<attr name="tab_textAllCaps"/>
+		<attr name="tab_bar_color"/>
+		<attr name="tab_bar_stroke_color"/>
+		<attr name="tab_bar_stroke_width"/>
+		<attr name="tab_width"/>
+	</declare-styleable>
+
+
+	<declare-styleable name="FlexboxLayout">
+		<attr name="flexDirection">
+			<enum name="row" value="0" />
+			<enum name="row_reverse" value="1" />
+			<enum name="column" value="2" />
+			<enum name="column_reverse" value="3" />
+		</attr>
+
+		<attr name="flexWrap">
+			<enum name="nowrap" value="0" />
+			<enum name="wrap" value="1" />
+			<enum name="wrap_reverse" value="2" />
+		</attr>
+
+		<!--
+            Omitting flex-flow property since it's reflected in the parent flex container.
+            Set the flexDirection and/or flexWrap to the parent flex container explicitly if you
+            want to use the flex-flow similar way to the web.
+         -->
+
+		<attr name="justifyContent">
+			<enum name="flex_start" value="0" />
+			<enum name="flex_end" value="1" />
+			<enum name="center" value="2" />
+			<enum name="space_between" value="3" />
+			<enum name="space_around" value="4" />
+			<enum name="space_evenly" value="5" />
+		</attr>
+
+		<attr name="alignItems">
+			<enum name="flex_start" value="0" />
+			<enum name="flex_end" value="1" />
+			<enum name="center" value="2" />
+			<enum name="baseline" value="3" />
+			<enum name="stretch" value="4" />
+		</attr>
+
+		<attr name="alignContent">
+			<enum name="flex_start" value="0" />
+			<enum name="flex_end" value="1" />
+			<enum name="center" value="2" />
+			<enum name="space_between" value="3" />
+			<enum name="space_around" value="4" />
+			<enum name="stretch" value="5" />
+		</attr>
+
+		<attr name="dividerDrawable" format="reference" />
+		<attr name="dividerDrawableHorizontal" format="reference" />
+		<attr name="dividerDrawableVertical" format="reference" />
+
+		<attr name="showDivider">
+			<flag name="none" value="0" />
+			<flag name="beginning" value="1" />
+			<flag name="middle" value="2" />
+			<flag name="end" value="4" />
+		</attr>
+		<attr name="showDividerHorizontal">
+			<flag name="none" value="0" />
+			<flag name="beginning" value="1" />
+			<flag name="middle" value="2" />
+			<flag name="end" value="4" />
+		</attr>
+		<attr name="showDividerVertical">
+			<flag name="none" value="0" />
+			<flag name="beginning" value="1" />
+			<flag name="middle" value="2" />
+			<flag name="end" value="4" />
+		</attr>
+
+		<!--
+            The attribute that specifies the maximum number of flex lines. This attribute is
+            effective only when the flexWrap attribute is "wrap" or "wrap_reverse".
+        -->
+		<attr name="maxLine" format="integer" />
+
+	</declare-styleable>
+
+	<declare-styleable name="FlexboxLayout_Layout">
+		<attr name="layout_order" format="integer" />
+
+		<!-- Negative numbers are invalid. -->
+		<attr name="layout_flexGrow" format="float" />
+
+		<!-- Negative numbers are invalid. -->
+		<attr name="layout_flexShrink" format="float" />
+
+		<!--
+            The initial length in a percentage format relative to its parent. This is similar to the
+            flex-basis property in the original CSS specification.
+            (https://www.w3.org/TR/css-flexbox-1/#flex-basis-property)
+            But unlike the flex-basis property, this attribute only accepts a value in fraction
+            (percentage), whereas flex-basis property accepts width values such as 1em, 10px and
+            the 'content' string.
+            But specifying initial fixed width values can be done by specifying width values in
+            layout_width (or layout_height, varies depending on the flexDirection). Also the same
+            effect can be done by specifying "wrap_content" in layout_width (or layout_height) if
+            developers want to achieve the same effect as 'content'.
+            Thus, this attribute only accepts fraction values, which can't be done through
+            layout_width (or layout_height) for simplicity.
+        -->
+		<attr name="layout_flexBasisPercent" format="fraction" />
+
+		<!--
+            Omitting flex property since it's a shorthand for layout_flexGrow and layout_flexShrink
+            and layout_percentInParent (flex-basis in the original CSS spec).
+        -->
+
+		<attr name="layout_alignSelf">
+			<enum name="auto" value="-1" />
+			<!-- The values below need to match the values of alignItems -->
+			<enum name="flex_start" value="0" />
+			<enum name="flex_end" value="1" />
+			<enum name="center" value="2" />
+			<enum name="baseline" value="3" />
+			<enum name="stretch" value="4" />
+		</attr>
+
+		<attr name="layout_minWidth" format="dimension" />
+		<attr name="layout_minHeight" format="dimension" />
+		<attr name="layout_maxWidth" format="dimension" />
+		<attr name="layout_maxHeight" format="dimension" />
+
+		<attr name="layout_wrapBefore" format="boolean" />
+	</declare-styleable>
+
+</resources>

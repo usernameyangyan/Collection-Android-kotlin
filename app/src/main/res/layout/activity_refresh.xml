@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.youngmanster.collection_kotlin.base.customview.tablayout.CommonTabLayout
+        android:id="@+id/customTabView"
+        app:tab_tabTextColor="@color/black"
+        app:tab_tabSelectedTextColor="@color/colorPrimary"
+        app:tab_tabIndicatorColor="@color/colorPrimary"
+        app:tab_tabTextSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:tab_tabMode="fixed"
+        app:tab_indicator_style="line" />
+
+
+    <com.youngmanster.collection_kotlin.base.customview.CollectionViewPager
+        android:id="@+id/collectionVp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
