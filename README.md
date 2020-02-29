@@ -13,7 +13,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 > Collection聚合了项目搭建的一些基本模块，节约开发者时间，协助项目的快速搭建,RecyclerView+Adapter+Retrofit+RxJava+MVP+DataManager+基本Base,能够满足一个项目的基本实现。
 
 ###  推荐文件
->Android X库之前版本可使用Collection-Android：[https://juejin.im/post/5e59d0eef265da57315b0b0e](https://juejin.im/post/5e59d0eef265da57315b0b0e)
+>Android X库之前版本可使用Collection-Android：[https://juejin.im/post/5ab9987451882555635e5401](https://juejin.im/post/5ab9987451882555635e5401)
 
 > Collection-iOS库:[https://juejin.im/post/5e423d4ef265da572a0cec9f](https://juejin.im/post/5e423d4ef265da572a0cec9f)
 
