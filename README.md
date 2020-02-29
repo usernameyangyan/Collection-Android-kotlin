@@ -35,7 +35,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 >  7.增加RxJavaUtils,可进行子/主线程数据处理切换
 
 ###  框架的引入
->  **implementation 'com.youngman:collection_kotlin:1.0.0**
+>  **implementation 'com.youngman:collection_kotlin:1.0.0'**
 
 
 ###   一、框架整体模块
