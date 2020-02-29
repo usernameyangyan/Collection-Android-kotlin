@@ -1,3 +1,15 @@
+## Collection-Kotlin
+
+![Travis](https://img.shields.io/badge/release-1.0.0-green.svg)
+![Travis](https://img.shields.io/badge/llicense-MIT-green.svg)
+![Travis](https://img.shields.io/badge/build-passing-green.svg)
+
+
+Collection聚合了项目搭建的一些基本模块，节约开发者时间，协助项目的快速搭建,RecyclerView+Adapter+Retrofit+RxJava+MVP+DataManager+基本Base,能够满足一个项目的基本实现。
+
+
+#### 更多交流请加微信公众号
+![](https://upload-images.jianshu.io/upload_images/4361802-88c89753c38ddf70.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 > Collection聚合了项目搭建的一些基本模块，节约开发者时间，协助项目的快速搭建,RecyclerView+Adapter+Retrofit+RxJava+MVP+DataManager+基本Base,能够满足一个项目的基本实现。
 
 ###  推荐文件
@@ -8,8 +20,8 @@
 
 ###  Collection-kotlin作为Collection-Android的更新篇，主要是为了解决使用Android X库带来的一些问题以及模块的优化
 
-> ###### github地址：
-> ###### 掘金地址：
+> ######  简书：https://www.jianshu.com/p/a6cb49532760
+> ######  掘金地址：https://juejin.im/post/5e59d0eef265da57315b0b0e
 
 ###  更新说明
 
@@ -24,7 +36,8 @@
 
 
 ###  框架的引入
->  **implementation 'com.youngman:collectionlibrary:1.2.8'**
+>  **###  框架的引入
+>  **implementation 'com.youngman:collection_kotlin:1.0.0****
 
 
 ###   一、框架整体模块
@@ -259,7 +272,7 @@
 ![](https://upload-images.jianshu.io/upload_images/4361802-891e8d36d76e641b.gif?imageMogr2/auto-orient/strip)
 
 
-#####（1）上拉加载更多数据的布局设置在上面的自定义LoadingMoreView中有介绍，如果要显示没有更多数据提示只需要在LoadMore返回数据之后设置：
+##### （1）上拉加载更多数据的布局设置在上面的自定义LoadingMoreView中有介绍，如果要显示没有更多数据提示只需要在LoadMore返回数据之后设置：
 
     mRecyclerView.setNoMoreDate(true)
 
