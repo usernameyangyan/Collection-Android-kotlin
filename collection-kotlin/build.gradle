@@ -2,6 +2,25 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from : "config.gradle"
+apply plugin: 'com.novoda.bintray-release'
+
+
+publish {
+    repoName='collection-kotlin'
+    userOrg = 'youngmanopen'
+    groupId = 'com.youngman'
+    artifactId = 'collection_kotlin'
+    publishVersion = '1.0.0'
+    desc = '1.在Collection-Android的基础上适配Android X库\n' +
+            '2.去掉Relam数据模块,安装包大小减少\n' +
+            '3.对原生SQLite数据库进行封装，使用更加方便 4.对DataManager的使用进行修整 \n' +
+            '5.增加AutoLineLayout/TagView \n' +
+            '6.增加LinkedMultiValueMap\n' +
+            '7.增加RxJavaUtils,可进行子/主线程数据处理切换'
+    website = 'https://github.com/usernameyangyan/Collection-Android-kotlin'// 可以设置github的项目地址
+}
+
+
 android {
     compileSdkVersion app.compileSdkVersion
     buildToolsVersion app.buildToolsVersion
