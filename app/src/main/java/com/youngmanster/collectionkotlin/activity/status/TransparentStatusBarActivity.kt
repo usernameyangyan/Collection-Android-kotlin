@@ -19,6 +19,9 @@ class TransparentStatusBarActivity :BaseActivity<BasePresenter<*>>(){
     }
 
     override fun init() {
+
+//        DisplayUtils.setStatusBarFullTranslucentWithBlackFont(this)
+
         DisplayUtils.setStatusBarFullTranslucent(this)
 
         GlideUtils.loadImg(

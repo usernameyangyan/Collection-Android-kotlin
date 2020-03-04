@@ -1,5 +1,6 @@
 package com.youngmanster.collection_kotlin.utils
 
+import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
@@ -8,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import com.youngmanster.collection_kotlin.R
 import java.util.*
 
@@ -221,20 +222,76 @@ class DisplayUtils {
         /**
          * 设置状态栏全屏透明（状态栏字体颜色为默认）
          */
-        fun setStatusBarFullTranslucent(act: Activity): Boolean {
-            //设置全屏透明状态栏
+        fun setStatusBarFullTranslucent(act: Activity) {
+            transparentStatusBar(act)
+        }
+
+
+        fun setStatusBarFullTranslucentWithBlackFont(activity:Activity){
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                return
+            }
+            setStatusBarBlackFontBgColor(activity,android.R.color.transparent)
+            transparentStatusBar(activity)
+            addTranslucentView(activity)
+        }
+
+
+        /**
+         * 使状态栏透明
+         */
+        @TargetApi(Build.VERSION_CODES.KITKAT)
+        private fun transparentStatusBar(activity: Activity) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                act.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-                act.window.decorView.systemUiVisibility =
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                act.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                act.window.statusBarColor = Color.TRANSPARENT
-                return true
+                activity.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+                activity.window.statusBarColor = Color.TRANSPARENT
             } else {
-                setStatusBarColor(act, R.color.black)
-                return false
+                activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             }
         }
+
+
+        /**
+         * 添加半透明矩形条
+         *
+         * @param activity       需要设置的 activity
+         */
+
+        private fun addTranslucentView( activity: Activity){
+            val contentView = activity.findViewById<View>(android.R.id.content) as ViewGroup
+            val fakeTranslucentView = contentView.findViewById<View>(R.id.statusbarutil_translucent_view)
+
+            if (fakeTranslucentView != null) {
+                if (fakeTranslucentView.visibility == View.GONE) {
+                    fakeTranslucentView.visibility = View.VISIBLE
+                }
+                fakeTranslucentView.setBackgroundColor(Color.argb(0, 0, 0, 0))
+            } else {
+                contentView.addView(createTranslucentStatusBarView(activity))
+            }
+        }
+
+        /**
+         * 创建半透明矩形 View
+         *
+         * @param alpha 透明值
+         * @return 半透明 View
+         */
+        private fun createTranslucentStatusBarView( activity: Activity):View{
+            // 绘制一个和状态栏一样高的矩形
+            val statusBarView = View(activity)
+            val params = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getStatusBarHeight(activity)
+            )
+            statusBarView.layoutParams = params
+            statusBarView.setBackgroundColor(Color.argb(0, 0, 0, 0))
+            statusBarView.id = R.id.statusbarutil_translucent_view
+            return statusBarView
+        }
+
 
 
         /**
