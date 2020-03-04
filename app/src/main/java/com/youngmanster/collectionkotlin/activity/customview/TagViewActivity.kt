@@ -27,7 +27,7 @@ class TagViewActivity :BaseActivity<BasePresenter<*>>(){
 
     override fun init() {
 
-        defineActionBarConfig?.setTitle("TagView")
+        defineActionBarConfig.setTitle("TagView")
 
         var list= arrayOf("werwrw","4545465","金浩","风和日丽",
             "一只蜜蜂叮在挂历上","阳光","灿烂","1+1","浏览器","玲珑骰子安红豆，入骨相思知不知")

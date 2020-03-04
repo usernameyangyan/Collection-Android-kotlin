@@ -50,13 +50,13 @@ class FragmentChinaNewsDefinition :BaseFragment<WeChatChinaNewsDefinitionPresent
         (mPresenter as WeChatChinaNewsDefinitionPresenter).requestChinaNews(activity!!,pageSize, PAGE_SIZE)
     }
 
-    override fun refreshUI(newsList: List<WeChatNews>?) {
-        if (newsList != null) {
+    override fun refreshUI(weChatNews: List<WeChatNews>?) {
+        if (weChatNews != null) {
             if (pageSize == 1) {
                 mDatas.clear()
-                mDatas.addAll(newsList)
+                mDatas.addAll(weChatNews)
             } else {
-                mDatas.addAll(newsList)
+                mDatas.addAll(weChatNews)
             }
 
         }
