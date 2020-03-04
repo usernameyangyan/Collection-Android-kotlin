@@ -21,10 +21,10 @@ class ResultSet:Serializable{
 
 
     internal fun setValue(columnName: String, columnValue: Any) {
-        var columnName = columnName
-        columnName = columnName.toLowerCase()
-        columnNameList.add(columnName)
-        nameValueMap[columnName] = columnValue
+        var column = columnName
+        column = column.toLowerCase()
+        columnNameList.add(column)
+        nameValueMap[column] = columnValue
         indexValueMap[index++] = columnValue
     }
 

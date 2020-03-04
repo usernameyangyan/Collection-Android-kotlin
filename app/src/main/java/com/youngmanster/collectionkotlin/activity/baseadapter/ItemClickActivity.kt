@@ -29,7 +29,7 @@ class ItemClickActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapte
     }
 
     override fun init() {
-        defineActionBarConfig!!.setTitle(getString(R.string.activity_item_click_title))
+        defineActionBarConfig?.setTitle(getString(R.string.activity_item_click_title))
 
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.VERTICAL

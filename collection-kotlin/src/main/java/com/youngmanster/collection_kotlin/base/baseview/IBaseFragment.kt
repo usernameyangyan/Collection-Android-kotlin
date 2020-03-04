@@ -69,7 +69,7 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
                     .inflate(R.layout.collection_library_default_common_toolbar, frame_caption_container, false)
 
                 frame_caption_container?.addView(defaultBar)
-                defineActionBarConfig?.defaultDefineView=defaultBar
+                defineActionBarConfig.defaultDefineView=defaultBar
             }
 
             frame_caption_container?.visibility = View.VISIBLE
