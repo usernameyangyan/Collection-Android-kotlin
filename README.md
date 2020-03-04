@@ -1,6 +1,6 @@
 ## Collection-Kotlin
 
-![Travis](https://img.shields.io/badge/release-1.0.0-green.svg)
+![Travis](https://img.shields.io/badge/release-1.0.1-green.svg)
 ![Travis](https://img.shields.io/badge/llicense-MIT-green.svg)
 ![Travis](https://img.shields.io/badge/build-passing-green.svg)
 
@@ -25,6 +25,9 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 
 ###  更新说明
 
+####   v1.0.1
+>  状态栏修改：增加设置状态栏透明+黑色字体
+
 ####   v1.0.0
 >  1.在Collection-Android的基础上适配Android X库  
 >  2.去掉Relam数据模块,安装包大小减少  
@@ -35,7 +38,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 >  7.增加RxJavaUtils,可进行子/主线程数据处理切换
 
 ###  框架的引入
->  **implementation 'com.youngman:collection_kotlin:1.0.0'**
+>  **implementation 'com.youngman:collection_kotlin:1.0.1'**
 
 
 ###   一、框架整体模块
