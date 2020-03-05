@@ -2,6 +2,7 @@ package com.youngmanster.collection_kotlin.data.database
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.sqlite.SQLiteException
 import com.youngmanster.collection_kotlin.config.Config
 import com.youngmanster.collection_kotlin.data.DataManager
 import com.youngmanster.collection_kotlin.network.rx.utils.RxAsyncTask
@@ -116,22 +117,29 @@ class SQLiteDataBase {
         columns: Array<String>?, selection: String?, selectionArgs: Array<String>?,
         groupBy: String?, having: String?, orderBy: String?
     ): List<T>? {
-        val queryList =
-            db?.query(
-                SqlHelper.getBeanName(className = clazz.name),
-                columns,
-                selection,
-                selectionArgs,
-                groupBy,
-                having,
-                orderBy
-            )
-        if (queryList == null || queryList.isEmpty()) {
-            return null
+        try {
+            val queryList =
+                db?.query(
+                    SqlHelper.getBeanName(className = clazz.name),
+                    columns,
+                    selection,
+                    selectionArgs,
+                    groupBy,
+                    having,
+                    orderBy
+                )
+            if (queryList == null || queryList.isEmpty()) {
+                return null
+            }
+            val resultList = ArrayList<T>()
+            SqlHelper.parseResultSetListToModelList(queryList, resultList, clazz)
+            return resultList
+
+        }catch (e: SQLiteException){
+
         }
-        val resultList = ArrayList<T>()
-        SqlHelper.parseResultSetListToModelList(queryList, resultList, clazz)
-        return resultList
+
+        return null
     }
 
     /**
