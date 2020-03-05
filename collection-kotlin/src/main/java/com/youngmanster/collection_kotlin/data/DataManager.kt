@@ -60,6 +60,14 @@ class DataManager{
                 return SQLiteDataBase.getInstance().queryAll(clazz)
             }
 
+            /**
+            * 根据条件查询表里的全部数据
+            */
+            fun <T> queryAllByWhere(clazz: Class<T>,selection: String,
+                                    vararg selectionArgs: String): List<T>? {
+                return SQLiteDataBase.getInstance().queryAllByWhere(clazz,selection,*selectionArgs)
+            }
+
             fun <T> queryAllBySync(clazz: Class<T>,onQueryDataComplete: SQLiteDataBase.QueryDataCompleteListener<T>){
                 SQLiteDataBase.getInstance().queryAllBySync(clazz,onQueryDataComplete)
             }

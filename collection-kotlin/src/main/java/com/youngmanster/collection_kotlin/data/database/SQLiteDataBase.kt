@@ -168,6 +168,14 @@ class SQLiteDataBase {
         return query(clazz, null, null, null, null, null, null)
     }
 
+    /**
+     * 根据条件查询表里的全部数据
+     */
+    fun <T> queryAllByWhere(clazz: Class<T>,selection: String,
+                            vararg selectionArgs: String): List<T>? {
+        return query(clazz, null, selection, selectionArgs as Array<String>, null, null, null)
+    }
+
     fun <T> queryAllBySync(clazz: Class<T>,onQueryDataComplete:QueryDataCompleteListener<T>){
 
         RxJavaUtils.executeAsyncTask(object : RxAsyncTask<String, List<T>>(""){

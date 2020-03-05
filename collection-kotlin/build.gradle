@@ -11,7 +11,7 @@ publish {
     groupId = 'com.youngman'
     artifactId = 'collection_kotlin'
     publishVersion = '1.0.2'
-    desc = '修复SQLite没有创建表查询异常'
+    desc = '修复SQLite没有创建表查询异常\n2.SQLite增加按条件查询List'
     website = 'https://github.com/usernameyangyan/Collection-Android-kotlin'// 可以设置github的项目地址
 }
 
