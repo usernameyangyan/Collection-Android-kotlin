@@ -23,6 +23,7 @@ abstract class BasePopupWindow : PopupWindow {
     private var windowManager: WindowManager? = null
     private var popupWidth: Int = 0
     private var popupHeight: Int = 0
+    private var touch_dismiss = true
 
 
     abstract fun getPopupLayoutRes():Int
@@ -58,9 +59,22 @@ abstract class BasePopupWindow : PopupWindow {
             popupHeight = popupView!!.measuredHeight
             popupWidth = popupView!!.measuredWidth
 
-            popupView!!.setOnClickListener { dismiss() }
+            popupView!!.setOnClickListener {
+                if(touch_dismiss){
+                    dismiss()
+                }
+
+            }
         }
 
+    }
+
+    fun showPopup(gravity: Int) {
+        val anchor = (context as Activity).findViewById<View>(android.R.id.content)
+        if (isShowMaskView) {
+            addMask(anchor.windowToken)
+        }
+        this.showAtLocation(anchor, gravity, 0, 0)
     }
 
 
@@ -87,6 +101,10 @@ abstract class BasePopupWindow : PopupWindow {
 
     fun setShowMaskView(isShowMaskView: Boolean) {
         this.isShowMaskView = isShowMaskView
+    }
+
+    fun setTouchDismiss(touch_dismiss:Boolean){
+        this.touch_dismiss=touch_dismiss
     }
 
     private fun addMask(token: IBinder) {

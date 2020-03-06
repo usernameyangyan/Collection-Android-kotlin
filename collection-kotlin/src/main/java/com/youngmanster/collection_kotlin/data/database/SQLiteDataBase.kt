@@ -209,7 +209,14 @@ class SQLiteDataBase {
      */
 
     fun <T> delete(clazz: Class<T>, whereClause: String, vararg whereArgs: String?): Boolean {
-        return db?.delete(SqlHelper.getBeanName(clazz.name), whereClause, whereArgs)!! > 0
+        try {
+            return db?.delete(SqlHelper.getBeanName(clazz.name), whereClause, whereArgs)!! > 0
+        }catch (e:SQLiteException){
+
+        }
+
+        return false
+
     }
 
     /**
@@ -224,8 +231,13 @@ class SQLiteDataBase {
      * 删除表
      */
     fun <T> deleteTable(clazz: Class<T>) {
-        val dropTableSql = String.format("DROP TABLE %s", SqlHelper.getBeanName(clazz.name))
-        db?.execSQL(dropTableSql)
+        try {
+            val dropTableSql = String.format("DROP TABLE %s", SqlHelper.getBeanName(clazz.name))
+            db?.execSQL(dropTableSql)
+        }catch (e:SQLiteException){
+
+        }
+
     }
 
     /**
@@ -233,14 +245,21 @@ class SQLiteDataBase {
      * -1失败
      */
     fun <T> update(model: T, whereClause: String, vararg whereArgs: String): Boolean? {
-        val contentValues = ContentValues()
-        SqlHelper.parseModelToContentValues(model, contentValues)
-        return db?.update(
-            SqlHelper.getBeanName((model as Any).javaClass.name),
-            contentValues,
-            whereClause,
-            whereArgs
-        ) == 1
+        try {
+            val contentValues = ContentValues()
+            SqlHelper.parseModelToContentValues(model, contentValues)
+            return db?.update(
+                SqlHelper.getBeanName((model as Any).javaClass.name),
+                contentValues,
+                whereClause,
+                whereArgs
+            ) == 1
+        }catch (e:SQLiteException){
+
+        }
+
+        return false
+
     }
 
     /**
@@ -253,21 +272,27 @@ class SQLiteDataBase {
         orderBy: String?, page: Int, pageSize: Int
     ): PagingList<T>? {
 
-        var order = orderBy
+        try {
+            var order = orderBy
 
-        if (orderBy == null) {
-            order = SqlHelper.getPrimaryKey(clazz)
+            if (orderBy == null) {
+                order = SqlHelper.getPrimaryKey(clazz)
+            }
+
+            val queryList = db?.pagingQuery(
+                SqlHelper.getBeanName(clazz.name), columns, selection, selectionArgs,
+                groupBy, having, order, page, pageSize
+            ) ?: return null
+
+            val resultList = PagingList<T>()
+            resultList.setTotalSize(queryList.getTotalSize())
+            SqlHelper.parseResultSetListToModelList(queryList, resultList, clazz)
+            return resultList
+        }catch (e:SQLiteException){
+
         }
 
-        val queryList = db?.pagingQuery(
-            SqlHelper.getBeanName(clazz.name), columns, selection, selectionArgs,
-            groupBy, having, order, page, pageSize
-        ) ?: return null
-
-        val resultList = PagingList<T>()
-        resultList.setTotalSize(queryList.getTotalSize())
-        SqlHelper.parseResultSetListToModelList(queryList, resultList, clazz)
-        return resultList
+       return null
     }
 
     fun <T> queryOfPageByWhere(
@@ -293,7 +318,14 @@ class SQLiteDataBase {
      */
 
     fun execQuerySQL(sql: String): List<ResultSet>? {
-        return db?.execQuerySQL(sql)
+        try {
+            return db?.execQuerySQL(sql)
+        }catch (e:SQLiteException){
+
+        }
+
+        return null
+
     }
 
 
@@ -301,49 +333,56 @@ class SQLiteDataBase {
      * 更新表
      */
     fun <T> updateTable(clazz: Class<T>) {
-        val newTableVersion = SqlHelper.getTableVersion()
-        val curTableVersion = getCurTableVersion()
-        if (newTableVersion != curTableVersion) {
-            DBTransaction.transact(db!!, object : DBTransaction.DBTransactionInterface {
-                override fun onTransact() {
-                    val rs = db?.query(
-                        "sqlite_master",
-                        arrayOf("sql"),
-                        "type=? AND name=?",
-                        arrayOf("table", SqlHelper.getBeanName(className = clazz.name))
-                    )
-                    val curTableSql = rs?.get(0)?.getStringValue("sql")
 
-                    val newColumnInfos = getTableColumnInfos(clazz)
-                    var curColumns = getTableColumnsInfo(curTableSql!!).toMutableMap()
-                    val newColumnSize = newColumnInfos.size
-                    var newColumnInfo: ColumnInfo
-                    var newColumnName: String
-                    var sql: String
-                    for (index in 0 until newColumnSize) {
-                        newColumnInfo = newColumnInfos[index]
-                        newColumnName = newColumnInfo.name.toLowerCase()
+        try {
+            val newTableVersion = SqlHelper.getTableVersion()
+            val curTableVersion = getCurTableVersion()
+            if (newTableVersion != curTableVersion) {
+                DBTransaction.transact(db!!, object : DBTransaction.DBTransactionInterface {
+                    override fun onTransact() {
+                        val rs = db?.query(
+                            "sqlite_master",
+                            arrayOf("sql"),
+                            "type=? AND name=?",
+                            arrayOf("table", SqlHelper.getBeanName(className = clazz.name))
+                        )
+                        val curTableSql = rs?.get(0)?.getStringValue("sql")
 
-                        if (curColumns.containsKey(newColumnName)) {
-                            curColumns[newColumnName] = false
-                        } else {
+                        val newColumnInfos = getTableColumnInfos(clazz)
+                        var curColumns = getTableColumnsInfo(curTableSql!!).toMutableMap()
+                        val newColumnSize = newColumnInfos.size
+                        var newColumnInfo: ColumnInfo
+                        var newColumnName: String
+                        var sql: String
+                        for (index in 0 until newColumnSize) {
+                            newColumnInfo = newColumnInfos[index]
+                            newColumnName = newColumnInfo.name.toLowerCase()
 
-                            sql = SqlHelper.getAddColumnSql(
-                                SqlHelper.getBeanName(clazz.name),
-                                newColumnInfo
-                            )
-                            db?.execSQL(sql)
+                            if (curColumns.containsKey(newColumnName)) {
+                                curColumns[newColumnName] = false
+                            } else {
+
+                                sql = SqlHelper.getAddColumnSql(
+                                    SqlHelper.getBeanName(clazz.name),
+                                    newColumnInfo
+                                )
+                                db?.execSQL(sql)
+                            }
                         }
+
+
+                        DataManager.DataForSharePreferences.saveObject(
+                            SqlHelper.PREFS_TABLE_VERSION_KEY,
+                            Config.SQLITE_DB_VERSION
+                        )
                     }
+                })
+            }
+        }catch (e:SQLiteException){
 
-
-                    DataManager.DataForSharePreferences.saveObject(
-                        SqlHelper.PREFS_TABLE_VERSION_KEY,
-                        Config.SQLITE_DB_VERSION
-                    )
-                }
-            })
         }
+
+
     }
 
 
