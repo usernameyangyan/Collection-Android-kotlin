@@ -123,6 +123,26 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
             return this
         }
 
+        fun setBarDividingLineHeight(height: Int): DefaultDefineActionBarConfig {
+            defaultDefineView?.findViewById<View>(R.id.lineView)?.layoutParams?.height=height
+            return this
+        }
+
+        fun setBarDividingLineColor(context:Context,color: Int): DefaultDefineActionBarConfig {
+            defaultDefineView?.findViewById<View>(R.id.lineView)?.setBackgroundColor(ContextCompat.getColor(context,color))
+            return this
+        }
+
+        fun setBarDividingLineShowStatus(isShow:Boolean): DefaultDefineActionBarConfig {
+            if(isShow){
+                defaultDefineView?.findViewById<View>(R.id.lineView)?.visibility=View.VISIBLE
+            }else{
+                defaultDefineView?.findViewById<View>(R.id.lineView)?.visibility=View.GONE
+            }
+
+            return this
+        }
+
         fun setBarHeight(height: Int): DefaultDefineActionBarConfig {
             defaultDefineView?.findViewById<RelativeLayout>(R.id.common_bar_panel)?.layoutParams?.height = height
             return this
