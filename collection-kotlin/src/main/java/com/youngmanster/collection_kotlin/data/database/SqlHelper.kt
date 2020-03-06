@@ -255,21 +255,50 @@ class SqlHelper {
                     if (fieldType == Int::class.javaPrimitiveType || fieldType == Int::class.java || fieldType.name == "java.lang.Integer"
                         || fieldType == Short::class.javaPrimitiveType || fieldType == Short::class.java || fieldType.name == "java.lang.Short"
                     ) {
-                        contentValues.put(field.name, field.get(model) as Int)
-                    } else if (fieldType == Long::class.javaPrimitiveType || fieldType == Long::class.java || fieldType.name == "java.lang.Long") {
-                        contentValues.put(field.name, field.get(model) as Long)
-                    } else if (fieldType == Float::class.javaPrimitiveType || fieldType == Float::class.java || fieldType.name == "java.lang.Float") {
-                        contentValues.put(field.name, field.get(model) as Float)
-                    } else if (fieldType == Double::class.java || fieldType == Double::class.javaPrimitiveType || fieldType.name == "java.lang.Double") {
-                        contentValues.put(field.name, field.get(model) as Double)
-                    } else if (fieldType == Boolean::class.javaPrimitiveType || fieldType == Boolean::class.java || fieldType.name == "java.lang.Boolean") {
-                        if (field.getBoolean(model)) {
-                            contentValues.put(field.name, "1")
-                        } else {
-                            contentValues.put(field.name, "0")
+                        if(field.get(model)==null){
+                            contentValues.put(field.name, 0)
+                        }else{
+                            contentValues.put(field.name, field.get(model) as Int)
                         }
+
+                    } else if (fieldType == Long::class.javaPrimitiveType || fieldType == Long::class.java || fieldType.name == "java.lang.Long") {
+
+                        if(field.get(model)==null){
+                            contentValues.put(field.name, 0)
+                        }else{
+                            contentValues.put(field.name, field.get(model) as Long)
+                        }
+                    } else if (fieldType == Float::class.javaPrimitiveType || fieldType == Float::class.java || fieldType.name == "java.lang.Float") {
+                        if(field.get(model)==null){
+                            contentValues.put(field.name, 0)
+                        }else{
+                            contentValues.put(field.name, field.get(model) as Float)
+                        }
+
+                    } else if (fieldType == Double::class.java || fieldType == Double::class.javaPrimitiveType || fieldType.name == "java.lang.Double") {
+                        if(field.get(model)==null){
+                            contentValues.put(field.name, 0)
+                        }else{
+                            contentValues.put(field.name, field.get(model) as Double)
+                        }
+                    } else if (fieldType == Boolean::class.javaPrimitiveType || fieldType == Boolean::class.java || fieldType.name == "java.lang.Boolean") {
+                        if(field.get(model)==null){
+                            contentValues.put(field.name, "0")
+                        }else{
+                            if (field.getBoolean(model)) {
+                                contentValues.put(field.name, "1")
+                            } else {
+                                contentValues.put(field.name, "0")
+                            }
+                        }
+
+
                     } else if (fieldType == String::class.java || fieldType.name == "java.lang.String") {
-                        contentValues.put(field.name, field.get(model) as String)
+                        if(field.get(model)==null){
+                            contentValues.put(field.name, "")
+                        }else{
+                            contentValues.put(field.name, field.get(model) as String)
+                        }
                     }
                 } catch (e: IllegalArgumentException) {
                     e.printStackTrace()
