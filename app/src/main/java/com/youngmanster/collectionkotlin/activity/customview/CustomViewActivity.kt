@@ -56,17 +56,17 @@ class CustomViewActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapt
     override fun onItemClick(view: View, position: Int) {
         when (position) {
             0 -> {
-                startAc(CommonTabLayoutActivity().javaClass)
+                startAc(CommonTabLayoutActivity::class.java)
             }
             1 -> {
-               startAc(OutSideFrameTabLayoutActivity().javaClass)
+               startAc(OutSideFrameTabLayoutActivity::class.java)
             }
             2 -> {
-                startAc(WrapLinearLayoutActivity().javaClass)
+                startAc(WrapLinearLayoutActivity::class.java)
             }
 
             3 ->{
-                startAc(TagViewActivity().javaClass)
+                startAc(TagViewActivity::class.java)
             }
         }
     }

@@ -52,25 +52,25 @@ class CommonTabLayoutActivity :BaseActivity<BasePresenter<*>>(), BaseRecyclerVie
     override fun onItemClick(view: View, position: Int) {
         when (position) {
             0 -> {
-                startAc(CommonLayoutStyleOneActivity().javaClass)
+                startAc(CommonLayoutStyleOneActivity::class.java)
             }
             1 -> {
-                startAc(CommonLayoutStyleTwoActivity().javaClass)
+                startAc(CommonLayoutStyleTwoActivity::class.java)
             }
             2 -> {
-                startAc(CommonLayoutStyleThreeActivity().javaClass)
+                startAc(CommonLayoutStyleThreeActivity::class.java)
             }
             3 -> {
-                startAc(CommonLayoutStyleFourActivity().javaClass)
+                startAc(CommonLayoutStyleFourActivity::class.java)
             }
             4 -> {
-                startAc(CommonTaLayoutStyleFiveActivity().javaClass)
+                startAc(CommonTaLayoutStyleFiveActivity::class.java)
             }
             5 -> {
-                startAc(CommonLayoutStyleSixActivity().javaClass)
+                startAc(CommonLayoutStyleSixActivity::class.java)
             }
             6 -> {
-                startAc(CommonLayoutStyleSevenActivity().javaClass)
+                startAc(CommonLayoutStyleSevenActivity::class.java)
             }
         }
     }

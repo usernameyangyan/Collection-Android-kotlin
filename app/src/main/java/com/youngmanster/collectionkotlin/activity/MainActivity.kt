@@ -59,27 +59,27 @@ class MainActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.OnI
     override fun onItemClick(view: View, position: Int) {
         when(position){
             0 -> {
-                startAc(RecyclerViewActivity().javaClass)
+                startAc(RecyclerViewActivity::class.java)
             }
 
             1 -> {
-                startAc(BaseAdapterActivity().javaClass)
+                startAc(BaseAdapterActivity::class.java)
             }
 
             2 -> {
-                startAc(MVPActivity().javaClass)
+                startAc(MVPActivity::class.java)
             }
 
             3 ->{
-                startAc(DataManagerActivity().javaClass)
+                startAc(DataManagerActivity::class.java)
             }
 
             4 ->{
-                startAc(BaseUiActivity().javaClass)
+                startAc(BaseUiActivity::class.java)
             }
 
             5 ->{
-                startAc(CustomViewActivity().javaClass)
+                startAc(CustomViewActivity::class.java)
             }
         }
     }

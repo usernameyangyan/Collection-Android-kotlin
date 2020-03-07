@@ -48,11 +48,11 @@ class OutSideFrameTabLayoutActivity :BaseActivity<BasePresenter<*>>(), BaseRecyc
     override fun onItemClick(view: View, position: Int) {
         when (position) {
             0 -> {
-                startAc(OutSideFrameTabLayoutOneActivity().javaClass)
+                startAc(OutSideFrameTabLayoutOneActivity::class.java)
             }
 
             1 -> {
-                startAc(OutSideFrameTabLayoutTwoActivity().javaClass)
+                startAc(OutSideFrameTabLayoutTwoActivity::class.java)
             }
         }
     }

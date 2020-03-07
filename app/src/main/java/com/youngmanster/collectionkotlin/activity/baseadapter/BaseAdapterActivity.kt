@@ -60,15 +60,15 @@ class BaseAdapterActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdap
     override fun onItemClick(view: View, position: Int) {
         when(position) {
             0 -> {
-                startAc(ItemClickActivity().javaClass)
+                startAc(ItemClickActivity::class.java)
             }
 
             1 -> {
-                startAc(MultipleItemActivity().javaClass)
+                startAc(MultipleItemActivity::class.java)
             }
 
             2 -> {
-                startAc(DragAndDeleteActivity().javaClass)
+                startAc(DragAndDeleteActivity::class.java)
             }
         }
     }

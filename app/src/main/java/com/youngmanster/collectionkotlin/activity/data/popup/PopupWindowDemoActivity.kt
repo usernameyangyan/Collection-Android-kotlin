@@ -49,7 +49,7 @@ class PopupWindowDemoActivity :BaseActivity<BasePresenter<*>>(),View.OnClickList
             }
 
             R.id.status_btn4 ->{
-                startAc(PopupMenuActivity().javaClass)
+                startAc(PopupMenuActivity::class.java)
             }
         }
     }

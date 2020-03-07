@@ -45,7 +45,7 @@ class ChangeStatusBarActivity :BaseActivity<BasePresenter<*>>(),View.OnClickList
             }
 
             R.id.status_btn3 ->{
-                startAc(TransparentStatusBarActivity().javaClass)
+                startAc(TransparentStatusBarActivity::class.java)
             }
 
         }

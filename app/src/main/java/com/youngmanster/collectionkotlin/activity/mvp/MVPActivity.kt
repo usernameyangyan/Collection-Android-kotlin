@@ -66,11 +66,11 @@ class MVPActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.OnIt
     override fun onItemClick(view: View, position: Int) {
         when(position){
             0 -> {
-                startAc(WeChatFeaturedActivity().javaClass)
+                startAc(WeChatFeaturedActivity::class.java)
             }
 
             1 -> {
-                startAc(WeChatNewsDefinitionActivity().javaClass)
+                startAc(WeChatNewsDefinitionActivity::class.java)
             }
         }
     }

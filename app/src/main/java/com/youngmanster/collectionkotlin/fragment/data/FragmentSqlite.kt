@@ -49,7 +49,7 @@ class FragmentSqlite:BaseFragment<BasePresenter<*>>(), View.OnClickListener{
             }
 
             R.id.queryBtn->{
-                val user=DataManager.DataForSqlite.queryByFirst(User().javaClass)
+                val user=DataManager.DataForSqlite.queryByFirst(User::class.java)
                 ToastUtils.showToast(activity,"姓名："+user?.name+"  "+"年龄："+user?.age)
             }
 
@@ -63,7 +63,7 @@ class FragmentSqlite:BaseFragment<BasePresenter<*>>(), View.OnClickListener{
                     list.add(user)
                 }
 
-                DataManager.DataForSqlite.insertListBySync(User().javaClass,list,object :SQLiteDataBase.InsertDataCompleteListener{
+                DataManager.DataForSqlite.insertListBySync(User::class.java,list,object :SQLiteDataBase.InsertDataCompleteListener{
                     override fun onInsertDataComplete(isInsert: Boolean?) {
                         if(isInsert!!){
                             ToastUtils.showToast(activity,"保存成功")
@@ -76,7 +76,7 @@ class FragmentSqlite:BaseFragment<BasePresenter<*>>(), View.OnClickListener{
             }
 
             R.id.btn2->{
-                DataManager.DataForSqlite.queryAllBySync(User().javaClass,object :SQLiteDataBase.QueryDataCompleteListener<User>{
+                DataManager.DataForSqlite.queryAllBySync(User::class.java,object :SQLiteDataBase.QueryDataCompleteListener<User>{
                     override fun onQueryComplete(datas: List<User>?) {
                         ToastUtils.showToast(activity,"查询到${datas?.size}条数据")
                     }

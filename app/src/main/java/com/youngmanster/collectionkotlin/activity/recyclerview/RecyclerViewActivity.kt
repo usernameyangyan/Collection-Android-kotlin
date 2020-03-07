@@ -53,15 +53,15 @@ class RecyclerViewActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAda
     override fun onItemClick(view: View, position: Int) {
         when(position){
             0 -> {
-                startAc(RefreshActivity().javaClass)
+                startAc(RefreshActivity::class.java)
             }
 
             1 -> {
-                startAc(HeaderAndEmptyViewActivity().javaClass)
+                startAc(HeaderAndEmptyViewActivity::class.java)
             }
 
             2 -> {
-                startAc(NoMoreDateAndAutoRefreshActivity().javaClass)
+                startAc(NoMoreDateAndAutoRefreshActivity::class.java)
             }
         }
     }

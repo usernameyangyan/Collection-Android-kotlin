@@ -189,7 +189,7 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
     }
 
 
-    fun startAc(claz:Class<Any>){
+    fun <U> startAc(claz:Class<U>){
         var intent = Intent()
         intent.setClass(this,claz)
         startActivity(intent)

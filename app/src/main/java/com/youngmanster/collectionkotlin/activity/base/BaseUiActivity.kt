@@ -53,23 +53,23 @@ class BaseUiActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.O
 
         when(position){
             0 ->{
-                startAc(StateViewActivity().javaClass)
+                startAc(StateViewActivity::class.java)
             }
 
             1 ->{
-                startAc(PermissionActivity().javaClass)
+                startAc(PermissionActivity::class.java)
             }
 
             2 ->{
-                startAc(DialogActivity().javaClass)
+                startAc(DialogActivity::class.java)
             }
 
             3 ->{
-                startAc(PopupWindowDemoActivity().javaClass)
+                startAc(PopupWindowDemoActivity::class.java)
             }
 
             4 ->{
-                startAc(ChangeStatusBarActivity().javaClass)
+                startAc(ChangeStatusBarActivity::class.java)
             }
         }
     }
