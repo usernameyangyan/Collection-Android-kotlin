@@ -16,7 +16,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder>
     BaseRecycleItemTouchHelper.ItemTouchHelperCallback {
     var mContext: Context? = null
     private var mLayoutResId: Int = 0
-    var mDatas: ArrayList<T>? = null
+    var mDatas: List<T>? = null
     private var mOnItemClickListener: OnItemClickListener? = null
     private var mOnItemLongClickListener: onItemLongClickListener? = null
     private var onDragAndDeleteListener: OnDragAndDeleteListener? = null
@@ -25,7 +25,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder>
     constructor(
         mContext: Context?,
         mLayoutResId: Int,
-        mDatas: ArrayList<T>,
+        mDatas: List<T>,
         pullToRefreshRecyclerView: PullToRefreshRecyclerView
     ) {
         this.mContext = mContext
@@ -34,7 +34,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder>
         this.mRecyclerView = pullToRefreshRecyclerView
     }
 
-    constructor(mContext: Context, mLayoutResId: Int, mDatas: ArrayList<T>) {
+    constructor(mContext: Context, mLayoutResId: Int, mDatas: List<T>) {
         this.mContext = mContext
         this.mLayoutResId = mLayoutResId
         this.mDatas = mDatas
@@ -138,7 +138,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder>
     }
 
     override fun onItemDelete(position: Int) {
-        mDatas?.removeAt(position)
+        (mDatas as ArrayList).removeAt(position)
         notifyItemRemoved(position)
         onDragAndDeleteListener?.onDeleteComplete()
     }
