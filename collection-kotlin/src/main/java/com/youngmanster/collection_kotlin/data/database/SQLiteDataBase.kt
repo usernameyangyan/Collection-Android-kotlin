@@ -19,12 +19,12 @@ import java.util.HashMap
 
 class SQLiteDataBase {
 
-    interface QueryDataCompleteListener<T>{
-        fun onQueryComplete(datas:List<T>?)
+    interface QueryDataCompleteListener<T> {
+        fun onQueryComplete(datas: List<T>?)
     }
 
-    interface InsertDataCompleteListener{
-        fun onInsertDataComplete(isInsert:Boolean?)
+    interface InsertDataCompleteListener {
+        fun onInsertDataComplete(isInsert: Boolean?)
     }
 
     private constructor()
@@ -83,9 +83,13 @@ class SQLiteDataBase {
         return db?.batchInsert(SqlHelper.getBeanName(clazz.name), listVal)!!
     }
 
-    fun <T> batchInsertBySync(clazz: Class<T>, dataList: List<T>,onInsertDataCompleteListener:InsertDataCompleteListener) {
+    fun <T> batchInsertBySync(
+        clazz: Class<T>,
+        dataList: List<T>,
+        onInsertDataCompleteListener: InsertDataCompleteListener
+    ) {
 
-        RxJavaUtils.executeAsyncTask(object :RxAsyncTask<String,Boolean>(""){
+        RxJavaUtils.executeAsyncTask(object : RxAsyncTask<String, Boolean>("") {
             override fun doInUIThread(t: Boolean?) {
                 onInsertDataCompleteListener.onInsertDataComplete(t)
             }
@@ -107,7 +111,6 @@ class SQLiteDataBase {
     }
 
 
-
     /**
      * 查找满足条件的第一条数据
      */
@@ -117,29 +120,24 @@ class SQLiteDataBase {
         columns: Array<String>?, selection: String?, selectionArgs: Array<String>?,
         groupBy: String?, having: String?, orderBy: String?
     ): List<T>? {
-        try {
-            val queryList =
-                db?.query(
-                    SqlHelper.getBeanName(className = clazz.name),
-                    columns,
-                    selection,
-                    selectionArgs,
-                    groupBy,
-                    having,
-                    orderBy
-                )
-            if (queryList == null || queryList.isEmpty()) {
-                return null
-            }
-            val resultList = ArrayList<T>()
-            SqlHelper.parseResultSetListToModelList(queryList, resultList, clazz)
-            return resultList
-
-        }catch (e: SQLiteException){
-
+        val queryList =
+            db?.query(
+                SqlHelper.getBeanName(className = clazz.name),
+                columns,
+                selection,
+                selectionArgs,
+                groupBy,
+                having,
+                orderBy
+            )
+        if (queryList == null || queryList.isEmpty()) {
+            return null
         }
+        val resultList = ArrayList<T>()
+        SqlHelper.parseResultSetListToModelList(queryList, resultList, clazz)
+        return resultList
 
-        return null
+
     }
 
     /**
@@ -171,14 +169,16 @@ class SQLiteDataBase {
     /**
      * 根据条件查询表里的全部数据
      */
-    fun <T> queryAllByWhere(clazz: Class<T>,selection: String,
-                            vararg selectionArgs: String): List<T>? {
+    fun <T> queryAllByWhere(
+        clazz: Class<T>, selection: String,
+        vararg selectionArgs: String
+    ): List<T>? {
         return query(clazz, null, selection, selectionArgs as Array<String>, null, null, null)
     }
 
-    fun <T> queryAllBySync(clazz: Class<T>,onQueryDataComplete:QueryDataCompleteListener<T>){
+    fun <T> queryAllBySync(clazz: Class<T>, onQueryDataComplete: QueryDataCompleteListener<T>) {
 
-        RxJavaUtils.executeAsyncTask(object : RxAsyncTask<String, List<T>>(""){
+        RxJavaUtils.executeAsyncTask(object : RxAsyncTask<String, List<T>>("") {
             override fun doInUIThread(t: List<T>?) {
                 onQueryDataComplete.onQueryComplete(t)
             }
@@ -209,14 +209,7 @@ class SQLiteDataBase {
      */
 
     fun <T> delete(clazz: Class<T>, whereClause: String, vararg whereArgs: String?): Boolean {
-        try {
-            return db?.delete(SqlHelper.getBeanName(clazz.name), whereClause, whereArgs)!! > 0
-        }catch (e:SQLiteException){
-
-        }
-
-        return false
-
+        return db?.delete(SqlHelper.getBeanName(clazz.name), whereClause, whereArgs)!! > 0
     }
 
     /**
@@ -231,12 +224,8 @@ class SQLiteDataBase {
      * 删除表
      */
     fun <T> deleteTable(clazz: Class<T>) {
-        try {
-            val dropTableSql = String.format("DROP TABLE %s", SqlHelper.getBeanName(clazz.name))
-            db?.execSQL(dropTableSql)
-        }catch (e:SQLiteException){
-
-        }
+        val dropTableSql = String.format("DROP TABLE %s", SqlHelper.getBeanName(clazz.name))
+        db?.execSQL(dropTableSql)
 
     }
 
@@ -245,21 +234,14 @@ class SQLiteDataBase {
      * -1失败
      */
     fun <T> update(model: T, whereClause: String, vararg whereArgs: String): Boolean? {
-        try {
-            val contentValues = ContentValues()
-            SqlHelper.parseModelToContentValues(model, contentValues)
-            return db?.update(
-                SqlHelper.getBeanName((model as Any).javaClass.name),
-                contentValues,
-                whereClause,
-                whereArgs
-            ) == 1
-        }catch (e:SQLiteException){
-
-        }
-
-        return false
-
+        val contentValues = ContentValues()
+        SqlHelper.parseModelToContentValues(model, contentValues)
+        return db?.update(
+            SqlHelper.getBeanName((model as Any).javaClass.name),
+            contentValues,
+            whereClause,
+            whereArgs
+        ) == 1
     }
 
     /**
@@ -272,27 +254,21 @@ class SQLiteDataBase {
         orderBy: String?, page: Int, pageSize: Int
     ): PagingList<T>? {
 
-        try {
-            var order = orderBy
+        var order = orderBy
 
-            if (orderBy == null) {
-                order = SqlHelper.getPrimaryKey(clazz)
-            }
-
-            val queryList = db?.pagingQuery(
-                SqlHelper.getBeanName(clazz.name), columns, selection, selectionArgs,
-                groupBy, having, order, page, pageSize
-            ) ?: return null
-
-            val resultList = PagingList<T>()
-            resultList.setTotalSize(queryList.getTotalSize())
-            SqlHelper.parseResultSetListToModelList(queryList, resultList, clazz)
-            return resultList
-        }catch (e:SQLiteException){
-
+        if (orderBy == null) {
+            order = SqlHelper.getPrimaryKey(clazz)
         }
 
-       return null
+        val queryList = db?.pagingQuery(
+            SqlHelper.getBeanName(clazz.name), columns, selection, selectionArgs,
+            groupBy, having, order, page, pageSize
+        ) ?: return null
+
+        val resultList = PagingList<T>()
+        resultList.setTotalSize(queryList.getTotalSize())
+        SqlHelper.parseResultSetListToModelList(queryList, resultList, clazz)
+        return resultList
     }
 
     fun <T> queryOfPageByWhere(
@@ -318,14 +294,7 @@ class SQLiteDataBase {
      */
 
     fun execQuerySQL(sql: String): List<ResultSet>? {
-        try {
-            return db?.execQuerySQL(sql)
-        }catch (e:SQLiteException){
-
-        }
-
-        return null
-
+        return db?.execQuerySQL(sql)
     }
 
 
@@ -378,7 +347,7 @@ class SQLiteDataBase {
                     }
                 })
             }
-        }catch (e:SQLiteException){
+        } catch (e: SQLiteException) {
 
         }
 
@@ -390,9 +359,9 @@ class SQLiteDataBase {
      * get current table version
      * @return
      */
-    private fun  getCurTableVersion(): Int? {
+    private fun getCurTableVersion(): Int? {
         return DataManager.DataForSharePreferences.getObject(
-            SqlHelper.PREFS_TABLE_VERSION_KEY,0
+            SqlHelper.PREFS_TABLE_VERSION_KEY, 0
         )
     }
 

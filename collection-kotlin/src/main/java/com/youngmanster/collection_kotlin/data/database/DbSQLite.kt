@@ -52,7 +52,6 @@ class DbSQLite {
             openDB()
             mSQLiteDatabase?.update(table, values, whereClause, whereArgs)
         } catch (ex: Exception) {
-            ex.printStackTrace()
             -1
         }
 
@@ -132,9 +131,9 @@ class DbSQLite {
             openDB()
             return mSQLiteDatabase?.delete(table, whereClause, whereArgs)
         } catch (ex: SQLException) {
-            ex.printStackTrace()
-            throw ex
         }
+
+        return -1
 
     }
 
@@ -174,11 +173,12 @@ class DbSQLite {
                 resultList
             }
         } catch (ex: SQLException) {
-            ex.printStackTrace()
-            throw ex
+
         } finally {
             cursor?.close()
         }
+
+        return null
     }
 
     /**
@@ -221,7 +221,7 @@ class DbSQLite {
         orderBy: String?,
         page: Int,
         pageSize: Int
-    ): PagingList<ResultSet> {
+    ): PagingList<ResultSet> ?{
 
         if (orderBy == null && pageSize != 0)
             throw SQLException("orderBy cann't be null if define page and pageSize")
@@ -254,15 +254,14 @@ class DbSQLite {
                 selectionArgs, groupBy, having, orderWithLimit
             )
 
-            if (cursor!!.count < 1) {
-                return resultList
+            return if (cursor!!.count < 1) {
+                resultList
             } else {
                 parseCursorToResult(cursor, resultList)
-                return resultList
+                resultList
             }
         } catch (ex: SQLException) {
-            ex.printStackTrace()
-            throw ex
+           return null
         } finally {
             cursor?.close()
             totalCursor?.close()
@@ -277,13 +276,12 @@ class DbSQLite {
      * @return
      */
     fun execSQL(sql: String, vararg bindArgs: Any): Boolean {
-        try {
+        return try {
             openDB()
             mSQLiteDatabase?.execSQL(sql, bindArgs)
-            return true
+            true
         } catch (ex: SQLException) {
-            ex.printStackTrace()
-            throw ex
+            false
         }
 
     }
@@ -307,8 +305,7 @@ class DbSQLite {
             parseCursorToResult(cursor, resultList)
             return resultList
         } catch (ex: SQLException) {
-            ex.printStackTrace()
-            throw ex
+           return null
         } finally {
             cursor?.close()
         }
