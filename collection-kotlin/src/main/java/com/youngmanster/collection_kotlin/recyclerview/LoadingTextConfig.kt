@@ -28,6 +28,11 @@ class LoadingTextConfig private constructor(context: Context) {
         collection_no_more_data = context.getString(R.string.collection_no_more_data)
     }
 
+    /***
+     * 设置下拉完成提示
+     * @param text
+     * @return
+     */
     fun setCollectionRefreshDone(text: String): LoadingTextConfig {
         collection_refresh_done = text
         return this
@@ -37,6 +42,11 @@ class LoadingTextConfig private constructor(context: Context) {
         return collection_refresh_done!!
     }
 
+    /***
+     * 设置正在刷新提示
+     * @param text
+     * @return
+     */
     fun setCollectionRefreshing(text: String): LoadingTextConfig {
         collection_refreshing = text
         return this
@@ -45,6 +55,12 @@ class LoadingTextConfig private constructor(context: Context) {
     fun getCollectionRefreshing(): String {
         return collection_refreshing!!
     }
+
+    /**
+     * 设置刷新时间提示
+     * @param text
+     * @return
+     */
 
     fun setCollectionLastRefreshTimeTip(text: String): LoadingTextConfig {
         collectionLastRefreshTime = text
@@ -55,6 +71,11 @@ class LoadingTextConfig private constructor(context: Context) {
         return collectionLastRefreshTime!!
     }
 
+    /**
+     * 设置正在加载更多提示
+     * @param text
+     * @return
+     */
     fun setCollectionLoadingMore(text: String): LoadingTextConfig {
         collection_loading_more = text
         return this
@@ -64,6 +85,11 @@ class LoadingTextConfig private constructor(context: Context) {
         return collection_loading_more
     }
 
+    /**
+     * 设置加载更多没有数据提示
+     * @param text
+     * @return
+     */
     fun setCollectionNoMoreData(text: String): LoadingTextConfig {
         collection_no_more_data = text
         return this
@@ -73,6 +99,11 @@ class LoadingTextConfig private constructor(context: Context) {
         return collection_no_more_data!!
     }
 
+    /***
+     * 设置下拉过程时的提示
+     * @param text
+     * @return
+     */
     fun setCollectionPullDownRefreshText(text: String): LoadingTextConfig {
         collectionPullRefreshText = text
         return this
@@ -82,6 +113,11 @@ class LoadingTextConfig private constructor(context: Context) {
         return collectionPullRefreshText!!
     }
 
+    /**
+     * 设置下拉到底时的提示
+     * @param text
+     * @return
+     */
     fun setCollectionPullReleaseText(text: String): LoadingTextConfig {
         collection_release_refresh = text
         return this
