@@ -1,6 +1,6 @@
 ## Collection-Kotlin
 
-![Travis](https://img.shields.io/badge/release-1.0.1-green.svg)
+![Travis](https://img.shields.io/badge/release-1.0.7-green.svg)
 ![Travis](https://img.shields.io/badge/llicense-MIT-green.svg)
 ![Travis](https://img.shields.io/badge/build-passing-green.svg)
 
@@ -25,6 +25,12 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 
 ###  更新说明
 
+####   v1.0.7
+> 1.修复SQLite没有创建表查询异常
+> 2.SQLite增加按条件查询List
+> 3.增加PopupWindow显示位置设置
+> 4.解决SQLit内容为null报错
+
 ####   v1.0.1
 >  状态栏修改：增加设置状态栏透明+黑色字体
 
@@ -38,7 +44,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 >  7.增加RxJavaUtils,可进行子/主线程数据处理切换
 
 ###  框架的引入
->  **implementation 'com.youngman:collection_kotlin:1.0.1'**
+>  **implementation 'com.youngman:collection_kotlin:1.0.7'**
 
 
 ###   一、框架整体模块
