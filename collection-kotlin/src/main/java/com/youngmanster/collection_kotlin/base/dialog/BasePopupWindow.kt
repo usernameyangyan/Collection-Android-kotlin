@@ -25,7 +25,6 @@ abstract class BasePopupWindow : PopupWindow {
     private var popupHeight: Int = 0
     private var touch_dismiss = true
 
-
     abstract fun getPopupLayoutRes():Int
     abstract fun getPopupAnimationStyleRes(): Int
 
@@ -65,6 +64,7 @@ abstract class BasePopupWindow : PopupWindow {
                 }
 
             }
+
         }
 
     }
@@ -107,6 +107,12 @@ abstract class BasePopupWindow : PopupWindow {
         this.touch_dismiss=touch_dismiss
     }
 
+
+    fun setOnBackPressDismiss(onBackPressDismiss:Boolean){
+        isFocusable = onBackPressDismiss
+        isOutsideTouchable = onBackPressDismiss
+        setBackgroundDrawable(ColorDrawable())
+    }
     private fun addMask(token: IBinder) {
         val wl = WindowManager.LayoutParams()
         wl.width = WindowManager.LayoutParams.MATCH_PARENT

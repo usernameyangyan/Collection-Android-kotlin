@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import com.youngmanster.collection_kotlin.R
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.mvp.ClassGetUtil
+import com.youngmanster.collection_kotlin.utils.AndroidWorkaroundUtils
 import kotlinx.android.synthetic.main.collection_library_default_base_activity.*
 
 /**
@@ -34,6 +35,10 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
             addContainerFrame(getLayoutId())
         }else{
             throw IllegalArgumentException("请设置getLayoutId")
+        }
+
+        if(isDealDeviceHasNavigationBar()){
+            AndroidWorkaroundUtils.assistActivity(findViewById(android.R.id.content))
         }
 
         mPresenter = ClassGetUtil.getClass(this, 0)
@@ -93,6 +98,14 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
      */
 
     open fun isShowCustomActionBar(): Boolean {
+        return true
+    }
+
+    /***
+     * 实现处理底部虚拟按钮
+     * @return
+     */
+    open fun isDealDeviceHasNavigationBar(): Boolean {
         return true
     }
 
