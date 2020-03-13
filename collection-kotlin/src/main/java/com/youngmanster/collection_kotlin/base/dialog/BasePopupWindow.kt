@@ -117,13 +117,6 @@ abstract class BasePopupWindow : PopupWindow {
         maskView = View(context)
         maskView!!.setBackgroundColor(0x7f000000)
         maskView!!.fitsSystemWindows = false
-        maskView!!.setOnKeyListener(View.OnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                removeMask()
-                return@OnKeyListener true
-            }
-            false
-        })
         /**
          * 通过WindowManager的addView方法创建View，产生出来的View根据WindowManager.LayoutParams属性不同，效果也就不同了。
          * 比如创建系统顶级窗口，实现悬浮窗口效果！
