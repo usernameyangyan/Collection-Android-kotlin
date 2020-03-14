@@ -138,9 +138,12 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder>
     }
 
     override fun onItemDelete(position: Int) {
-        (mDatas as ArrayList).removeAt(position)
-        notifyItemRemoved(position)
-        onDragAndDeleteListener?.onDeleteComplete()
+        if(mDatas!=null){
+            (mDatas as ArrayList).removeAt(position)
+            notifyItemRemoved(position)
+            onDragAndDeleteListener?.onDeleteComplete()
+        }
+
     }
 
     private var isMove:Boolean=false

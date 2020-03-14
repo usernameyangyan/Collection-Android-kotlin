@@ -18,19 +18,19 @@ abstract class BaseRecyclerViewMultiItemAdapter<T :BaseMultiItemEntity> : Recycl
 
     private var layouts: SparseIntArray? = null
     var mContext: Context?=null
-    var mDatas: ArrayList<T>?=null
+    var mDatas: List<T>?=null
     private var mOnItemClickListener: OnItemClickListener? = null
     private var mOnItemLongClickListener: onItemLongClickListener? = null
     private var onDragAndDeleteListener: OnDragAndDeleteListener? = null
     private var mRecyclerView: PullToRefreshRecyclerView? = null
 
-    constructor(mContext:Context, mDatas:ArrayList<T> ,pullToRefreshRecyclerView:PullToRefreshRecyclerView){
+    constructor(mContext:Context, mDatas:List<T> ,pullToRefreshRecyclerView:PullToRefreshRecyclerView){
         this.mContext = mContext
         this.mDatas = mDatas
         this.mRecyclerView = pullToRefreshRecyclerView
     }
 
-    constructor(mContext:Context, mDatas:ArrayList<T> ){
+    constructor(mContext:Context, mDatas:List<T> ){
         this.mContext = mContext
         this.mDatas = mDatas
     }
@@ -156,9 +156,11 @@ abstract class BaseRecyclerViewMultiItemAdapter<T :BaseMultiItemEntity> : Recycl
 
 
     override fun onItemDelete(position: Int) {
-        mDatas?.removeAt(position)
-        notifyItemRemoved(position)
-        onDragAndDeleteListener?.onDeleteComplete()
+        if(mDatas!=null){
+            (mDatas as ArrayList).removeAt(position)
+            notifyItemRemoved(position)
+            onDragAndDeleteListener?.onDeleteComplete()
+        }
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
