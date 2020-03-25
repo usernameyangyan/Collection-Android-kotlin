@@ -1,6 +1,6 @@
 ## Collection-Kotlin
 
-![Travis](https://img.shields.io/badge/release-1.0.7-green.svg)
+![Travis](https://img.shields.io/badge/release-1.1.0-green.svg)
 ![Travis](https://img.shields.io/badge/llicense-MIT-green.svg)
 ![Travis](https://img.shields.io/badge/build-passing-green.svg)
 
