@@ -15,6 +15,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.QueryMap;
+import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 /**
@@ -52,24 +53,27 @@ public interface RequestService {
 
     @Multipart
     @POST
-    Observable<ResponseBody> getObservableWithImage(@Url String url, @QueryMap Map<String, Object> map,
+    Observable<ResponseBody> uploadFile(@Url String url, @QueryMap Map<String, Object> map,
                                                     @Part MultipartBody.Part image);
 
     @Multipart
     @POST
-    Observable<ResponseBody> getObservableWithImageWithHeaders(@Url String url, @QueryMap Map<String, Object> map,
+    Observable<ResponseBody> uploadFileWithHeaders(@Url String url, @QueryMap Map<String, Object> map,
                                                                @Part MultipartBody.Part image, @HeaderMap Map<String, String> headers);
 
 
- @Multipart
- @POST
- Observable<ResponseBody> getObservableWithImages(@Url String url, @QueryMap Map<String, Object> map,
-                                                  @Part() MultipartBody.Part[] images);
+    @Multipart
+    @POST
+    Observable<ResponseBody> uploadFile(@Url String url, @QueryMap Map<String, Object> map,
+                                                     @Part() MultipartBody.Part[] images);
 
- @Multipart
- @POST
- Observable<ResponseBody> getObservableWithImagesWithHeaders(@Url String url, @QueryMap Map<String, Object> map,
-                                                             @Part() MultipartBody.Part[] images, @HeaderMap Map<String, String> headers);
+    @Multipart
+    @POST
+    Observable<ResponseBody> uploadFileWithHeaders(@Url String url, @QueryMap Map<String, Object> map,
+                                                                @Part() MultipartBody.Part[] images, @HeaderMap Map<String, String> headers);
 
 
+    @GET
+    @Streaming
+    Observable<ResponseBody> downloadFile(@Url String url,@HeaderMap Map<String, String> headers);
 }

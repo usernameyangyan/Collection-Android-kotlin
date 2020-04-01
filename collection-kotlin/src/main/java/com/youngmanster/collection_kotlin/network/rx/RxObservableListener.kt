@@ -21,15 +21,14 @@ abstract class RxObservableListener<T> : ObservableListener<T> {
         this.mView = view
     }
 
-    protected constructor() {}
+    protected constructor()
 
     protected constructor(view: BaseView, errorMsg: String) {
         this.mView = view
         this.mErrorMsg = errorMsg
     }
 
-    override fun onComplete() {
-
+    override fun onDownloadProgress(progress: Int) {
     }
 
     override fun onError(e: NetWorkCodeException.ResponseThrowable) {

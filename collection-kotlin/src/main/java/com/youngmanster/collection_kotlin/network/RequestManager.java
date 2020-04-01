@@ -5,14 +5,17 @@ import android.text.TextUtils;
 
 import com.youngmanster.collection_kotlin.config.Config;
 import com.youngmanster.collection_kotlin.network.gson.GsonUtils;
+import com.youngmanster.collection_kotlin.network.progress.DownloadFileHelper;
 import com.youngmanster.collection_kotlin.network.rx.RxSchedulers;
 import com.youngmanster.collection_kotlin.network.rx.RxSubscriber;
 import com.youngmanster.collection_kotlin.network.synchronization.OkHttpUtils;
 import com.youngmanster.collection_kotlin.utils.FileUtils;
 import com.youngmanster.collection_kotlin.utils.LogUtils;
 import com.youngmanster.collection_kotlin.utils.NetworkUtils;
+import com.youngmanster.collection_kotlin.utils.ThreadPoolManager;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -57,7 +60,10 @@ public class RequestManager {
 	public <T> DisposableObserver<ResponseBody> request(RequestBuilder<T> builder) {
 
 		if(builder.getReqMode()== RequestBuilder.ReqMode.ASYNCHRONOUS){
-			if (builder.getReqType() == RequestBuilder.ReqType.NO_CACHE_MODEL) {
+			if(builder.getReqType() == RequestBuilder.ReqType.DOWNLOAD_FILE_MODEL){
+				Observable<ResponseBody> observable = getRetrofit(builder, false);
+				return downloadFile(builder, observable);
+			} else if (builder.getReqType() == RequestBuilder.ReqType.NO_CACHE_MODEL) {
 				Observable<ResponseBody> observable = getRetrofit(builder, false);
 				return loadOnlyNetWorkModel(builder, observable);
 			} else if (builder.getReqType() == RequestBuilder.ReqType.NO_CACHE_LIST) {
@@ -145,30 +151,30 @@ public class RequestManager {
 		}else if(builder.getHttpType() == RequestBuilder.HttpType.ONE_MULTIPART_POST){
             if (isCache) {
                 if(builder.getHeaders()!=null&&builder.getHeaders().size()>0){
-                    return RetrofitManager.Companion.getWithoutHeaderApiService(RequestService.class).getObservableWithImageWithHeaders(builder.getUrl(), builder.getRequestParam(),builder.getPart(),builder.getHeaders());
+                    return RetrofitManager.Companion.getWithoutHeaderApiService(RequestService.class).uploadFileWithHeaders(builder.getUrl(), builder.getRequestParam(),builder.getPart(),builder.getHeaders());
                 }else{
-                    return RetrofitManager.Companion.getApiService(RequestService.class).getObservableWithImage(builder.getUrl(), builder.getRequestParam(),builder.getPart());
+                    return RetrofitManager.Companion.getApiService(RequestService.class).uploadFile(builder.getUrl(), builder.getRequestParam(),builder.getPart());
                 }
             }else{
                 if(builder.getHeaders()!=null&&builder.getHeaders().size()>0){
-                    return RetrofitManager.Companion.getNoCacheAndWithoutHeadersApiService(RequestService.class).getObservableWithImageWithHeaders(builder.getUrl(), builder.getRequestParam(),builder.getPart(),builder.getHeaders());
+                    return RetrofitManager.Companion.getNoCacheAndWithoutHeadersApiService(RequestService.class).uploadFileWithHeaders(builder.getUrl(), builder.getRequestParam(),builder.getPart(),builder.getHeaders());
                 }else{
-                    return RetrofitManager.Companion.getNoCacheApiService(RequestService.class).getObservableWithImage(builder.getUrl(), builder.getRequestParam(),builder.getPart());
+                    return RetrofitManager.Companion.getNoCacheApiService(RequestService.class).uploadFile(builder.getUrl(), builder.getRequestParam(),builder.getPart());
                 }
             }
 
 		}else if(builder.getHttpType() == RequestBuilder.HttpType.MULTIPLE_MULTIPART_POST){
 			if (isCache) {
 				if(builder.getHeaders()!=null&&builder.getHeaders().size()>0){
-					return RetrofitManager.Companion.getWithoutHeaderApiService(RequestService.class).getObservableWithImagesWithHeaders(builder.getUrl(), builder.getRequestParam(),builder.getParts(),builder.getHeaders());
+					return RetrofitManager.Companion.getWithoutHeaderApiService(RequestService.class).uploadFileWithHeaders(builder.getUrl(), builder.getRequestParam(),builder.getParts(),builder.getHeaders());
 				}else{
-					return RetrofitManager.Companion.getApiService(RequestService.class).getObservableWithImages(builder.getUrl(), builder.getRequestParam(),builder.getParts());
+					return RetrofitManager.Companion.getApiService(RequestService.class).uploadFile(builder.getUrl(), builder.getRequestParam(),builder.getParts());
 				}
 			}else{
 				if(builder.getHeaders()!=null&&builder.getHeaders().size()>0){
-					return RetrofitManager.Companion.getNoCacheAndWithoutHeadersApiService(RequestService.class).getObservableWithImagesWithHeaders(builder.getUrl(), builder.getRequestParam(),builder.getParts(),builder.getHeaders());
+					return RetrofitManager.Companion.getNoCacheAndWithoutHeadersApiService(RequestService.class).uploadFileWithHeaders(builder.getUrl(), builder.getRequestParam(),builder.getParts(),builder.getHeaders());
 				}else{
-					return RetrofitManager.Companion.getNoCacheApiService(RequestService.class).getObservableWithImages(builder.getUrl(), builder.getRequestParam(),builder.getParts());
+					return RetrofitManager.Companion.getNoCacheApiService(RequestService.class).uploadFile(builder.getUrl(), builder.getRequestParam(),builder.getParts());
 				}
 			}
 		}else if(builder.getHttpType() == RequestBuilder.HttpType.JSON_PARAM_POST){
@@ -215,6 +221,10 @@ public class RequestManager {
                     return RetrofitManager.Companion.getNoCacheApiService(RequestService.class).getObservableWithQueryJsonParam(builder.getUrl(),body);
                 }
 			}
+		}else if(builder.getHttpType() == RequestBuilder.HttpType.DOWNLOAD_FILE_GET){
+			Map<String,String> header=new HashMap<>();
+			header.put("Accept-Encoding","identity");
+			return RetrofitManager.Companion.getNoCacheApiService(RequestService.class).downloadFile(builder.getUrl(),header);
 		}
 		return null;
 	}
@@ -229,6 +239,7 @@ public class RequestManager {
 	 * 返回List
 	 */
 
+	@SuppressLint("CheckResult")
 	public <T> DisposableObserver<ResponseBody> loadFormDiskResultListLimitTime(final RequestBuilder<T> builder, Observable<ResponseBody> observable) {
 
 
@@ -293,7 +304,6 @@ public class RequestManager {
 
 						@Override
 						public void _onComplete() {
-							builder.getRxObservableListener().onComplete();
 						}
 					});
 
@@ -305,6 +315,7 @@ public class RequestManager {
 	 * 设置缓存时间，没超过设置的时间不请求网络，只返回缓存数据
 	 * 返回Model
 	 */
+	@SuppressLint("CheckResult")
 	public <T> DisposableObserver<ResponseBody> loadFormDiskModeLimitTime(final RequestBuilder<T> builder, Observable<ResponseBody> observable) {
 
 		if (!FileUtils.isCacheDataFailure(builder.getFilePath() + "/" + builder.getFileName(), builder.getLimtHours())) {
@@ -368,7 +379,6 @@ public class RequestManager {
 
 					@Override
 					public void _onComplete() {
-						builder.getRxObservableListener().onComplete();
 					}
 				});
 
@@ -434,6 +444,7 @@ public class RequestManager {
 
 					}
 
+					@SuppressLint("CheckResult")
 					@Override
 					public void _onError(NetWorkCodeException.ResponseThrowable e) {
 						LogUtils.info("1000","_onError");
@@ -447,7 +458,6 @@ public class RequestManager {
 
 					@Override
 					public void _onComplete() {
-						builder.getRxObservableListener().onComplete();
 					}
 				});
 
@@ -523,7 +533,6 @@ public class RequestManager {
 
 			@Override
 			public void _onComplete() {
-				builder.getRxObservableListener().onComplete();
 			}
 		});
 
@@ -569,15 +578,14 @@ public class RequestManager {
 
 					@Override
 					public void _onError(NetWorkCodeException.ResponseThrowable e) {
-						if (builder.isDiskCacheNetworkSaveReturn() == true) {
+						if (builder.isDiskCacheNetworkSaveReturn()) {
 							builder.getRxObservableListener().onError(e);
 						}
 					}
 
 					@Override
 					public void _onComplete() {
-						if (builder.isDiskCacheNetworkSaveReturn() == true) {
-							builder.getRxObservableListener().onComplete();
+						if (builder.isDiskCacheNetworkSaveReturn()) {
 						}
 					}
 				});
@@ -631,7 +639,6 @@ public class RequestManager {
 					@Override
 					public void _onComplete() {
 						if (builder.isDiskCacheNetworkSaveReturn() == true) {
-							builder.getRxObservableListener().onComplete();
 						}
 					}
 				});
@@ -671,7 +678,6 @@ public class RequestManager {
 
 					@Override
 					public void _onComplete() {
-						builder.getRxObservableListener().onComplete();
 					}
 				});
 		return observer;
@@ -712,11 +718,46 @@ public class RequestManager {
 
 					@Override
 					public void _onComplete() {
-						builder.getRxObservableListener().onComplete();
 					}
 				});
 		return observer;
 	}
+
+
+	/****
+	 * 下载文件
+	 */
+
+	private <T> DisposableObserver<ResponseBody> downloadFile(final RequestBuilder<T> builder, Observable<ResponseBody> observable) {
+		DisposableObserver<ResponseBody> observer = observable.compose(RxSchedulers.<ResponseBody>io_main())
+				.subscribeWith(new RxSubscriber<ResponseBody>() {
+					@SuppressLint("StaticFieldLeak")
+					@Override
+					public void _onNext(final ResponseBody t) {
+
+						ThreadPoolManager.Companion.getSingleInstance().execute(new Runnable() {
+							@Override
+							public void run() {
+								DownloadFileHelper.writeFile2Disk(t,builder);
+							}
+						});
+					}
+
+					@Override
+					public void _onError(NetWorkCodeException.ResponseThrowable e) {
+						builder.getRxObservableListener().onError(e);
+					}
+
+					@Override
+					public void _onComplete() {
+
+					}
+				});
+
+		return observer;
+	}
+
+
 
 
 	/**
