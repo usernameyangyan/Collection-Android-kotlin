@@ -4,12 +4,7 @@ import android.app.Application
 import com.youngmanster.collectionkotlin.BuildConfig
 import com.youngmanster.collectionkotlin.bean.HttpResult
 import com.youngmanster.collection_kotlin.config.Config
-import com.youngmanster.collection_kotlin.data.DataManager
 import com.youngmanster.collection_kotlin.data.database.SQLiteVersionMigrate
-import com.youngmanster.collection_kotlin.recyclerview.LoadingTextConfig
-import com.youngmanster.collection_kotlin.recyclerview.PullToRefreshRecyclerViewUtils
-import com.youngmanster.collection_kotlin.utils.LogUtils
-import com.youngmanster.collectionkotlin.bean.User
 
 /**
  * Created by yangy

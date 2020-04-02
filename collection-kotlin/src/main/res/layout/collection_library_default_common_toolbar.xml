@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:focusable="true"
+            android:paddingLeft="17dp"
             android:visibility="gone"
             android:theme="@style/Base.Widget.AppCompat.ActionButton" />
 

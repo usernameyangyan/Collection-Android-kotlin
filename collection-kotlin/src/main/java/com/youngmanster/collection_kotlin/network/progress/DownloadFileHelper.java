@@ -2,7 +2,6 @@ package com.youngmanster.collection_kotlin.network.progress;
 import com.youngmanster.collection_kotlin.network.RequestBuilder;
 import com.youngmanster.collection_kotlin.network.rx.utils.RxJavaUtils;
 import com.youngmanster.collection_kotlin.network.rx.utils.RxUITask;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -57,19 +56,14 @@ public class DownloadFileHelper {
                         builder.getRxObservableListener().onDownloadProgress(integer);
                     }
                 });
-
-
-                //当百分比为100时下载结束，调用结束回调，并传出下载后的本地路径
-                if ((int) (100 * currentLength / totalLength) == 100) {
-                    RxJavaUtils.doInUIThread(new RxUITask<String>(strFile) {
-                        @Override
-                        public void doInUIThread(String s) {
-                            builder.getRxObservableListener().onNext(s);
-                        }
-                    });
-
-                }
             }
+
+            RxJavaUtils.doInUIThread(new RxUITask<String>(strFile) {
+                @Override
+                public void doInUIThread(String s) {
+                    builder.getRxObservableListener().onNext(s);
+                }
+            });
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

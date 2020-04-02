@@ -2,7 +2,8 @@ ext{
     supportLibrary="1.0.0"
 
     supportDependencies=[
-            appCompat    : "androidx.cardview:cardview:${supportLibrary}",
+            appCompat    : "androidx.appcompat:appcompat:${supportLibrary}",
+            cardview    : "androidx.cardview:cardview:${supportLibrary}",
             recyclerview : "androidx.recyclerview:recyclerview:${supportLibrary}"
     ]
 
