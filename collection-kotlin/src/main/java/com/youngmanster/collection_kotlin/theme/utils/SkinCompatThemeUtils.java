@@ -1,4 +1,4 @@
-package com.youngmanster.collection_kotlin.theme.res;
+package com.youngmanster.collection_kotlin.theme.utils;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -10,6 +10,8 @@ import android.util.TypedValue;
 import androidx.annotation.RequiresApi;
 import androidx.core.graphics.ColorUtils;
 
+import com.youngmanster.collection_kotlin.theme.res.SkinCompatResources;
+
 import static com.youngmanster.collection_kotlin.theme.widget.SkinCompatHelper.INVALID_ID;
 
 
@@ -18,21 +20,21 @@ public class SkinCompatThemeUtils {
 
     private static final ThreadLocal<TypedValue> TL_TYPED_VALUE = new ThreadLocal<>();
 
-    static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
-    static final int[] ENABLED_STATE_SET = new int[]{android.R.attr.state_enabled};
-    static final int[] WINDOW_FOCUSED_STATE_SET = new int[]{android.R.attr.state_window_focused};
-    static final int[] FOCUSED_STATE_SET = new int[]{android.R.attr.state_focused};
-    static final int[] ACTIVATED_STATE_SET = new int[]{android.R.attr.state_activated};
-    static final int[] ACCELERATED_STATE_SET = new int[]{android.R.attr.state_accelerated};
-    static final int[] HOVERED_STATE_SET = new int[]{android.R.attr.state_hovered};
-    static final int[] DRAG_CAN_ACCEPT_STATE_SET = new int[]{android.R.attr.state_drag_can_accept};
-    static final int[] DRAG_HOVERED_STATE_SET = new int[]{android.R.attr.state_drag_hovered};
-    static final int[] PRESSED_STATE_SET = new int[]{android.R.attr.state_pressed};
-    static final int[] CHECKED_STATE_SET = new int[]{android.R.attr.state_checked};
-    static final int[] SELECTED_STATE_SET = new int[]{android.R.attr.state_selected};
-    static final int[] NOT_PRESSED_OR_FOCUSED_STATE_SET = new int[]{
+    public static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
+    public static final int[] ENABLED_STATE_SET = new int[]{android.R.attr.state_enabled};
+    public static final int[] WINDOW_FOCUSED_STATE_SET = new int[]{android.R.attr.state_window_focused};
+    public static final int[] FOCUSED_STATE_SET = new int[]{android.R.attr.state_focused};
+    public static final int[] ACTIVATED_STATE_SET = new int[]{android.R.attr.state_activated};
+    public static final int[] ACCELERATED_STATE_SET = new int[]{android.R.attr.state_accelerated};
+    public static final int[] HOVERED_STATE_SET = new int[]{android.R.attr.state_hovered};
+    public static final int[] DRAG_CAN_ACCEPT_STATE_SET = new int[]{android.R.attr.state_drag_can_accept};
+    public static final int[] DRAG_HOVERED_STATE_SET = new int[]{android.R.attr.state_drag_hovered};
+    public static final int[] PRESSED_STATE_SET = new int[]{android.R.attr.state_pressed};
+    public static final int[] CHECKED_STATE_SET = new int[]{android.R.attr.state_checked};
+    public static final int[] SELECTED_STATE_SET = new int[]{android.R.attr.state_selected};
+    public static final int[] NOT_PRESSED_OR_FOCUSED_STATE_SET = new int[]{
             -android.R.attr.state_pressed, -android.R.attr.state_focused};
-    static final int[] EMPTY_STATE_SET = new int[0];
+    public static final int[] EMPTY_STATE_SET = new int[0];
 
     private static final int[] TEMP_ARRAY = new int[1];
 
@@ -49,7 +51,7 @@ public class SkinCompatThemeUtils {
         return getResId(context, new int[]{android.R.attr.windowBackground});
     }
 
-    static int getResId(Context context, int[] attrs) {
+    public static int getResId(Context context, int[] attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs);
         final int resId = a.getResourceId(0, INVALID_ID);
         a.recycle();

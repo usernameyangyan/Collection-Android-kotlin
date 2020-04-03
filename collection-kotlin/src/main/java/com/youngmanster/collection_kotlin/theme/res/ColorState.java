@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import androidx.annotation.ColorRes;
 
 import com.youngmanster.collection_kotlin.theme.exception.SkinCompatException;
+import com.youngmanster.collection_kotlin.theme.utils.SkinCompatThemeUtils;
 import com.youngmanster.collection_kotlin.theme.utils.Slog;
 
 import org.json.JSONException;

@@ -18,6 +18,7 @@ import com.youngmanster.collection_kotlin.theme.Inflater.SkinLayoutInflater;
 import com.youngmanster.collection_kotlin.theme.Inflater.SkinWrapper;
 import com.youngmanster.collection_kotlin.theme.load.SkinBuildInLoader;
 import com.youngmanster.collection_kotlin.theme.load.SkinNoneLoader;
+import com.youngmanster.collection_kotlin.theme.material.SkinMaterialViewInflater;
 import com.youngmanster.collection_kotlin.theme.observe.SkinObservable;
 import com.youngmanster.collection_kotlin.theme.res.SkinCompatResources;
 import com.youngmanster.collection_kotlin.theme.utils.SkinConstants;
@@ -34,10 +35,8 @@ public class ThemeManager extends SkinObservable {
     private boolean mLoading = false;
     private List<SkinWrapper> mWrappers = new ArrayList<>();
     private List<SkinLayoutInflater> mInflaters = new ArrayList<>();
-    private List<SkinLayoutInflater> mHookInflaters = new ArrayList<>();
     private SparseArray<SkinLoaderStrategy> mStrategyMap = new SparseArray<>();
     private boolean mSkinAllActivityEnable = true;
-    private boolean mSkinStatusBarColorEnable = false;
     private boolean mSkinWindowBackgroundColorEnable = true;
 
     /**
@@ -149,7 +148,9 @@ public class ThemeManager extends SkinObservable {
     public static ThemeManager with(Application application) {
         init(application);
         SkinActivityLifecycle.init(application);
-        sInstance.addInflater(new SkinAppCompatViewInflater());// 基础控件换肤初始化
+        sInstance.addInflater(new SkinAppCompatViewInflater())
+                .addInflater(new SkinMaterialViewInflater())
+                .loadSkin();
         return sInstance;
     }
 
@@ -240,6 +241,7 @@ public class ThemeManager extends SkinObservable {
         return loadSkin(skinName, null, strategy);
     }
 
+
     /**
      * 加载皮肤包.
      *
@@ -254,6 +256,15 @@ public class ThemeManager extends SkinObservable {
             return null;
         }
         return new SkinLoadTask(listener, loaderStrategy).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, skinName);
+    }
+
+    private AsyncTask loadSkin() {
+        String skin = DataManager.DataForSharePreferences.Companion.getObject(SkinConstants.KEY_SKIN_NAME,"");
+        int strategy= DataManager.DataForSharePreferences.Companion.getObject(SkinConstants.KEY_SKIN_STRATEGY,ThemeManager.SKIN_LOADER_STRATEGY_NONE);
+        if(TextUtils.isEmpty(skin) || strategy == SKIN_LOADER_STRATEGY_NONE) {
+            return null;
+        }
+        return loadSkin(skin, null, strategy);
     }
 
     @SuppressLint("StaticFieldLeak")

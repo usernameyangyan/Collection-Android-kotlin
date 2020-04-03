@@ -30,6 +30,9 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
+import com.youngmanster.collection_kotlin.theme.utils.SkinCompatDrawableUtils;
+import com.youngmanster.collection_kotlin.theme.utils.SkinCompatThemeUtils;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -37,9 +40,9 @@ import java.lang.ref.WeakReference;
 import java.util.WeakHashMap;
 
 import static androidx.core.graphics.ColorUtils.compositeColors;
-import static com.youngmanster.collection_kotlin.theme.res.SkinCompatThemeUtils.getDisabledThemeAttrColor;
-import static com.youngmanster.collection_kotlin.theme.res.SkinCompatThemeUtils.getThemeAttrColor;
-import static com.youngmanster.collection_kotlin.theme.res.SkinCompatThemeUtils.getThemeAttrColorStateList;
+import static com.youngmanster.collection_kotlin.theme.utils.SkinCompatThemeUtils.getDisabledThemeAttrColor;
+import static com.youngmanster.collection_kotlin.theme.utils.SkinCompatThemeUtils.getThemeAttrColor;
+import static com.youngmanster.collection_kotlin.theme.utils.SkinCompatThemeUtils.getThemeAttrColorStateList;
 
 final class SkinCompatDrawableManager {
     private interface InflateDelegate {

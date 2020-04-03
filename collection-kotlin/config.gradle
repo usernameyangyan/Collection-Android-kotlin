@@ -4,7 +4,8 @@ ext{
     supportDependencies=[
             appCompat    : "androidx.appcompat:appcompat:${supportLibrary}",
             cardview    : "androidx.cardview:cardview:${supportLibrary}",
-            recyclerview : "androidx.recyclerview:recyclerview:${supportLibrary}"
+            recyclerview : "androidx.recyclerview:recyclerview:${supportLibrary}",
+            material      :"com.google.android.material:material:${supportLibrary}",
     ]
 
     thirdDependencies=[

@@ -14,7 +14,7 @@ import com.youngmanster.collection_kotlin.theme.annotation.Skinable;
 import com.youngmanster.collection_kotlin.theme.observe.SkinObservable;
 import com.youngmanster.collection_kotlin.theme.observe.SkinObserver;
 import com.youngmanster.collection_kotlin.theme.res.SkinCompatResources;
-import com.youngmanster.collection_kotlin.theme.res.SkinCompatThemeUtils;
+import com.youngmanster.collection_kotlin.theme.utils.SkinCompatThemeUtils;
 import com.youngmanster.collection_kotlin.theme.utils.Slog;
 import com.youngmanster.collection_kotlin.theme.widget.SkinCompatSupportable;
 

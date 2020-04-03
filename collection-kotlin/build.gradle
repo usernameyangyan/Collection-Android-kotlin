@@ -75,6 +75,7 @@ dependencies {
 
     //Android x上的控件
     api supportDependencies.cardview
-    implementation supportDependencies.appCompat
+    api supportDependencies.appCompat
+    api supportDependencies.material
     api supportDependencies.recyclerview
 }

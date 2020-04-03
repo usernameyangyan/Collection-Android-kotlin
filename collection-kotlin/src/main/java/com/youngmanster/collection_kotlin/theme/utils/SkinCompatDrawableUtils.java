@@ -1,4 +1,4 @@
-package com.youngmanster.collection_kotlin.theme.res;
+package com.youngmanster.collection_kotlin.theme.utils;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
@@ -10,10 +10,8 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 
-import com.youngmanster.collection_kotlin.theme.utils.SkinCompatVersionUtils;
 
-
-class SkinCompatDrawableUtils {
+public class SkinCompatDrawableUtils {
 
     private static final String VECTOR_DRAWABLE_CLAZZ_NAME
             = "android.graphics.drawable.VectorDrawable";
@@ -23,7 +21,7 @@ class SkinCompatDrawableUtils {
      * implementation. This method should be call after retrieval from
      * {@link android.content.res.Resources} or a {@link android.content.res.TypedArray}.
      */
-    static void fixDrawable(@NonNull final Drawable drawable) {
+    public static void fixDrawable(@NonNull final Drawable drawable) {
         if (Build.VERSION.SDK_INT == 21
                 && VECTOR_DRAWABLE_CLAZZ_NAME.equals(drawable.getClass().getName())) {
             fixVectorDrawableTinting(drawable);
