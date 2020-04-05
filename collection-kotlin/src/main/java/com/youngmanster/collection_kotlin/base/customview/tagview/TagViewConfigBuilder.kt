@@ -16,8 +16,8 @@ class TagViewConfigBuilder {
 
     private var titles:Array<String>?=null
     private var textSize:Float=14f
-    private var textColor:String="#D81B60"
-    private var textSelectColor:String="#000000"
+    private var textColor:Int=R.color.colorAccent
+    private var textSelectColor:Int=R.color.black
     private var paddingLeftAndRight:Float=10f
     private var paddingTopAndBottom:Float=6f
     private var marginLeftAndRight:Float=6f
@@ -43,21 +43,21 @@ class TagViewConfigBuilder {
         return textSize
     }
 
-    fun setTextColor(textColor:String):TagViewConfigBuilder{
+    fun setTextColor(textColor:Int):TagViewConfigBuilder{
         this.textColor=textColor
         return this
     }
 
-    fun getTextColor():String{
+    fun getTextColor():Int{
         return textColor
     }
 
-    fun setTextSelectColor(textColor:String):TagViewConfigBuilder{
+    fun setTextSelectColor(textColor:Int):TagViewConfigBuilder{
         this.textSelectColor=textColor
         return this
     }
 
-    fun getTextSelectColor():String{
+    fun getTextSelectColor():Int{
         return textSelectColor
     }
 
@@ -97,7 +97,7 @@ class TagViewConfigBuilder {
         return marginLeftAndRight
     }
 
-    fun setackgroudRes(backgroudRes:Int):TagViewConfigBuilder{
+    fun setBackgroudDrawableRes(backgroudRes:Int):TagViewConfigBuilder{
         this.backgroudRes=backgroudRes
         return this
     }

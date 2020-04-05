@@ -84,6 +84,17 @@ public class SkinCompatTextHelper extends SkinCompatHelper {
         applySkin();
     }
 
+    public void onSetTextColor(int color){
+        mTextColorResId=color;
+        applyTextColorResource();
+    }
+
+    public void onSetTextHintColor(int color){
+        mTextColorHintResId=color;
+        applyTextColorHintResource();
+    }
+
+
     public void onSetTextAppearance(Context context, int resId) {
         final TypedArray a = context.obtainStyledAttributes(resId, R.styleable.SkinTextAppearance);
         if (a.hasValue(R.styleable.SkinTextAppearance_android_textColor)) {

@@ -48,7 +48,6 @@
 		<attr name="tab_tabTextSize"/>
 		<attr name="tab_tabSelectedTextColor"/>
 		<attr name="tab_padding"/>
-		<attr name="tab_tabBackground"/>
 		<attr name="tab_tabContentStart" />
 		<attr name="tab_indicator_corner"/>
 		<attr name="tab_textAllCaps"/>

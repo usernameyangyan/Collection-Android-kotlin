@@ -13,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.youngmanster.collection_kotlin.data.DataManager;
+import com.youngmanster.collection_kotlin.theme.Inflater.SkinAndroidXViewInflater;
 import com.youngmanster.collection_kotlin.theme.Inflater.SkinAppCompatViewInflater;
+import com.youngmanster.collection_kotlin.theme.Inflater.SkinCustomViewInflater;
 import com.youngmanster.collection_kotlin.theme.Inflater.SkinLayoutInflater;
 import com.youngmanster.collection_kotlin.theme.Inflater.SkinWrapper;
 import com.youngmanster.collection_kotlin.theme.load.SkinBuildInLoader;
@@ -150,6 +152,8 @@ public class ThemeManager extends SkinObservable {
         SkinActivityLifecycle.init(application);
         sInstance.addInflater(new SkinAppCompatViewInflater())
                 .addInflater(new SkinMaterialViewInflater())
+                .addInflater(new SkinAndroidXViewInflater())
+                .addInflater(new SkinCustomViewInflater())
                 .loadSkin();
         return sInstance;
     }

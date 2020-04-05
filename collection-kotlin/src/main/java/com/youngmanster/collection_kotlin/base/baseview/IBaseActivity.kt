@@ -2,6 +2,7 @@ package com.youngmanster.collection_kotlin.base.baseview
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.SkinAppCompatDelegateImpl
 import androidx.core.content.ContextCompat
+import com.google.android.material.resources.TextAppearance
 import com.youngmanster.collection_kotlin.R
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.mvp.ClassGetUtil
@@ -122,8 +124,8 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
             return this
         }
 
-        fun setBarBackgroundColor(context:Context,bgColor: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<RelativeLayout>(R.id.common_bar_panel)?.setBackgroundColor(ContextCompat.getColor(context,bgColor))
+        fun setBarBackground(bgId: Int): DefaultDefineActionBarConfig {
+            defaultDefineView?.findViewById<RelativeLayout>(R.id.common_bar_panel)?.setBackgroundResource(bgId)
             return this
         }
 
@@ -132,8 +134,8 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
             return this
         }
 
-        fun setBarDividingLineColor(context:Context,color: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<View>(R.id.lineView)?.setBackgroundColor(ContextCompat.getColor(context,color))
+        fun setBarDividingLineBackground(bgId: Int): DefaultDefineActionBarConfig {
+            defaultDefineView?.findViewById<View>(R.id.lineView)?.setBackgroundResource(bgId)
             return this
         }
 
@@ -161,7 +163,7 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
         }
 
         fun setTitleColor(context:Context,color: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<TextView>(R.id.titleTv)?.setTextColor(ContextCompat.getColor(context,color))
+            defaultDefineView?.findViewById<TextView>(R.id.titleTv)?.setTextColor(color)
             return this
         }
 

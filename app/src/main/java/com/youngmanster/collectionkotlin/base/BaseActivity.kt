@@ -19,7 +19,7 @@ abstract class BaseActivity<T : BasePresenter<*>> : IBaseActivity<T>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         defineActionBarConfig
-            .setBarBackgroundColor(this, R.color.colorPrimaryDark)
+            .setBarBackground(R.color.colorPrimaryDark)
             .setBackIcon(R.mipmap.ic_back_btn)
             .setBackClick(View.OnClickListener {
                 onBackPressed()

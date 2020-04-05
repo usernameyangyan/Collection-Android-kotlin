@@ -35,22 +35,22 @@ public class OutSideFrameTabLayout extends FrameLayout implements ViewPager.OnPa
     /**
      * indicator
      */
-    private int mIndicatorColor;
-    private float mTabPadding;
+    public int mIndicatorColor;
+    public float mTabPadding;
 
-    private float mIndicatorCornerRadius;
-    private float mIndicatorMarginLeft;
-    private float mIndicatorMarginTop;
-    private float mIndicatorMarginRight;
-    private float mIndicatorMarginBottom;
-    private int mTextSelectColor;
-    private int mTextUnSelectColor;
-    private float mTextSize;
+    public float mIndicatorCornerRadius;
+    public float mIndicatorMarginLeft;
+    public float mIndicatorMarginTop;
+    public float mIndicatorMarginRight;
+    public float mIndicatorMarginBottom;
+    public int mTextSelectColor;
+    public int mTextUnSelectColor;
+    public float mTextSize;
     private boolean mTextAllCaps;
-    private float tabWidth;
-    private int mBarColor;
-    private int mBarStrokeColor;
-    private float mBarStrokeWidth;
+    public float tabWidth;
+    public int mBarColor;
+    public int mBarStrokeColor;
+    public float mBarStrokeWidth;
 
     /** 用于绘制显示器 */
     private Rect mIndicatorRect = new Rect();

@@ -130,9 +130,8 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
             return this
         }
 
-        fun setBarBackgroundColor(context: Context, bgColor: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<RelativeLayout>(R.id.common_bar_panel)?.setBackgroundColor(
-                ContextCompat.getColor(context,bgColor))
+        fun setBarBackground(bgColor: Int): DefaultDefineActionBarConfig {
+            defaultDefineView?.findViewById<RelativeLayout>(R.id.common_bar_panel)?.setBackgroundResource(bgColor)
             return this
         }
 
@@ -141,8 +140,8 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
             return this
         }
 
-        fun setBarDividingLineColor(context:Context,color: Int):DefaultDefineActionBarConfig{
-            defaultDefineView?.findViewById<View>(R.id.lineView)?.setBackgroundColor(ContextCompat.getColor(context,color))
+        fun setBarDividingLineBackground(color: Int):DefaultDefineActionBarConfig{
+            defaultDefineView?.findViewById<View>(R.id.lineView)?.setBackgroundResource(color)
             return this
         }
 

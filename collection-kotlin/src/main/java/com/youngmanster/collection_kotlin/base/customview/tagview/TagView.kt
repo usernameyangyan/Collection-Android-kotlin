@@ -76,7 +76,8 @@ class TagView : FlexboxLayout {
         textView.gravity = Gravity.CENTER
         textView.text = str
         textView.textSize = tagViewBuilder?.getTextSize()!!
-        textView.setTextColor(ColorUtils.createColorStateList(tagViewBuilder?.getTextSelectColor()!!,tagViewBuilder?.getTextSelectColor()!!,tagViewBuilder?.getTextColor()!!))
+
+        textView.setTextColor(ColorUtils.createColorStateList(context,tagViewBuilder?.getTextSelectColor()!!,tagViewBuilder?.getTextSelectColor()!!,tagViewBuilder?.getTextColor()!!))
         textView.tag = pos
 
         textView.setBackgroundResource(tagViewBuilder?.getBackgroudRes()!!)

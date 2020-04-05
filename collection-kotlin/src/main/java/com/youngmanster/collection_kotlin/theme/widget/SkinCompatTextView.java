@@ -36,6 +36,14 @@ public class SkinCompatTextView extends AppCompatTextView implements SkinCompatS
     }
 
     @Override
+    public void setTextColor(int color) {
+        super.setTextColor(color);
+        if (mTextHelper != null) {
+            mTextHelper.onSetTextColor(color);
+        }
+    }
+
+    @Override
     public void setTextAppearance(int resId) {
         setTextAppearance(getContext(), resId);
     }
