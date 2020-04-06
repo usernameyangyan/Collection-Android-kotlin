@@ -10,7 +10,7 @@ publish {
     userOrg = 'youngmanopen'
     groupId = 'com.youngman'
     artifactId = 'collection_kotlin'
-    publishVersion = '1.1.9'
+    publishVersion = '1.2.1'
     desc = '1.网络请求增加文件下载  2.参照换肤框架（Android-skin-support）增加换肤功能'
     website = 'https://github.com/usernameyangyan/Collection-Android-kotlin'// 可以设置github的项目地址
 }

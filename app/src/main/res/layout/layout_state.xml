@@ -2,7 +2,9 @@
 <com.youngmanster.collection_kotlin.base.stateview.StateView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_centerInParent="true"
+	app:bgColor="@color/colorPrimary"
 	android:id="@+id/state_view">
 
 </com.youngmanster.collection_kotlin.base.stateview.StateView >

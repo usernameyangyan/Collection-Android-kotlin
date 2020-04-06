@@ -17,6 +17,8 @@
 		<attr name="tipTextSize" format="dimension"/>
 		<!-- 文字颜色 -->
 		<attr name="tipTextColor" format="color"/>
+
+		<attr name="bgColor" format="color"/>
 	</declare-styleable>
 
 	<attr name="styleStateView" format="reference"/>
@@ -33,6 +35,7 @@
 
 		<item name="tipTextSize">14sp</item>
 		<item name="tipTextColor">#8a000000</item>
+		<item name="bgColor">#ffffff</item>
 	</style>
 
 

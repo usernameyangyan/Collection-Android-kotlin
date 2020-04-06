@@ -8,10 +8,6 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import com.youngmanster.collection_kotlin.R
@@ -19,6 +15,7 @@ import com.youngmanster.collection_kotlin.utils.LogUtils
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Message
+import android.widget.*
 
 
 /**
@@ -43,23 +40,24 @@ class StateView @JvmOverloads constructor(
 
     //加载控件
     private var mLoadingView: View? = null
-    private val loadingViewDrawable: Int
-    private val loadingText: String?
+    private var loadingViewDrawable: Int
+    private var loadingText: String?
     //空布局
-    private val mEmptyImageId: Int
-    private val mEmptyText: String?
+    private var mEmptyImageId: Int
+    private var mEmptyText: String?
     private var mEmptyView: View? = null
-    private val mEmptyViewRes: Int
+    private var mEmptyViewRes: Int
     //无网络
-    private val mDisConnectImageId: Int
-    private val mDisConnectText: String?
+    private var mDisConnectImageId: Int
+    private var mDisConnectText: String?
     private var mDisConnectView: View? = null
 
-    private val mTextColor: Int
-    private val mTextSize: Int
+    private var mTextColor: Int
+    private var bgColor:Int
+    private var mTextSize: Int
 
-    private val mInflater: LayoutInflater
-    private val params: ViewGroup.LayoutParams
+    private var mInflater: LayoutInflater
+    private var params: ViewGroup.LayoutParams
     private var mEmptyViewListener: OnEmptyViewListener? = null
     private var mDisConnectViewListener: OnDisConnectListener? = null
     //动画
@@ -84,7 +82,7 @@ class StateView @JvmOverloads constructor(
         mDisConnectImageId =
             typedArray.getResourceId(R.styleable.StateView_disConnectImage, View.NO_ID)
         mDisConnectText = typedArray.getString(R.styleable.StateView_disConnectText)
-
+        bgColor = typedArray.getColor(R.styleable.StateView_bgColor,0)
         mTextColor = typedArray.getColor(R.styleable.StateView_tipTextColor, -0x76000000)
         mTextSize = typedArray.getDimensionPixelSize(R.styleable.StateView_tipTextSize, 14)
 
@@ -114,6 +112,7 @@ class StateView @JvmOverloads constructor(
 
         if (mLoadingView == null) {
             mLoadingView = mInflater.inflate(R.layout.collection_library_view_loading, null)
+            mLoadingView!!.findViewById<RelativeLayout>(R.id.layout_root).setBackgroundColor(bgColor)
             val loadMore_Ll = mLoadingView!!.findViewById<LinearLayout>(R.id.library_loadMore_Ll)
             val loadingBar = mLoadingView!!.findViewById<ProgressBar>(R.id.library_loadingBar)
             val loadingIv = mLoadingView!!.findViewById<ImageView>(R.id.library_loadingIv)
@@ -148,6 +147,7 @@ class StateView @JvmOverloads constructor(
     private fun setEmptyView() {
         if (mEmptyView == null) {
             mEmptyView = mInflater.inflate(R.layout.collection_library_view_empty, null)
+            mEmptyView!!.findViewById<RelativeLayout>(R.id.layout_root).setBackgroundColor(bgColor)
             val emptyImage = mEmptyView!!.findViewById<ImageView>(R.id.library_empty_image)
             val emptyText = mEmptyView!!.findViewById<TextView>(R.id.library_empty_text)
             if (null != emptyImage && mEmptyImageId != View.NO_ID) {
@@ -204,6 +204,7 @@ class StateView @JvmOverloads constructor(
     private fun setDisConnectView() {
         if (mDisConnectView == null) {
             mDisConnectView = mInflater.inflate(R.layout.collection_library_view_disconnect, null)
+            mDisConnectView!!.findViewById<RelativeLayout>(R.id.layout_root).setBackgroundColor(bgColor)
             val disConnectImage =
                 mDisConnectView!!.findViewById<ImageView>(R.id.library_disconnect_image)
             val disConnectText =

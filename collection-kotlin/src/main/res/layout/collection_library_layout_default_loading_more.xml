@@ -5,6 +5,7 @@
     android:gravity="center"
     android:paddingBottom="10dp"
     android:paddingTop="10dp"
+    android:id="@+id/loading_root"
     android:orientation="vertical">
 
     <LinearLayout
