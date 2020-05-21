@@ -1,6 +1,6 @@
 ## Collection-Kotlin
 
-![Travis](https://img.shields.io/badge/release-1.1.1-green.svg)
+![Travis](https://img.shields.io/badge/release-1.4.6-green.svg)
 ![Travis](https://img.shields.io/badge/llicense-MIT-green.svg)
 ![Travis](https://img.shields.io/badge/build-passing-green.svg)
 
@@ -24,6 +24,11 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 > ######  掘金地址：https://juejin.im/post/5e59d0eef265da57315b0b0e
 
 ###  更新说明
+
+#### v1.4.6
+> 1.DialogFragment替换AlertDialog   
+> 2.SharePreference统一初始化  
+> 3.增加Fragment的跳转  
 
 ####   v1.1.1
 > 网络框架增加文件下载以及进度
@@ -915,9 +920,259 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 ![效果图](https://upload-images.jianshu.io/upload_images/4361802-53d247ce86547c61.gif?imageMogr2/auto-orient/strip)
 
 
-
 #####  （1）提供的常用的CommonDialog
 
 | 属性 | 作用 | 
 | :-----| :---- | 
-| DIALOG_TEXT_TWO
+| DIALOG_TEXT_TWO_BUTTON_DEFAULT | 默认弹出按钮提示 | 
+| DIALOG_TEXT_TWO_BUTTON_CUSTOMIZE | 自定义弹出按钮提示 | 
+| DIALOG_LOADING_PROGRASSBAR | 默认加载弹框|
+| DIALOG_CHOICE_ITEM | 没有数据显示状态码|
+
+根据不同的构造函数设置不同的参数
+
+#####  （2）自定义Dialog样式
+
+- BaseDialogFragment
+
+| 属性 | 作用 | 
+| :-----| :---- | 
+|  setContentView | 设置弹框布局样式 |
+| onViewCreated | 初始化完成后的回调，可在此做一些初始化 | 
+| show(...) | 显示弹框 | 
+| dismiss | 弹框销毁|
+| setAllCancelable| 点击返回键和外部不可取消|
+| setOnlyBackPressDialogCancel | 点击返回键可以取消|
+| setDialogInterval| 设置弹框和屏幕两边的间距|
+| setDialogHeight | 设置弹框高度|
+| setOnDismissListener | 弹框销毁回调|
+
+- 继承BaseDialogFragment，通过setContentView(R.layout.dialog_list)设置弹窗布局。
+- 在提供的onViewCreated方法中进行相应的逻辑设置
+
+
+####   5.自定义PopupWindow弹框
+
+![效果图](https://upload-images.jianshu.io/upload_images/4361802-52b0f6b11fcc8a61.gif?imageMogr2/auto-orient/strip)
+
+
+
+- BasePopupWindow
+
+| 属性 | 作用 | 
+| :-----| :---- | 
+| BasePopupWindow(Context context) |调用该构造函数默认弹出框铺满全屏 | 
+| BasePopupWindow(Context context, int w, int h) | 自定义弹出框高宽 | 
+| showPopup |在屏幕中央显示弹框|
+| showPopupAsDropDown | 在指定控件底部显示弹框|
+| showPopup |在屏幕中央显示弹框|
+| showPopupAsDropDown | 在指定控件底部显示弹框|
+| setShowMaskView | 设置是否显示遮层|
+| dismiss|销毁弹出框|
+| getPopupLayoutRes | 自定义弹出框的布局文件|
+| getPopupAnimationStyleRes | 自定义弹出框的动画文件，不设置动画返回0|
+
+- 继承BasePopupWindow。
+- 通过getPopupLayoutRes(R.layout.xxx)设置弹窗布局。
+- 通过getPopupAnimationStyleRes(R.style.xxx)设置弹窗动画，不需要动画可以设置为0。
+- 如果需要显示遮层，在构造函数通过setShowMaskView(true)设置。
+
+###  七、CustomView的使用
+
+####   1.CommonTabLayout的使用
+
+![效果图](https://upload-images.jianshu.io/upload_images/4361802-348b46993780cbbf.gif?imageMogr2/auto-orient/strip)
+
+
+| 属性 | 作用 | 
+| :-----| :---- | 
+| tab_tabIndicatorWidth |设置下滑线的长度| 
+| tab_tabIndicatorHeight | 设置下滑线的高度 | 
+| tab_tabIndicatorColor |下滑线颜色|
+| tab_indicator_marginLeft | 设置下滑线外边距|
+| tab_indicator_marginRight |设置下滑线外边距|
+| tab_indicator_marginTop | 设置下滑线外边距|
+| tab_indicator_marginBottom | 设置下滑线外边距|
+| tab_tabTextColor|没选中字体颜色|
+| tab_tabTextSize | 字体大小|
+| tab_tabSelectedTextColor | 选中字体颜色|
+| tab_padding | 下滑线内边距，block样式时可以通过该属性设置距离|
+| tab_tabBackground |Tab 的背景颜色|
+| tab_indicator_corner|下滑线的圆角大小|
+| tab_indicator_gravity（bottom、top | 设置下滑线显示的位置，只针对line和triangle|
+| tab_tabMode（scrollable、fixed） | Tab的显示模式|
+| tab_indicator_style（line、triangle、block） | 下滑线的样式|
+
+#####   具体可参照例子使用。
+
+####   2.OutSideFrameTabLayout的使用
+
+![效果图](https://upload-images.jianshu.io/upload_images/4361802-061a8ad6aef94cee.gif?imageMogr2/auto-orient/strip)
+
+
+
+| 属性 | 作用 | 
+| :-----| :---- | 
+|  tab_tabIndicatorColor |设置Tab颜色| 
+| tab_indicator_corner | 圆角大小 | 
+| tab_indicator_marginLeft |下滑线外边距|
+| tab_indicator_marginRight | 下滑线外边距|
+| tab_indicator_marginTop |下滑线外边距|
+| tab_indicator_marginBottom | 下滑线外边距|
+| tab_tabTextColor | 没选中字体颜色|
+| tab_tabSelectedTextColor|选中字体颜色|
+| tab_tabTextSize | 字体大小|
+| tab_tabSelectedTextColor | 选中字体颜色|
+| tab_padding | 内边距|
+|  tab_bar_color |bar的背景颜色|
+| tab_bar_stroke_color|外框的颜色|
+| tab_bar_stroke_width | 外框的大小|
+| tab_width |bar的长度|
+
+#####   具体可参照例子使用。
+
+
+####   3.AutoLineLayout的使用
+
+![效果图](https://upload-images.jianshu.io/upload_images/4361802-778c3cf7dfbdebf5.gif?imageMogr2/auto-orient/strip)
+
+
+
+- 在外层布局使用AutoLineLayout
+
+      <com.youngmanster.collection_kotlin.base.customview.wraplayout.AutoLineLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+      </com.youngmanster.collection_kotlin.base.customview.wraplayout.AutoLineLayout>
+
+
+####   4.TagView的使用
+
+![效果图](https://upload-images.jianshu.io/upload_images/4361802-01cb3b80c1c0a659.gif?imageMogr2/auto-orient/strip)
+
+
+
+######   TagViewConfigBuilder
+
+| 属性 | 作用 | 
+| :-----| :---- | 
+| setTitles |设置TagItem内容 | 
+| setTextSize | 设置TagItem字体大小 | 
+| setTextColor |设置TagItem字体颜色|
+| setTextSelectColor | 设置TagItem选择字体颜色|
+| setPaddingLeftAndRight |设置TagIttem左右内边距|
+| setPaddingTopAndBottom | 设置TagIttem上下内边距|
+| setMarginAndTopBottom | 设置TagItem上下外边距|
+| setMarginLeftAndRight|设置TagItem左右外边距|
+| setackgroudRes | 设置background Drawable|
+| setTagViewAlign| 设置整体TagItem的Align(LEFT,RIGHT,CENTER) |
+
+######  1.布局
+
+    <com.youngmanster.collection_kotlin.base.customview.tagview.TagView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tagView" />
+
+#####  2.代码设置
+
+    tagView.create(builder,object :TagView.TagViewPressListener{
+            override fun onPress(view: View, title: String, position: Int) {
+                ToastUtils.showToast(this@TagViewActivity,title)
+            }
+     })
+
+
+###  八、Fragment间的跳转
+
+####   Fragment的跳转
+
+
+
+| 属性 | 作用 | 
+| :-----| :---- | 
+| fragmentLayoutId |设置显示Fragment的根布局id| 
+| startFragmentForResult(...) |和回调结果跳转| 
+| onFragmentResult(....) |Fragment的结果回调|
+| setResult(...) |onFragmentResult回调的结果设置 |
+| startFragment(...) |普通跳转，具体使用查看IBaseActivity|
+
+###  九、工具类的使用
+
+#####  1.Density（适配不同手机像素）
+ * 在Applicaton的onCreate中设置 Density.setDensity(this, 375f)
+*  375f代表设计稿的宽度，以dp为单位，后面需要以f（浮点型）
+
+#####  2.DisplayUtils
+
+![效果图](https://upload-images.jianshu.io/upload_images/4361802-e241e639553a7450.gif?imageMogr2/auto-orient/strip)
+
+
+
+| 属性 | 作用 | 
+| :-----| :---- | 
+| px2dip |px值转换为dip或dp值，保证尺寸大小不变（有精度损失）| 
+| px2dipByFloat |px值转换为dip或dp值，保证尺寸大小不变（无精度损失 | 
+| dip2px |dip或dp值转换为px值，保证尺寸大小不变（有精度损失），类似Context.getDimensionPixelSize方法（四舍五入|
+| dip2pxByFloat | dip或dp值转换为px值，保证尺寸大小不变（无精度损失），类似Context.getDimension方法|
+| px2sp |px值转换为sp值，保证文字大小不变|
+| sp2px | sp值转换为px值，保证文字大小不变|
+| getScreenWidthPixels | 屏幕宽度|
+| getScreenHeightPixels|屏幕高度|
+| getDisplayInfo | 获取设备信息|
+| setStatusBarBlackFontBgColor | 设置黑色字体状态的背景颜色|
+| setStatusBarColor |设置状态栏背景颜色|
+| setStatusBarFullTranslucent | 设置状态栏透明|
+| getStatusBarHeight |获取状态栏高度|
+| getActionBarHeight|获取ActionBar高度|
+
+#####  3.ColorUtils
+
+| 属性 | 作用 | 
+| :-----| :---- | 
+| createColorStateList |获取ColorStateList| 
+
+#####  4.FileUtils
+
+| 属性 | 作用 | 
+| :-----| :---- | 
+| WriterTxtFile |写文件，其中append可设置是否添加在原内容的后边|
+| ReadTxtFile |读取文本文件中的内容，strFilePath代表文件详细路径| 
+| isCacheDataFailure |判断缓存是否失效| 
+| checkFileExists |检查文件是否存在|  
+| checkSaveLocationExists |检查是否安装SD卡|
+| deleteDirectory |删除目录(包括：目录里的所有文件)| 
+| deleteFile |删除文件| 
+| getFileOrFilesSize |获取文件指定文件的指定单位的大小，其中sizeType 获取大小的类型1为B、2为KB、3为MB、4为GB|  
+| getFileSize|获取指定文件大小| 
+
+
+#####  5.GetPermissionsUtils
+
+| 属性 | 作用 | 
+| :-----| :---- | 
+| getAllPermissons |获取应用用到的所有权限|
+
+#####  6.GlideUtils
+
+| 属性 | 作用 | 
+| :-----| :---- | 
+| loadImg |加载图片|
+| loadImgBlur |Glide实现高斯模糊|
+| loadImgBlur |Glide实现高斯模糊，可设置模糊的程度|
+
+#####  7.ThreadPoolManager：线程池管理类
+
+#####  8.LogUtils：日记工具类
+
+#####  9.NetworkUtils：网络工具类
+
+#####  10.SoftInputUtils：键盘工具类
+
+#####  11.ToastUtils：Toast工具类
+
+#####  12.RxJavaUtil：主/子线程的切换
+
+
+####  本文章会根据需要持续更新，建议点赞收藏，便于查看。也欢迎大家提出更多建议。
