@@ -17,6 +17,7 @@ class LoadingTextConfig private constructor(context: Context) {
     private var collectionLastRefreshTime: String? = null
     private var collection_loading_more: String? = null
     private var collection_no_more_data: String? = null
+    private var collection_text_color:Int=0
 
     init {
         collectionPullRefreshText = context.getString(R.string.collection_pull_to_refresh)
@@ -125,6 +126,17 @@ class LoadingTextConfig private constructor(context: Context) {
 
     fun getCollectionPullReleaseText(): String? {
         return collection_release_refresh
+    }
+
+    /***
+     * 设置字体颜色
+     */
+    fun setCollectionTextColor(color:Int){
+        collection_text_color=color
+    }
+
+    fun getCollectionTextColor():Int{
+        return collection_text_color
     }
 
     companion object {

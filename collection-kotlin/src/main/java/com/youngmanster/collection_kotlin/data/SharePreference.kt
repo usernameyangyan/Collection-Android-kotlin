@@ -1,6 +1,7 @@
 package com.youngmanster.collection_kotlin.data
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.youngmanster.collection_kotlin.config.Config
 
 /**
@@ -13,11 +14,13 @@ class SharePreference private constructor() {
 
     companion object {
         private var sharePreference: SharePreference? = null
+        private var sharedPreferences: SharedPreferences?=null
         fun getInstance(): SharePreference {
             if (sharePreference == null) {
                 synchronized(SharePreference::class.java) {
                     if (sharePreference == null) {
                         sharePreference = SharePreference()
+                        sharedPreferences=Config.CONTEXT!!.getSharedPreferences(Config.USER_CONFIG, Context.MODE_PRIVATE)
                     }
                 }
             }
@@ -33,10 +36,7 @@ class SharePreference private constructor() {
      * @return
      */
     fun putString(key: String, content: String?) {
-        Config.CONTEXT!!.getSharedPreferences(Config.USER_CONFIG, Context.MODE_PRIVATE)
-            .edit()
-            .putString(key, content)
-            .apply()
+        sharedPreferences!!.edit().putString(key, content).apply()
     }
 
     /**
@@ -46,7 +46,7 @@ class SharePreference private constructor() {
      * @return
      */
     fun putInt(key: String, content: Int) {
-        Config.CONTEXT!!.getSharedPreferences(Config.USER_CONFIG, Context.MODE_PRIVATE).edit()
+        sharedPreferences!!.edit()
             .putInt(key, content)
             .apply()
     }
@@ -57,7 +57,7 @@ class SharePreference private constructor() {
      * @return
      */
     fun putLong(key: String, value: Long) {
-        Config.CONTEXT!!.getSharedPreferences(Config.USER_CONFIG, Context.MODE_PRIVATE).edit()
+        sharedPreferences!!.edit()
             .putLong(key, value)
             .apply()
     }
@@ -69,7 +69,7 @@ class SharePreference private constructor() {
      * @return
      */
     fun putBoolean(key: String, content: Boolean) {
-        Config.CONTEXT!!.getSharedPreferences(Config.USER_CONFIG, Context.MODE_PRIVATE)?.edit()
+        sharedPreferences!!.edit()
             ?.putBoolean(
                 key,
                 content
@@ -84,7 +84,7 @@ class SharePreference private constructor() {
      * @return
      */
     fun putFloat(key: String, content: Float) {
-        Config.CONTEXT!!.getSharedPreferences(Config.USER_CONFIG, Context.MODE_PRIVATE)?.edit()
+        sharedPreferences!!.edit()
             ?.putFloat(
                 key,
                 content
@@ -98,29 +98,24 @@ class SharePreference private constructor() {
      * @return 失败返回null
      */
     fun getString(key: String, defaultValue: String): String? {
-        return Config.CONTEXT!!.getSharedPreferences(Config.USER_CONFIG, Context.MODE_PRIVATE)
-            .getString(key, defaultValue)
+        return sharedPreferences!!.getString(key, defaultValue)
     }
 
 
     fun getInt(key: String, defaultValue: Int): Int {
-        return Config.CONTEXT!!.getSharedPreferences(Config.USER_CONFIG, Context.MODE_PRIVATE)
-            .getInt(key, defaultValue)
+        return  sharedPreferences!!.getInt(key, defaultValue)
     }
 
     fun getLong(key: String, defaultValue: Long): Long {
-        return Config.CONTEXT!!.getSharedPreferences(Config.USER_CONFIG, Context.MODE_PRIVATE)
-            .getLong(key, defaultValue)
+        return  sharedPreferences!!.getLong(key, defaultValue)
     }
 
     fun getBoolean(key: String, defaultValue: Boolean): Boolean {
-        return Config.CONTEXT!!.getSharedPreferences(Config.USER_CONFIG, Context.MODE_PRIVATE)
-            .getBoolean(key, defaultValue)
+        return  sharedPreferences!!.getBoolean(key, defaultValue)
     }
 
     fun getFloat(key: String, defaultValue: Float): Float {
-        return Config.CONTEXT!!.getSharedPreferences(Config.USER_CONFIG, Context.MODE_PRIVATE)
-            .getFloat(key, defaultValue)
+        return  sharedPreferences!!.getFloat(key, defaultValue)
     }
 
 }

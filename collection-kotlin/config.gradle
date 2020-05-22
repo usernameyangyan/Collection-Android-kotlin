@@ -6,6 +6,7 @@ ext{
             cardview    : "androidx.cardview:cardview:${supportLibrary}",
             recyclerview : "androidx.recyclerview:recyclerview:${supportLibrary}",
             material      :"com.google.android.material:material:${supportLibrary}",
+            constraintlayout : "androidx.constraintlayout:constraintlayout:1.1.3"
     ]
 
     thirdDependencies=[

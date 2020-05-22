@@ -1,11 +1,9 @@
 package com.youngmanster.collectionkotlin.activity.data.dialog
 
-import android.content.Context
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.youngmanster.collection_kotlin.base.dialog.BaseDialog
+import com.youngmanster.collection_kotlin.base.dialog.BaseDialogFragment
 import com.youngmanster.collection_kotlin.recyclerview.BaseRecyclerViewAdapter
 import com.youngmanster.collection_kotlin.utils.ToastUtils
 import com.youngmanster.collectionkotlin.R
@@ -18,7 +16,7 @@ import java.util.ArrayList
  *Describe:
  */
 
-class CustomizeDialog(context: Context) : BaseDialog(context),
+class CustomizeDialog() : BaseDialogFragment(),
     BaseRecyclerViewAdapter.OnItemClickListener {
 
 
@@ -28,17 +26,17 @@ class CustomizeDialog(context: Context) : BaseDialog(context),
     private var rv_Item: RecyclerView? = null
 
 
-    init {
-        setContentView(R.layout.dialog_list)
+    override fun setContentView(): Int {
+        return R.layout.dialog_list
     }
 
-     override fun onViewCreated() {
+    override fun onViewCreated() {
         rv_Item = mainView?.findViewById(R.id.rv_Item)
         rv_Item?.layoutManager = LinearLayoutManager(context)
         for (i in 0..9) {
             itemStr.add("这是第" + (i + 1) + "个item")
         }
-        itemRecycleAdapter = ItemRecycleAdapter(context, R.layout.item_layout, itemStr)
+        itemRecycleAdapter = ItemRecycleAdapter(context!!, R.layout.item_layout, itemStr)
         rv_Item?.adapter = itemRecycleAdapter
         itemRecycleAdapter?.setOnItemClickListener(this)
     }

@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.youngmanster.collection_kotlin.theme.customview.SkinOutSideTabLayoutView;
+import com.youngmanster.collection_kotlin.theme.customview.SkinStateView;
 import com.youngmanster.collection_kotlin.theme.customview.SkinTabLayoutView;
 import com.youngmanster.collection_kotlin.theme.widget.SkinCompatCardView;
 import com.youngmanster.collection_kotlin.theme.widget.SkinNetScrollView;
@@ -28,6 +29,9 @@ public class SkinCustomViewInflater implements SkinLayoutInflater{
                 break;
             case "com.youngmanster.collection_kotlin.base.customview.tablayout.OutSideFrameTabLayout":
                 view =new SkinOutSideTabLayoutView(context, attrs);
+                break;
+            case "com.youngmanster.collection_kotlin.base.stateview.StateView":
+                view =new SkinStateView(context, attrs);
                 break;
         }
         return view;

@@ -7,14 +7,13 @@ import com.youngmanster.collectionkotlin.adapter.MainViewAdapter
 import com.youngmanster.collectionkotlin.base.BaseActivity
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.recyclerview.BaseRecyclerViewAdapter
-import com.youngmanster.collection_kotlin.utils.LogUtils
 import com.youngmanster.collectionkotlin.activity.base.BaseUiActivity
 import com.youngmanster.collectionkotlin.activity.baseadapter.BaseAdapterActivity
 import com.youngmanster.collectionkotlin.activity.customview.CustomViewActivity
 import com.youngmanster.collectionkotlin.activity.data.DataManagerActivity
+import com.youngmanster.collectionkotlin.activity.fragment.FragmentActivity
 import com.youngmanster.collectionkotlin.activity.mvp.MVPActivity
 import com.youngmanster.collectionkotlin.activity.recyclerview.RecyclerViewActivity
-import com.youngmanster.collectionkotlin.common.AppConfig
 import java.util.ArrayList
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -50,6 +49,7 @@ class MainActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.OnI
         listData.add("DataManager(Retrofit/SharePreference/SQLite)")
         listData.add("Base")
         listData.add("CustomView")
+        listData.add("Fragment间的跳转")
         mainViewAdapter = MainViewAdapter(this,R.layout.item_main, listData, recycler_rv)
         recycler_rv.adapter = mainViewAdapter
         mainViewAdapter?.setOnItemClickListener(this)
@@ -80,6 +80,10 @@ class MainActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.OnI
 
             5 ->{
                 startAc(CustomViewActivity::class.java)
+            }
+
+            6 ->{
+                startAc(FragmentActivity::class.java)
             }
         }
     }

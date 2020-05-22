@@ -1,20 +1,23 @@
 package com.youngmanster.collection_kotlin.base.baseview
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.*
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.youngmanster.collection_kotlin.R
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.mvp.ClassGetUtil
-import kotlinx.android.synthetic.main.collection_library_default_base_activity.*
+
 
 /**
  * Created by yangy
@@ -34,7 +37,7 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
     private var frame_caption_container:FrameLayout?=null
     private var frame_content_container:FrameLayout?=null
 
-    private val defineActionBarConfig: DefaultDefineActionBarConfig = DefaultDefineActionBarConfig()
+    val defineActionBarConfig: DefaultDefineActionBarConfig = DefaultDefineActionBarConfig()
     var customBar: View?=null
 
 
@@ -80,8 +83,8 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
         return mainView
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         init()
     }
 
@@ -131,8 +134,12 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
         }
 
         fun setBarBackground(bgColor: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<RelativeLayout>(R.id.common_bar_panel)?.setBackgroundResource(bgColor)
+            defaultDefineView?.findViewById<LinearLayout>(R.id.common_bar_panel)?.setBackgroundResource(bgColor)
             return this
+        }
+
+        fun setBarPadding(left:Int,top:Int,right:Int,bottom:Int){
+            (defaultDefineView?.findViewById<RelativeLayout>(R.id.inRootRel)?.layoutParams as LinearLayout.LayoutParams).setMargins(left,top,right,bottom)
         }
 
         fun setBarDividingLineHeight(height: Int):DefaultDefineActionBarConfig{
@@ -156,7 +163,7 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
         }
 
         fun setBarHeight(height: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<RelativeLayout>(R.id.common_bar_panel)?.layoutParams?.height = height
+            defaultDefineView?.findViewById<LinearLayout>(R.id.common_bar_panel)?.layoutParams?.height = height
             return this
         }
 
@@ -216,4 +223,258 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
      */
     abstract fun requestData()
 
+
+
+
+    /******************************Fragment**********************************/
+
+    /**
+     * IBaseActivity.
+     */
+    private var mActivity: IBaseActivity<*>? = null
+
+    companion object{
+        const val REQUEST_CODE_INVALID = IBaseActivity.REQUEST_CODE_INVALID
+        const val RESULT_OK: Int = Activity.RESULT_OK
+        const val RESULT_CANCELED = Activity.RESULT_CANCELED
+    }
+
+    // ------------------------- Stack ------------------------- //
+    /**
+     * Stack info.
+     */
+    private var mStackEntity: IBaseActivity.Companion.FragmentStackEntity? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mActivity = context as IBaseActivity<*>
+    }
+
+
+    /**
+     * Get the resultCode for requestCode.
+     */
+    fun setStackEntity(@NonNull stackEntity: IBaseActivity.Companion.FragmentStackEntity) {
+        this.mStackEntity = stackEntity
+    }
+
+    /**
+     * Set result.
+     *
+     * @param resultCode result code, one of [IBaseFragment.RESULT_OK], [IBaseFragment.RESULT_CANCELED].
+     */
+    protected fun setResult(@ResultCode resultCode: Int) {
+        mStackEntity!!.resultCode = resultCode
+    }
+
+    /**
+     * Set result.
+     *
+     * @param resultCode resultCode, use [].
+     * @param result     [Bundle].
+     */
+    protected fun setResult(@ResultCode resultCode: Int, @NonNull result: Bundle?) {
+        mStackEntity!!.resultCode = resultCode
+        mStackEntity!!.result = result
+    }
+
+
+    /**
+     * You should override it.
+     *
+     * @param resultCode resultCode.
+     * @param result     [Bundle].
+     */
+    open fun onFragmentResult(
+        requestCode: Int,
+        @ResultCode resultCode: Int,
+        @Nullable result: Bundle?
+    ) {
+    }
+
+
+    /**
+     * Show a fragment.
+     *
+     * @param clazz fragment class.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragment(clazz: Class<T>) {
+        try {
+            val targetFragment: IBaseFragment<*> = clazz.newInstance()
+            startFragment(
+                targetFragment,
+                true,
+                REQUEST_CODE_INVALID,
+                false
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
+    /**
+     * Show a fragment.
+     *
+     * @param clazz       fragment class.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragment(
+        clazz: Class<T>,
+        isSkipAnimation: Boolean
+    ) {
+        try {
+            val targetFragment: IBaseFragment<*> = clazz.newInstance()
+            startFragment(
+                targetFragment,
+                true,
+                REQUEST_CODE_INVALID,
+                isSkipAnimation
+            )
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * Show a fragment.
+     *
+     * @param targetFragment fragment to display.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragment(targetFragment: T) {
+        startFragment(targetFragment, true, REQUEST_CODE_INVALID,false)
+    }
+
+    /**
+     * Show a fragment.
+     *
+     * @param targetFragment fragment to display.
+     * @param stickyStack    sticky back stack.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragment(
+        targetFragment: T,
+        isSkipAnimation: Boolean
+    ) {
+        startFragment(
+            targetFragment,
+            true,
+            REQUEST_CODE_INVALID,
+            isSkipAnimation
+        )
+    }
+
+    /**
+     * Show a fragment for result.
+     *
+     * @param clazz       fragment to display.
+     * @param requestCode requestCode.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragmentForResult(
+        clazz: Class<T>,
+        requestCode: Int
+    ) {
+        try {
+            val targetFragment: IBaseFragment<*> = clazz.newInstance()
+            startFragment(targetFragment, true, requestCode,false)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+    * Show a fragment for result.
+    *
+    * @param clazz       fragment to display.
+    * @param requestCode requestCode.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragmentForResult(
+        clazz: Class<T>,
+        requestCode: Int,
+        isSkipAnimation: Boolean
+    ) {
+        try {
+            val targetFragment: IBaseFragment<*> = clazz.newInstance()
+            startFragment(targetFragment, true, requestCode,isSkipAnimation)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * Show a fragment for result.
+     *
+     * @param targetFragment fragment to display.
+     * @param requestCode    requestCode.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragmentForResult(
+        targetFragment: T,
+        requestCode: Int
+    ) {
+        startFragment(targetFragment, true, requestCode,false)
+    }
+
+    /**
+     * Show a fragment for result.
+     *
+     * @param targetFragment fragment to display.
+     * @param requestCode    requestCode.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragmentForResult(
+        targetFragment: T,
+        requestCode: Int,
+        isSkipAnimation: Boolean
+    ) {
+        startFragment(targetFragment, true, requestCode,isSkipAnimation)
+    }
+
+    /**
+     * Show a fragment.
+     *
+     * @param targetFragment fragment to display.
+     * @param stickyStack    sticky back stack.
+     * @param requestCode    requestCode.
+    </T> */
+    private  fun <T : IBaseFragment<*>> startFragment(
+        targetFragment: T,
+        stickyStack: Boolean,
+        requestCode: Int,
+        isSkipAnimation:Boolean
+    ) {
+        mActivity?.startFragment(this, targetFragment, stickyStack, requestCode,isSkipAnimation)
+    }
+
+
+    fun <T : IBaseFragment<*>> findFragment(clazz: Class<T>):T?{
+        return mActivity!!.findFragment(clazz)
+    }
+
+
+    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
+        if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN) { //表示是一个进入动作，比如add.show等
+            return if (enter) { //普通的进入的动作
+                AnimationUtils.loadAnimation(
+                    context,
+                    R.anim.slide_right_in
+                )
+            } else { //比如一个已经Fragmen被另一个replace，是一个进入动作，被replace的那个就是false
+                AnimationUtils.loadAnimation(
+                    context,
+                    R.anim.slide_left_out
+                )
+            }
+        } else if (transit == FragmentTransaction.TRANSIT_FRAGMENT_CLOSE) { //表示一个退出动作，比如出栈，hide，detach等
+            return if (enter) { //之前被replace的重新进入到界面或者Fragment回到栈顶
+                AnimationUtils.loadAnimation(
+                    context,
+                    R.anim.slide_left_in
+                )
+            } else { //Fragment退出，出栈
+                AnimationUtils.loadAnimation(
+                    context,
+                    R.anim.slide_right_out
+                )
+            }
+        }
+        return null
+    }
 }

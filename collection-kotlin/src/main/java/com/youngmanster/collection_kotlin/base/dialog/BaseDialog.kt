@@ -7,13 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.youngmanster.collection_kotlin.utils.DisplayUtils
+import com.youngmanster.collection_kotlin.utils.LogUtils
 
 /**
  * Created by yangy
  *2020-02-21
  *Describe:
  */
-
+@Deprecated("this class is deprecated!")
 abstract class BaseDialog {
 
     var dismissListener: DismissListener?=null
@@ -49,7 +50,6 @@ abstract class BaseDialog {
 
         create()
     }
-
     fun setContentView(mainView: View?) {
         if (mainView != null) {
             this.mainView = mainView
@@ -75,7 +75,6 @@ abstract class BaseDialog {
     }
 
     fun show() {
-        alertDialog!!.show()
         val params = alertDialog!!.window?.attributes
         params?.width   = (screenWidthPixels - space * 2)
         params?.gravity  = Gravity.CENTER
@@ -83,6 +82,7 @@ abstract class BaseDialog {
             params?.height = height
         }
         alertDialog!!.window?.attributes = params
+        alertDialog!!.show()
     }
 
     fun dismiss() {
@@ -115,8 +115,8 @@ abstract class BaseDialog {
         space = DisplayUtils.dip2px(context, interval)
     }
 
-    fun setDialogHeight(height: Float) {
-        this.height = DisplayUtils.dip2px(context, height)
+    fun setDialogHeight(height: Int) {
+        this.height = height
     }
 
 

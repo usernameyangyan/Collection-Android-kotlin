@@ -1088,7 +1088,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 
 ####   Fragment的跳转
 
-
+![](https://upload-images.jianshu.io/upload_images/4361802-d636c05aab353cd2.gif?imageMogr2/auto-orient/strip)
 
 | 属性 | 作用 | 
 | :-----| :---- | 

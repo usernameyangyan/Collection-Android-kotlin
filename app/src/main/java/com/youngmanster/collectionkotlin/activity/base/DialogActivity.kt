@@ -3,6 +3,7 @@ package com.youngmanster.collectionkotlin.activity.base
 import android.view.View
 import com.youngmanster.collection_kotlin.base.dialog.CommonDialog
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
+import com.youngmanster.collection_kotlin.utils.DisplayUtils
 import com.youngmanster.collection_kotlin.utils.ToastUtils
 import com.youngmanster.collectionkotlin.R
 import com.youngmanster.collectionkotlin.activity.data.dialog.CustomizeDialog
@@ -34,12 +35,11 @@ class DialogActivity :BaseActivity<BasePresenter<*>>(),View.OnClickListener{
 
     override fun requestData() {
     }
-
+    var customizeDialog:CustomizeDialog? =null
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.dialog_btn1 ->{
                 commonDialog = CommonDialog(
-                    this,
                     CommonDialog.DIALOG_TEXT_TWO_BUTTON_DEFAULT,
                     "默认样式",
                     "这是一个默认的Dialog样式",
@@ -54,16 +54,15 @@ class DialogActivity :BaseActivity<BasePresenter<*>>(),View.OnClickListener{
                             }
                         }
                     })
-                commonDialog?.show()
+                commonDialog?.show(supportFragmentManager,null)
             }
             R.id.dialog_btn2 ->{
                 commonDialog =
-                    CommonDialog(this, CommonDialog.DIALOG_LOADING_PROGRASSBAR, "正在加载中，请稍后")
-                commonDialog?.show()
+                    CommonDialog( CommonDialog.DIALOG_LOADING_PROGRASSBAR, "正在加载中，请稍后")
+                commonDialog?.show(supportFragmentManager,null)
             }
             R.id.dialog_btn3 ->{
                 commonDialog = CommonDialog(
-                    this,
                     CommonDialog.DIALOG_TEXT_TWO_BUTTON_CUSTOMIZE,
                     "修改点击按钮",
                     "这是一个修改按钮提示的Dialog样式",
@@ -83,10 +82,11 @@ class DialogActivity :BaseActivity<BasePresenter<*>>(),View.OnClickListener{
                             }
                         }
                     })
-                commonDialog?.show()
+                commonDialog?.show(supportFragmentManager,null)
             }
 
             R.id.dialog_btn5 ->{
+
                 commonDialog = CommonDialog(
                     this,
                     CommonDialog.DIALOG_CHOICE_ITEM,
@@ -107,14 +107,14 @@ class DialogActivity :BaseActivity<BasePresenter<*>>(),View.OnClickListener{
                             }
                         }
                     })
-                commonDialog?.show()
+                commonDialog?.show(supportFragmentManager,null)
             }
             R.id.dialog_btn4 ->{
-                val customizeDialog =
-                    CustomizeDialog(this)
+                customizeDialog =
+                    CustomizeDialog()
                 //如果需要设置dialog的高度
-                customizeDialog.setDialogHeight(350f)
-                customizeDialog.show()
+                customizeDialog?.setDialogHeight(DisplayUtils.dip2px(this,300f))
+                customizeDialog?.show(supportFragmentManager,null)
             }
         }
     }

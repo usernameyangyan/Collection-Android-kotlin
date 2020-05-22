@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.youngmanster.collection_kotlin.theme.widget.SkinCompatCardView;
+import com.youngmanster.collection_kotlin.theme.widget.SkinConstraintLayoutView;
 import com.youngmanster.collection_kotlin.theme.widget.SkinNetScrollView;
 import com.youngmanster.collection_kotlin.utils.LogUtils;
 
@@ -26,6 +27,9 @@ public class SkinAndroidXViewInflater implements SkinLayoutInflater{
                 break;
             case "androidx.core.widget.NestedScrollView":
                 view = new SkinNetScrollView(context, attrs);
+                break;
+            case "androidx.constraintlayout.widget.ConstraintLayout":
+                view = new SkinConstraintLayoutView(context, attrs);
                 break;
         }
         return view;

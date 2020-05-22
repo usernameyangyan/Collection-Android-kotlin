@@ -16,6 +16,7 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Message
 import android.widget.*
+import org.w3c.dom.Text
 
 
 /**
@@ -24,7 +25,7 @@ import android.widget.*
  *Describe:
  */
 
-class StateView @JvmOverloads constructor(
+open class StateView @JvmOverloads constructor(
     context: Context, @Nullable attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.styleStateView
 ) :
@@ -39,21 +40,24 @@ class StateView @JvmOverloads constructor(
     }
 
     //加载控件
-    private var mLoadingView: View? = null
+    var mLoadingView: View? = null
     private var loadingViewDrawable: Int
     private var loadingText: String?
     //空布局
     private var mEmptyImageId: Int
     private var mEmptyText: String?
-    private var mEmptyView: View? = null
+    var mEmptyView: View? = null
     private var mEmptyViewRes: Int
     //无网络
     private var mDisConnectImageId: Int
     private var mDisConnectText: String?
-    private var mDisConnectView: View? = null
+    var mDisConnectView: View? = null
 
     private var mTextColor: Int
-    private var bgColor:Int
+    var bgColor:Int
+    var loadingTv:TextView?=null
+    var emptyTv:TextView? =null
+    var disConnectTv:TextView?=null
     private var mTextSize: Int
 
     private var mInflater: LayoutInflater
@@ -93,7 +97,6 @@ class StateView @JvmOverloads constructor(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        setBackgroundColor(ContextCompat.getColor(context, R.color.white))
 
         setLoadingView()
         if (mEmptyViewRes == View.NO_ID) {
@@ -112,19 +115,22 @@ class StateView @JvmOverloads constructor(
 
         if (mLoadingView == null) {
             mLoadingView = mInflater.inflate(R.layout.collection_library_view_loading, null)
-            mLoadingView!!.findViewById<RelativeLayout>(R.id.layout_root).setBackgroundColor(bgColor)
+
+            mLoadingView!!.setBackgroundColor(bgColor)
+
             val loadMore_Ll = mLoadingView!!.findViewById<LinearLayout>(R.id.library_loadMore_Ll)
             val loadingBar = mLoadingView!!.findViewById<ProgressBar>(R.id.library_loadingBar)
             val loadingIv = mLoadingView!!.findViewById<ImageView>(R.id.library_loadingIv)
-            val loadingTv = mLoadingView!!.findViewById<TextView>(R.id.library_loadingTv)
+            loadingTv = mLoadingView!!.findViewById(R.id.library_loadingTv)
+
 
             if (loadingViewDrawable != View.NO_ID) {
                 loadingIv.setBackgroundResource(loadingViewDrawable)
                 loadingBar.visibility = View.GONE
                 loadMore_Ll.visibility = View.VISIBLE
-                loadingTv.text = loadingText
-                loadingTv.setTextColor(mTextColor)
-                loadingTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize.toFloat())
+                loadingTv?.text = loadingText
+                loadingTv?.setTextColor(mTextColor)
+                loadingTv?.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize.toFloat())
                 animationDrawable = loadingIv.background as AnimationDrawable?
 
                 if (animationDrawable != null) {
@@ -147,17 +153,18 @@ class StateView @JvmOverloads constructor(
     private fun setEmptyView() {
         if (mEmptyView == null) {
             mEmptyView = mInflater.inflate(R.layout.collection_library_view_empty, null)
-            mEmptyView!!.findViewById<RelativeLayout>(R.id.layout_root).setBackgroundColor(bgColor)
+            mEmptyView!!.setBackgroundColor(bgColor)
             val emptyImage = mEmptyView!!.findViewById<ImageView>(R.id.library_empty_image)
-            val emptyText = mEmptyView!!.findViewById<TextView>(R.id.library_empty_text)
+            emptyTv = mEmptyView!!.findViewById<TextView>(R.id.library_empty_text)
+
             if (null != emptyImage && mEmptyImageId != View.NO_ID) {
                 emptyImage.setImageResource(mEmptyImageId)
             }
 
-            if (null != emptyText && !TextUtils.isEmpty(mEmptyText)) {
-                emptyText.text = mEmptyText
-                emptyText.setTextColor(mTextColor)
-                emptyText.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize.toFloat())
+            if (null != emptyTv && !TextUtils.isEmpty(mEmptyText)) {
+                emptyTv?.text = mEmptyText
+                emptyTv?.setTextColor(mTextColor)
+                emptyTv?.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize.toFloat())
             }
 
             addView(mEmptyView, VIEW_POSITION, params)
@@ -204,19 +211,20 @@ class StateView @JvmOverloads constructor(
     private fun setDisConnectView() {
         if (mDisConnectView == null) {
             mDisConnectView = mInflater.inflate(R.layout.collection_library_view_disconnect, null)
-            mDisConnectView!!.findViewById<RelativeLayout>(R.id.layout_root).setBackgroundColor(bgColor)
+            mDisConnectView!!.setBackgroundColor(bgColor)
+
             val disConnectImage =
                 mDisConnectView!!.findViewById<ImageView>(R.id.library_disconnect_image)
-            val disConnectText =
+            disConnectTv =
                 mDisConnectView!!.findViewById<TextView>(R.id.library_disconnect_text)
             if (null != disConnectImage && mDisConnectImageId != View.NO_ID) {
                 disConnectImage.setImageResource(mDisConnectImageId)
             }
 
-            if (null != disConnectText && !TextUtils.isEmpty(mDisConnectText)) {
-                disConnectText.text = mDisConnectText
-                disConnectText.setTextColor(mTextColor)
-                disConnectText.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize.toFloat())
+            if (null != disConnectTv && !TextUtils.isEmpty(mDisConnectText)) {
+                disConnectTv?.text = mDisConnectText
+                disConnectTv?.setTextColor(mTextColor)
+                disConnectTv?.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize.toFloat())
             }
 
             addView(mDisConnectView, VIEW_POSITION, params)

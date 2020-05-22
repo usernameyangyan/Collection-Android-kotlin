@@ -1,10 +1,13 @@
 package com.youngmanster.collectionkotlin.common
 
 import android.app.Application
+import com.squareup.leakcanary.LeakCanary
+import com.squareup.leakcanary.RefWatcher
 import com.youngmanster.collectionkotlin.BuildConfig
 import com.youngmanster.collectionkotlin.bean.HttpResult
 import com.youngmanster.collection_kotlin.config.Config
 import com.youngmanster.collection_kotlin.data.database.SQLiteVersionMigrate
+import com.youngmanster.collection_kotlin.theme.ThemeManager
 
 /**
  * Created by yangy
@@ -16,6 +19,10 @@ class AppApplication:Application(){
     override fun onCreate() {
         super.onCreate()
         config()
+        refWatcher = setupLeakCanary()
+
+        //样式初始化
+        ThemeManager.with(this)
 
         SQLiteVersionMigrate().setMigrateListener(object :SQLiteVersionMigrate.MigrateListener{
             override fun onMigrate(oldVersion: Int, newVersion: Int) {
@@ -50,5 +57,13 @@ class AppApplication:Application(){
 //            .setCollectionRefreshDone("加载完成")
 //        PullToRefreshRecyclerViewUtils.loadingTextConfig = textConfig
 
+    }
+
+
+    private var refWatcher: RefWatcher? = null
+    private fun setupLeakCanary(): RefWatcher? {
+        return if (LeakCanary.isInAnalyzerProcess(this)) {
+            RefWatcher.DISABLED
+        } else LeakCanary.install(this)
     }
 }

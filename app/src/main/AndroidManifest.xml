@@ -98,5 +98,9 @@
 
         <activity android:name=".activity.customview.TagViewActivity"/>
 
+        <activity android:name=".activity.fragment.FragmentActivity"/>
+
+        <activity android:name=".activity.test.TestActivity"/>
+
     </application>
 </manifest>

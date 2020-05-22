@@ -2,23 +2,26 @@ package com.youngmanster.collection_kotlin.base.baseview
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.ArrayMap
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.SkinAppCompatDelegateImpl
-import androidx.core.content.ContextCompat
-import com.google.android.material.resources.TextAppearance
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.youngmanster.collection_kotlin.R
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.mvp.ClassGetUtil
 import com.youngmanster.collection_kotlin.utils.LogUtils
 import kotlinx.android.synthetic.main.collection_library_default_base_activity.*
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Created by yangy
@@ -26,7 +29,9 @@ import kotlinx.android.synthetic.main.collection_library_default_base_activity.*
  *Describe:
  */
 
+@Suppress("UNCHECKED_CAST")
 abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
+
     private var isFirst = false
     var mPresenter: T? = null
     var customBar: View?=null
@@ -34,6 +39,7 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mFManager = supportFragmentManager
         setContentView(R.layout.collection_library_default_base_activity)
         if (getLayoutId() != 0) {
             addContainerFrame(getLayoutId())
@@ -125,8 +131,12 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
         }
 
         fun setBarBackground(bgId: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<RelativeLayout>(R.id.common_bar_panel)?.setBackgroundResource(bgId)
+            defaultDefineView?.findViewById<LinearLayout>(R.id.common_bar_panel)?.setBackgroundResource(bgId)
             return this
+        }
+
+        fun setBarPadding(left:Int,top:Int,right:Int,bottom:Int){
+            (defaultDefineView?.findViewById<RelativeLayout>(R.id.inRootRel)?.layoutParams as LinearLayout.LayoutParams).setMargins(left,top,right,bottom)
         }
 
         fun setBarDividingLineHeight(height: Int): DefaultDefineActionBarConfig {
@@ -150,7 +160,7 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
         }
 
         fun setBarHeight(height: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<RelativeLayout>(R.id.common_bar_panel)?.layoutParams?.height = height
+            defaultDefineView?.findViewById<LinearLayout>(R.id.common_bar_panel)?.layoutParams?.height = height
             return this
         }
 
@@ -219,4 +229,277 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
      * 请求数据
      */
     abstract fun requestData()
+
+
+
+    /***************************Fragment设置**************************************/
+
+    companion object{
+        const val REQUEST_CODE_INVALID=-1
+        class FragmentStackEntity {
+            var isSticky = false
+            var requestCode: Int = REQUEST_CODE_INVALID
+
+            @ResultCode
+            var resultCode = RESULT_CANCELED
+            var result: Bundle? = null
+        }
+    }
+
+    private var mFManager: FragmentManager? = null
+    private val mFragmentStack: MutableList<IBaseFragment<*>> =
+        ArrayList()
+    private val fragmentStack = ArrayMap<String,IBaseFragment<*>>()
+    private val mFragmentEntityMap: HashMap<IBaseFragment<*>, FragmentStackEntity> =
+        HashMap()
+
+    /**
+     * When the back off.
+     */
+    private fun onBackStackFragment(): Boolean {
+        if (mFragmentStack.size > 1) {
+            mFManager!!.popBackStack()
+            val inFragment: IBaseFragment<*> = mFragmentStack[mFragmentStack.size - 2]
+            val fragmentTransaction: FragmentTransaction = mFManager!!.beginTransaction()
+            fragmentTransaction.show(inFragment)
+            fragmentTransaction.commit()
+            val outFragment: IBaseFragment<*> = mFragmentStack[mFragmentStack.size - 1]
+            inFragment.onResume()
+            val stackEntity: FragmentStackEntity? =
+                mFragmentEntityMap[outFragment]
+            mFragmentStack.remove(outFragment)
+            mFragmentEntityMap.remove(outFragment)
+            fragmentStack.remove(outFragment.javaClass.simpleName)
+            if (stackEntity!=null&&stackEntity.requestCode != REQUEST_CODE_INVALID) {
+                inFragment.onFragmentResult(
+                    stackEntity.requestCode,
+                    stackEntity.resultCode,
+                    stackEntity.result
+                )
+            }
+            return true
+        }
+        return false
+    }
+
+    override fun onBackPressed() {
+        if (!onBackStackFragment()) {
+            finish()
+        }
+    }
+
+
+    /**
+     * Show a fragment.
+     *
+     * @param clazz fragment class.
+     */
+    fun <T : IBaseFragment<*>> startFragment(clazz: Class<T>) {
+        try {
+            val targetFragment:  IBaseFragment<*> = clazz.newInstance()
+            startFragment< IBaseFragment<*>>(
+                null,
+                targetFragment,
+                true,
+                REQUEST_CODE_INVALID,
+                false
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * Show a fragment.
+     *
+     * @param clazz       fragment class.
+     * @param stickyStack sticky to back stack.
+     */
+    fun <T :  IBaseFragment<*>> startFragment(
+        clazz: Class<T>,
+        isSkipAnimation: Boolean
+    ) {
+        try {
+            val targetFragment:  IBaseFragment<*> = clazz.newInstance()
+            startFragment(
+                null,
+                targetFragment,
+                true,
+                REQUEST_CODE_INVALID,
+                isSkipAnimation
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * Show a fragment.
+     *
+     * @param targetFragment fragment to display.
+    </T> */
+    fun <T :  IBaseFragment<*>> startFragment(targetFragment: T) {
+        startFragment<T>(
+            null,
+            targetFragment,
+            true,
+            REQUEST_CODE_INVALID,
+            false
+        )
+    }
+
+    /**
+     * Show a fragment.
+     *
+     * @param targetFragment fragment to display.
+     * @param stickyStack    sticky back stack.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragment(
+        targetFragment: T,
+        isSkipAnimation: Boolean
+    ) {
+        startFragment<T>(
+            null,
+            targetFragment,
+            true,
+            REQUEST_CODE_INVALID,
+            isSkipAnimation
+        )
+    }
+
+    /**
+     * Show a fragment for result.
+     *
+     * @param clazz       fragment to display.
+     * @param requestCode requestCode.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragmentForResult(
+        clazz: Class<T>,
+        requestCode: Int
+    ) {
+        require(requestCode !=REQUEST_CODE_INVALID) { "The requestCode must be positive integer." }
+        try {
+            val targetFragment: IBaseFragment<*> = clazz.newInstance()
+            startFragment(null, targetFragment, true, requestCode,false)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * Show a fragment for result.
+     *
+     * @param clazz       fragment to display.
+     * @param requestCode requestCode.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragmentForResult(
+        clazz: Class<T>,
+        requestCode: Int,
+        isSkipAnimation: Boolean
+    ) {
+        require(requestCode !=REQUEST_CODE_INVALID) { "The requestCode must be positive integer." }
+        try {
+            val targetFragment: IBaseFragment<*> = clazz.newInstance()
+            startFragment(null, targetFragment, true, requestCode,isSkipAnimation)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * Show a fragment for result.
+     *
+     * @param targetFragment fragment to display.
+     * @param requestCode    requestCode.
+
+    </T> */
+    fun <T : IBaseFragment<*>> startFragmentForResult(targetFragment: T, requestCode: Int) {
+        require(requestCode != REQUEST_CODE_INVALID) { "The requestCode must be positive integer." }
+        startFragment(null, targetFragment, true, requestCode,false)
+    }
+
+
+    /**
+     * Show a fragment for result.
+     *
+     * @param targetFragment fragment to display.
+     * @param requestCode    requestCode.
+
+    </T> */
+    fun <T : IBaseFragment<*>> startFragmentForResult(targetFragment: T, requestCode: Int,isSkipAnimation: Boolean) {
+        require(requestCode != REQUEST_CODE_INVALID) { "The requestCode must be positive integer." }
+        startFragment(null, targetFragment, true, requestCode,isSkipAnimation)
+    }
+
+    /**
+     * Show a fragment.
+     *
+     * @param thisFragment Now show fragment, can be null.
+     * @param thatFragment fragment to display.
+     * @param stickyStack  sticky back stack.
+     * @param requestCode  requestCode.
+    </T> */
+    fun <T : IBaseFragment<*>> startFragment(
+        thisFragment: T?, thatFragment: T,
+        stickyStack: Boolean, requestCode: Int,
+        isSkipAnimation:Boolean
+    ) {
+        var fragmentTransaction = mFManager!!.beginTransaction()
+        if (thisFragment != null) {
+            val thisStackEntity = mFragmentEntityMap[thisFragment]
+            if (thisStackEntity != null) {
+                if (thisStackEntity.isSticky) {
+                    thisFragment.onPause()
+                    thisFragment.onStop()
+                    fragmentTransaction.hide(thisFragment)
+                    if(isSkipAnimation){
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                    }
+
+                } else {
+                    fragmentTransaction.remove(thisFragment).commit()
+                    if(isSkipAnimation){
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                    }
+                    fragmentTransaction.commitNow()
+                    fragmentTransaction = mFManager!!.beginTransaction()
+                    mFragmentEntityMap.remove(thisFragment)
+                    mFragmentStack.remove(thisFragment)
+                    fragmentStack.remove(thisFragment.javaClass.simpleName)
+                }
+            }
+        }
+        val fragmentTag: String =
+            thatFragment.javaClass.simpleName
+        fragmentTransaction.add(fragmentLayoutId(), thatFragment, fragmentTag)
+        if(isSkipAnimation){
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        }
+        fragmentTransaction.addToBackStack(fragmentTag)
+        fragmentTransaction.commit()
+        mFManager?.executePendingTransactions()
+        val fragmentStackEntity = FragmentStackEntity()
+        fragmentStackEntity.isSticky = stickyStack
+        fragmentStackEntity.requestCode = requestCode
+        thatFragment.setStackEntity(fragmentStackEntity)
+        mFragmentEntityMap[thatFragment] = fragmentStackEntity
+        mFragmentStack.add(thatFragment)
+        fragmentStack[fragmentTag]=thatFragment
+    }
+
+
+    fun <T : IBaseFragment<*>> findFragment(clazz: Class<T>):T?{
+        val fragmentTag: String =
+            clazz.newInstance().javaClass.simpleName
+
+        if(fragmentStack[fragmentTag]!=null){
+            return fragmentStack[fragmentTag] as T
+        }
+        return null
+    }
+
+    open fun fragmentLayoutId(): Int{
+        return 0
+    }
+
 }

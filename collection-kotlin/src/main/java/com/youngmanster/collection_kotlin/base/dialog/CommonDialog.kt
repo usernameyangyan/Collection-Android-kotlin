@@ -17,7 +17,7 @@ import kotlin.math.roundToInt
  *Describe:
  */
 
-class CommonDialog : BaseDialog {
+class CommonDialog : BaseDialogFragment {
 
     //点击事件监听
     private var listener: OnDialogClickListener? = null
@@ -29,7 +29,7 @@ class CommonDialog : BaseDialog {
     private var rightBtn: String?=null
     private var items: Array<String>?=null
 
-    private var layoutRes: Int=0
+    private var layoutR: Int=0
         get() {
             var layoutRes = 0
             when (type) {
@@ -43,11 +43,10 @@ class CommonDialog : BaseDialog {
             return layoutRes
         }
 
-    constructor(context: Context, type: Int, content: String) : super(context) {
+    constructor(type: Int, content: String) {
         this.type = type
         this.content = content
-
-        setContentView(layoutRes)
+        this.layoutRes=layoutR
     }
 
     constructor(
@@ -56,39 +55,37 @@ class CommonDialog : BaseDialog {
         title: String,
         items: Array<String>,
         listener: OnDialogClickListener
-    ) : super(context) {
+    )  {
         this.type = type
         this.title = title
         this.items = items
         this.listener = listener
 
-        setContentView(layoutRes)
+        this.layoutRes=layoutR
     }
 
     constructor(
-        context: Context,
         type: Int,
         title: String,
         content: String,
         listener: OnDialogClickListener
-    ) : super(context) {
+    )  {
         this.type = type
         this.title = title
         this.content = content
         this.listener = listener
 
-        setContentView(layoutRes)
+        this.layoutRes=layoutR
     }
 
     constructor(
-        context: Context,
         type: Int,
         title: String,
         content: String,
         leftBtn: String,
         rightBtn: String,
         listener: OnDialogClickListener
-    ) : super(context) {
+    ) {
         this.type = type
         this.title = title
         this.content = content
@@ -96,7 +93,7 @@ class CommonDialog : BaseDialog {
         this.rightBtn = rightBtn
         this.listener = listener
 
-        setContentView(layoutRes)
+        this.layoutRes=layoutR
     }
 
 

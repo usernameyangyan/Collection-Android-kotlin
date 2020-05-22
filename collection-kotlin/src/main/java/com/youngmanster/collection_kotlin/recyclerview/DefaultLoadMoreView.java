@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.youngmanster.collection_kotlin.R;
 import com.youngmanster.collection_kotlin.recyclerview.BaseLoadMoreView;
+import com.youngmanster.collection_kotlin.utils.LogUtils;
 
 /**
  * Created by yangyan
@@ -34,9 +37,14 @@ public class DefaultLoadMoreView extends BaseLoadMoreView {
 		loadMoreLl=mContainer.findViewById(R.id.loadMore_Ll);
 		refreshStatusTv=mContainer.findViewById(R.id.refresh_status_tv);
 
+
 		if(PullToRefreshRecyclerViewUtils.loadingTextConfig!=null){
 			noDataTv.setText(PullToRefreshRecyclerViewUtils.loadingTextConfig.getCollectionNoMoreData());
 			refreshStatusTv.setText(PullToRefreshRecyclerViewUtils.loadingTextConfig.getCollectionLoadingMore());
+			if(PullToRefreshRecyclerViewUtils.loadingTextConfig.getCollectionTextColor()!=0){
+				refreshStatusTv.setTextColor(ContextCompat.getColor(context,PullToRefreshRecyclerViewUtils.loadingTextConfig.getCollectionTextColor()));
+				noDataTv.setTextColor(ContextCompat.getColor(context,PullToRefreshRecyclerViewUtils.loadingTextConfig.getCollectionTextColor()));
+			}
 		}
 	}
 

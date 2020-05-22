@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.wang.avi.AVLoadingIndicatorView;
 import com.youngmanster.collection_kotlin.R;
 
@@ -69,6 +71,12 @@ public class DefaultArrowRefreshHeaderView extends BasePullToRefreshView impleme
 		timeRefresh_tv=mRefrehsContainer.findViewById(R.id.timeRefresh_tv);
 
 		if(PullToRefreshRecyclerViewUtils.loadingTextConfig!=null){
+			if(PullToRefreshRecyclerViewUtils.loadingTextConfig.getCollectionTextColor()!=0){
+				timeRefresh_tv.setTextColor(ContextCompat.getColor(context,PullToRefreshRecyclerViewUtils.loadingTextConfig.getCollectionTextColor()));
+				lastRefreshTimeTv.setTextColor(ContextCompat.getColor(context,PullToRefreshRecyclerViewUtils.loadingTextConfig.getCollectionTextColor()));
+				refreshStateTv.setTextColor(ContextCompat.getColor(context,PullToRefreshRecyclerViewUtils.loadingTextConfig.getCollectionTextColor()));
+			}
+
 			timeRefresh_tv.setText(PullToRefreshRecyclerViewUtils.loadingTextConfig.getCollectionLastRefreshTimeTip());
 		}else{
 			timeRefresh_tv.setText(context.getString(R.string.collection_last_refresh_time));
