@@ -138,8 +138,9 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
             return this
         }
 
-        fun setBarPadding(left:Int,top:Int,right:Int,bottom:Int){
+        fun setBarPadding(left:Int,top:Int,right:Int,bottom:Int):DefaultDefineActionBarConfig{
             (defaultDefineView?.findViewById<RelativeLayout>(R.id.inRootRel)?.layoutParams as LinearLayout.LayoutParams).setMargins(left,top,right,bottom)
+            return this
         }
 
         fun setBarDividingLineHeight(height: Int):DefaultDefineActionBarConfig{
@@ -175,8 +176,8 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
             return this
         }
 
-        fun setTitleColor(context: Context, color: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<TextView>(R.id.titleTv)?.setTextColor(ContextCompat.getColor(context,color))
+        fun setTitleColor(color: Int): DefaultDefineActionBarConfig {
+            defaultDefineView?.findViewById<TextView>(R.id.titleTv)?.setTextColor(color)
             return this
         }
 

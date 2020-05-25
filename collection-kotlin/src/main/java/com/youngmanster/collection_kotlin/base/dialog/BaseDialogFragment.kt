@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.youngmanster.collection_kotlin.utils.DisplayUtils
+import com.youngmanster.collection_kotlin.utils.LogUtils
 
 
 /**
@@ -59,7 +60,6 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
 
     private var mCancelable = false
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         val isShow  = this.showsDialog;
         this.showsDialog = false
         super.onActivityCreated(savedInstanceState);
@@ -78,7 +78,7 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
                     return false
                 }
                 if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_ESCAPE){
-                    onDismiss()
+                    this@BaseDialogFragment.dismiss()
                     return true
                 }
 
@@ -96,9 +96,7 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
         }
 
         showConfig()
-        onViewCreated()
     }
-
     /**
      * 点击返回键和外部不可取消
      */
@@ -119,7 +117,7 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
             return false
         }
         if (!mCancelable && dialog?.isShowing!!) {
-            onDismiss()
+            this.dismiss()
             return true
         }
         return false
@@ -131,7 +129,6 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
     }
 
     private fun onDismiss(){
-        dismiss()
         dismissListener?.dismissListener()
     }
 
@@ -174,9 +171,8 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
     override fun dismiss() {
         try {
             super.dismiss()
+            onDismiss()
         }catch(e: IllegalStateException){
         }
-
-
     }
 }

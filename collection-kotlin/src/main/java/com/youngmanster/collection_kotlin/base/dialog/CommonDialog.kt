@@ -50,7 +50,6 @@ class CommonDialog : BaseDialogFragment {
     }
 
     constructor(
-        context: Context,
         type: Int,
         title: String,
         items: Array<String>,
@@ -105,11 +104,13 @@ class CommonDialog : BaseDialogFragment {
                 builder?.setPositiveButton(R.string.collection_dialog_submit
                 ) { _, _ ->
                     if (listener != null)
+                        dismiss()
                         listener!!.onDialogClick(ONCLICK_RIGHT)
                 }
                 builder?.setNegativeButton(R.string.collection_dialog_cancel
                 ) { _, _ ->
                     if (listener != null)
+                        dismiss()
                         listener!!.onDialogClick(ONCLICK_LEFT)
                 }
             }
@@ -120,12 +121,14 @@ class CommonDialog : BaseDialogFragment {
                     rightBtn
                 ) { _, _ ->
                     if (listener != null)
+                        dismiss()
                         listener!!.onDialogClick(ONCLICK_RIGHT)
                 }
                 builder?.setNegativeButton(
                     leftBtn
                 ) { _, _ ->
                     if (listener != null)
+                        dismiss()
                         listener!!.onDialogClick(ONCLICK_LEFT)
                 }
             }
@@ -136,13 +139,22 @@ class CommonDialog : BaseDialogFragment {
                 builder?.setTitle(title)
                 val onClickListener = DialogInterface.OnClickListener { _, which ->
                     when (which) {
-                        AlertDialog.BUTTON_POSITIVE -> if (listener != null)
+                        AlertDialog.BUTTON_POSITIVE -> if (listener != null){
+                            dismiss()
                             listener!!.onDialogClick(ONCLICK_RIGHT)
-                        AlertDialog.BUTTON_NEGATIVE -> if (listener != null)
+                        }
+
+                        AlertDialog.BUTTON_NEGATIVE -> if (listener != null){
+                            dismiss()
                             listener!!.onDialogClick(ONCLICK_LEFT)
-                        else -> if (listener != null)
+                        }
+
+                        else -> if (listener != null){
+                            dismiss()
                             listener!!.onDialogClick(which)
-                    }
+                        }
+                        }
+
                 }
                 builder?.setSingleChoiceItems(items, 0, onClickListener)
                 builder?.setPositiveButton(R.string.collection_dialog_submit, onClickListener)

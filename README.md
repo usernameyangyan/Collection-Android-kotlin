@@ -1,6 +1,6 @@
 ## Collection-Kotlin
 
-![Travis](https://img.shields.io/badge/release-1.4.6-green.svg)
+![Travis](https://img.shields.io/badge/release-1.4.7-green.svg)
 ![Travis](https://img.shields.io/badge/llicense-MIT-green.svg)
 ![Travis](https://img.shields.io/badge/build-passing-green.svg)
 
@@ -25,10 +25,11 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 
 ###  更新说明
 
-#### v1.4.6
+#### v1.4.7
 > 1.DialogFragment替换AlertDialog   
 > 2.SharePreference统一初始化  
-> 3.增加Fragment的跳转  
+> 3.增加Fragment的跳转
+> 4.DataManager.DataForHttp增加文件下载
 
 ####   v1.1.1
 > 网络框架增加文件下载以及进度
@@ -55,7 +56,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 >  7.增加RxJavaUtils,可进行子/主线程数据处理切换
 
 ###  框架的引入
->  **implementation 'com.youngman:collection_kotlin:1.1.1'**
+>  **implementation 'com.youngman:collection_kotlin:1.4.7'**
 
 
 ###   一、框架整体模块
@@ -557,6 +558,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 | DISK_CACHE_MODEL_LIMIT_TIME | 限时使用自定义磁盘缓存，返回model|
 | DISK_CACHE_NO_NETWORK_LIST | 自定义磁盘缓存，没有网络返回磁盘缓存，返回List|
 | DISK_CACHE_NO_NETWORK_MODEL | /自定义磁盘缓存，没有网络返回磁盘缓存，返回Model|
+|DOWNLOAD_FILE_MODEL|文件下载模式，返回Model|
 | HttpType |网络请求方式,默认DEFAULT_GET | 
 | DEFAULT_GET |GET请求| 
 | DEFAULT_POST |POST请求 | 
@@ -564,6 +566,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 | JSON_PARAM_POST |json格式请求参数 | 
 | ONE_MULTIPART_POST |上传一张图片 |
 | MULTIPLE_MULTIPART_POST |上传多张图片 |
+|DOWNLOAD_FILE_GET|下载文件|
 | ReqMode |请求模式，默认ASYNCHRONOUS| 
 | ASYNCHRONOUS |异步请求| 
 | SYNCHRONIZATION |同步请求| 

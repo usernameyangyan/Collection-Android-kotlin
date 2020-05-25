@@ -1,6 +1,5 @@
 package com.youngmanster.collection_kotlin.base.baseview
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.ArrayMap
@@ -18,7 +17,6 @@ import androidx.fragment.app.FragmentTransaction
 import com.youngmanster.collection_kotlin.R
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.mvp.ClassGetUtil
-import com.youngmanster.collection_kotlin.utils.LogUtils
 import kotlinx.android.synthetic.main.collection_library_default_base_activity.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -135,8 +133,9 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
             return this
         }
 
-        fun setBarPadding(left:Int,top:Int,right:Int,bottom:Int){
+        fun setBarPadding(left:Int,top:Int,right:Int,bottom:Int):DefaultDefineActionBarConfig{
             (defaultDefineView?.findViewById<RelativeLayout>(R.id.inRootRel)?.layoutParams as LinearLayout.LayoutParams).setMargins(left,top,right,bottom)
+            return this
         }
 
         fun setBarDividingLineHeight(height: Int): DefaultDefineActionBarConfig {
@@ -172,7 +171,7 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
             return this
         }
 
-        fun setTitleColor(context:Context,color: Int): DefaultDefineActionBarConfig {
+        fun setTitleColor(color: Int): DefaultDefineActionBarConfig {
             defaultDefineView?.findViewById<TextView>(R.id.titleTv)?.setTextColor(color)
             return this
         }
@@ -252,6 +251,15 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
     private val fragmentStack = ArrayMap<String,IBaseFragment<*>>()
     private val mFragmentEntityMap: HashMap<IBaseFragment<*>, FragmentStackEntity> =
         HashMap()
+
+
+    /**
+     * 是否是根Fragment
+     * @return
+     */
+    open fun isRootFragment(): Boolean {
+        return mFragmentStack.size <= 1
+    }
 
     /**
      * When the back off.

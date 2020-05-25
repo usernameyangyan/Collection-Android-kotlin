@@ -88,7 +88,6 @@ class DialogActivity :BaseActivity<BasePresenter<*>>(),View.OnClickListener{
             R.id.dialog_btn5 ->{
 
                 commonDialog = CommonDialog(
-                    this,
                     CommonDialog.DIALOG_CHOICE_ITEM,
                     "单项选择",
                     items,
