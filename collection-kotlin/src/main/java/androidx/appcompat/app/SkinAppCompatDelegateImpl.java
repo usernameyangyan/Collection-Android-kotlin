@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.Window;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -17,15 +20,17 @@ public class SkinAppCompatDelegateImpl extends AppCompatDelegateImpl {
         WeakReference<AppCompatDelegate> delegateRef = sDelegateMap.get(activity);
         AppCompatDelegate delegate = (delegateRef == null ? null : delegateRef.get());
         if (delegate == null) {
-            delegate = new SkinAppCompatDelegateImpl(activity, activity.getWindow(), callback);
+            delegate = new SkinAppCompatDelegateImpl(activity, callback);
             sDelegateMap.put(activity, new WeakReference<>(delegate));
         }
         return delegate;
     }
 
-    private SkinAppCompatDelegateImpl(Context context, Window window, AppCompatCallback callback) {
-        super(context, window, callback);
+    private SkinAppCompatDelegateImpl(@NonNull Activity activity,
+                                      @Nullable AppCompatCallback callback) {
+        super(activity, callback);
     }
+
 
     @Override
     public void installViewFactory() {

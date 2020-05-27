@@ -150,7 +150,6 @@ class CommonDialog : BaseDialogFragment {
                         }
 
                         else -> if (listener != null){
-                            dismiss()
                             listener!!.onDialogClick(which)
                         }
                         }
