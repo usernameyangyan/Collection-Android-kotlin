@@ -1,6 +1,6 @@
 ## Collection-Kotlin
 
-![Travis](https://img.shields.io/badge/release-1.4.7-green.svg)
+![Travis](https://img.shields.io/badge/release-1.5.3-green.svg)
 ![Travis](https://img.shields.io/badge/llicense-MIT-green.svg)
 ![Travis](https://img.shields.io/badge/build-passing-green.svg)
 
@@ -25,7 +25,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 
 ###  更新说明
 
-#### v1.4.7
+#### v1.5.3
 > 1.DialogFragment替换AlertDialog   
 > 2.SharePreference统一初始化  
 > 3.增加Fragment的跳转
@@ -56,7 +56,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 >  7.增加RxJavaUtils,可进行子/主线程数据处理切换
 
 ###  框架的引入
->  **implementation 'com.youngman:collection_kotlin:1.4.7'**
+>  **implementation 'com.youngman:collection_kotlin:1.5.3'**
 
 
 ###   一、框架整体模块
