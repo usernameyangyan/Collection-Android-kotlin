@@ -54,26 +54,15 @@ public interface RequestService {
     @Multipart
     @POST
     Observable<ResponseBody> uploadFile(@Url String url, @QueryMap Map<String, Object> map,
-                                                    @Part MultipartBody.Part image);
+                                        @Part() MultipartBody.Part[] images);
 
     @Multipart
     @POST
     Observable<ResponseBody> uploadFileWithHeaders(@Url String url, @QueryMap Map<String, Object> map,
-                                                               @Part MultipartBody.Part image, @HeaderMap Map<String, String> headers);
-
-
-    @Multipart
-    @POST
-    Observable<ResponseBody> uploadFile(@Url String url, @QueryMap Map<String, Object> map,
-                                                     @Part() MultipartBody.Part[] images);
-
-    @Multipart
-    @POST
-    Observable<ResponseBody> uploadFileWithHeaders(@Url String url, @QueryMap Map<String, Object> map,
-                                                                @Part() MultipartBody.Part[] images, @HeaderMap Map<String, String> headers);
+                                                   @Part() MultipartBody.Part[] images, @HeaderMap Map<String, String> headers);
 
 
     @GET
     @Streaming
-    Observable<ResponseBody> downloadFile(@Url String url,@HeaderMap Map<String, String> headers);
+    Observable<ResponseBody> downloadFile(@Url String url);
 }

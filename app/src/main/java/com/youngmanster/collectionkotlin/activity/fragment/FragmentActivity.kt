@@ -1,6 +1,7 @@
 package com.youngmanster.collectionkotlin.activity.fragment
 
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
+import com.youngmanster.collection_kotlin.utils.LogUtils
 import com.youngmanster.collectionkotlin.R
 import com.youngmanster.collectionkotlin.base.BaseActivity
 import com.youngmanster.collectionkotlin.fragment.skip.SkipFragment

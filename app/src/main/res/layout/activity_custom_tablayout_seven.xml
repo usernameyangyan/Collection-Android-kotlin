@@ -20,9 +20,9 @@
 
 	<com.youngmanster.collection_kotlin.base.customview.tablayout.CommonTabLayout
 		android:id="@+id/customTabView"
-		app:tab_tabMode="fixed"
+		app:tab_c_tabMode="fixed"
 		android:layout_width="match_parent"
 		android:layout_height="70dp"
-		app:tab_padding="15dp" />
+		app:tab_c_padding="15dp" />
 
 </LinearLayout>

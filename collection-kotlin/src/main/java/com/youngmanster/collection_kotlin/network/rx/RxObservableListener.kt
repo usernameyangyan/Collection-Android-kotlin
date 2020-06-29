@@ -28,8 +28,12 @@ abstract class RxObservableListener<T> : ObservableListener<T> {
         this.mErrorMsg = errorMsg
     }
 
-    override fun onDownloadProgress(progress: Int) {
+    override fun onDownloadProgress(total: Long, progress: Float) {
     }
+
+    override fun onUploadProgress(total: Long, progress: Float) {
+    }
+
 
     override fun onError(e: NetWorkCodeException.ResponseThrowable) {
 

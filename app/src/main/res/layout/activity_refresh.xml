@@ -7,14 +7,14 @@
 
     <com.youngmanster.collection_kotlin.base.customview.tablayout.CommonTabLayout
         android:id="@+id/customTabView"
-        app:tab_tabTextColor="@color/black"
-        app:tab_tabSelectedTextColor="@color/colorPrimary"
-        app:tab_tabIndicatorColor="@color/colorPrimary"
-        app:tab_tabTextSize="16sp"
+        app:tab_c_tabTextColor="@color/black"
+        app:tab_c_tabSelectedTextColor="@color/colorPrimary"
+        app:tab_c_tabIndicatorColor="@color/colorPrimary"
+        app:tab_c_tabTextSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:tab_tabMode="fixed"
-        app:tab_indicator_style="line" />
+        app:tab_c_tabMode="fixed"
+        app:tab_c_indicator_style="line" />
 
 
     <com.youngmanster.collection_kotlin.base.customview.CollectionViewPager

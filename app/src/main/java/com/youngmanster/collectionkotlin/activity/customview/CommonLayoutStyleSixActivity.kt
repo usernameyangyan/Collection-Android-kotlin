@@ -31,6 +31,7 @@ class CommonLayoutStyleSixActivity :BaseActivity<BasePresenter<*>>(){
         val indexPagerAdapter = CustomTabPagerAdapter(supportFragmentManager, fragmentList,strList)
         viewPager.adapter = indexPagerAdapter
         customTabView.setupWithViewPager(viewPager)
+
     }
 
     override fun requestData() {

@@ -1,6 +1,6 @@
 ## Collection-Kotlin
 
-![Travis](https://img.shields.io/badge/release-1.5.3-green.svg)
+![Travis](https://img.shields.io/badge/release-1.7.4-green.svg)
 ![Travis](https://img.shields.io/badge/llicense-MIT-green.svg)
 ![Travis](https://img.shields.io/badge/build-passing-green.svg)
 
@@ -24,6 +24,11 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 > ######  掘金地址：https://juejin.im/post/5e59d0eef265da57315b0b0e
 
 ###  更新说明
+
+#### v1.7.4
+> 1.上传下载增加进度条
+> 2.Fragment增加布局和数据 初始化懒加载
+> 3.bug修复
 
 #### v1.5.3
 > 1.DialogFragment替换AlertDialog   
@@ -56,7 +61,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 >  7.增加RxJavaUtils,可进行子/主线程数据处理切换
 
 ###  框架的引入
->  **implementation 'com.youngman:collection_kotlin:1.5.3'**
+>  **implementation 'com.youngman:collection_kotlin:1.7.4'**
 
 
 ###   一、框架整体模块
@@ -563,9 +568,8 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 | DEFAULT_GET |GET请求| 
 | DEFAULT_POST |POST请求 | 
 | FIELDMAP_POST |如果请求URL出现中文乱码，可选择这个 | 
-| JSON_PARAM_POST |json格式请求参数 | 
-| ONE_MULTIPART_POST |上传一张图片 |
-| MULTIPLE_MULTIPART_POST |上传多张图片 |
+| JSON_PARAM_POST |json格式请求参数 |
+| MULTIPLE_MULTIPART_POST |上传多文件 |
 |DOWNLOAD_FILE_GET|下载文件|
 | ReqMode |请求模式，默认ASYNCHRONOUS| 
 | ASYNCHRONOUS |异步请求| 
@@ -578,8 +582,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 | setHeader |设置请求头 | 
  | setHeaders |设置请求头集合 | 
 | setHttpTypeAndReqType |设置请求数据类型和请求方式 | 
-| setImagePath |设置上传图片路径 | 
-| setImagePaths |设置多张图片路径 | 
+| setFilePaths |设置多个文件路径
 | isUserCommonClass |设置是否使用公用类转化 | 
 | setReqMode |设置同步异步 | 
 
@@ -603,10 +606,11 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 
 #####   注意：
 
-######   （1）RxObservableListener有三个回调方法
-    void onNext(T result);
-    void onComplete();
-    void onError(NetWorkCodeException.ResponseThrowable e);
+######   （1）RxObservableListener有四个回调方法
+           fun onNext(T result);
+           fun onError(NetWorkCodeException.ResponseThrowable e);
+           fun onDownloadProgress(total:Long,progress:Float)
+           fun onUploadProgress(total: Long, progress: Float)
 ######  只会重写onNext方法，其它两个方法可以自行选择重写。
 ######   （2）RxObservableListener提供两个构造函数
     protected RxObservableListener(BaseView view){
@@ -1095,11 +1099,13 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 
 | 属性 | 作用 | 
 | :-----| :---- | 
-| fragmentLayoutId |设置显示Fragment的根布局id| 
-| startFragmentForResult(...) |和回调结果跳转| 
+| fragmentLayoutId |设置显示Fragment的根布局id,在Activity中设置|
+| startFragmentForResult(...) |和回调结果跳转|
 | onFragmentResult(....) |Fragment的结果回调|
 | setResult(...) |onFragmentResult回调的结果设置 |
 | startFragment(...) |普通跳转，具体使用查看IBaseActivity|
+|isRootFragment（）|判断是否是根Fragment|
+|onCreateViewAndInitLazy（）|设置是否懒加载，如果设置为true时，init和布局要在页面显示时才初始化|
 
 ###  九、工具类的使用
 

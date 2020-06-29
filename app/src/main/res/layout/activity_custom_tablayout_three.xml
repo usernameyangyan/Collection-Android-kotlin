@@ -9,15 +9,15 @@
 
 	<com.youngmanster.collection_kotlin.base.customview.tablayout.CommonTabLayout
 		android:id="@+id/customTabView"
-		app:tab_tabTextColor="@color/black"
-		app:tab_tabSelectedTextColor="@color/colorPrimary"
-		app:tab_tabTextSize="16sp"
-		app:tab_tabIndicatorColor="#4B6A87"
+		app:tab_c_tabTextColor="@color/black"
+		app:tab_c_tabSelectedTextColor="@color/colorPrimary"
+		app:tab_c_tabTextSize="16sp"
+		app:tab_c_tabIndicatorColor="#4B6A87"
 		android:layout_width="match_parent"
 		android:layout_height="50dp"
-		app:tab_indicator_corner="10dp"
-		app:tab_padding="15dp"
-		app:tab_indicator_style="block" />
+		app:tab_c_indicator_corner="10dp"
+		app:tab_c_padding="15dp"
+		app:tab_c_indicator_style="block" />
 
 	<View
 		android:layout_width="match_parent"

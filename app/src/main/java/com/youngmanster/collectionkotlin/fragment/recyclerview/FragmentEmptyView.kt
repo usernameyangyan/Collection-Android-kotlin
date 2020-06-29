@@ -17,7 +17,7 @@ import java.util.ArrayList
  *Describe:
  */
 
-class FragmentEmptyView:IBaseFragment<BasePresenter<*>>(), PullToRefreshRecyclerView.OnRefreshAndLoadMoreListener{
+class FragmentEmptyView: IBaseFragment<BasePresenter<*>>(), PullToRefreshRecyclerView.OnRefreshAndLoadMoreListener{
 
     private val mDatas = ArrayList<String>()
     private var isFirst = true

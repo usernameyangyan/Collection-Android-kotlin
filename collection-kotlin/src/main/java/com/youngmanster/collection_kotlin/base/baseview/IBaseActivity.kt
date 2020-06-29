@@ -1,5 +1,6 @@
 package com.youngmanster.collection_kotlin.base.baseview
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.ArrayMap
@@ -12,11 +13,16 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.SkinAppCompatDelegateImpl
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.gson.Gson
 import com.youngmanster.collection_kotlin.R
+import com.youngmanster.collection_kotlin.base.set.LinkedMultiValueMap
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.mvp.ClassGetUtil
+import com.youngmanster.collection_kotlin.network.gson.GsonUtils
+import com.youngmanster.collection_kotlin.utils.LogUtils
 import kotlinx.android.synthetic.main.collection_library_default_base_activity.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -171,8 +177,8 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
             return this
         }
 
-        fun setTitleColor(color: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<TextView>(R.id.titleTv)?.setTextColor(color)
+        fun setTitleColor(context: Context,color: Int): DefaultDefineActionBarConfig {
+            defaultDefineView?.findViewById<TextView>(R.id.titleTv)?.setTextColor(ContextCompat.getColor(context,color))
             return this
         }
 
@@ -248,9 +254,9 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
     private var mFManager: FragmentManager? = null
     private val mFragmentStack: MutableList<IBaseFragment<*>> =
         ArrayList()
-    private val fragmentStack = ArrayMap<String,IBaseFragment<*>>()
-    private val mFragmentEntityMap: HashMap<IBaseFragment<*>, FragmentStackEntity> =
-        HashMap()
+    private val fragmentStack = LinkedMultiValueMap<String,IBaseFragment<*>>()
+    private val mFragmentEntityMap: LinkedMultiValueMap<IBaseFragment<*>, FragmentStackEntity> =
+        LinkedMultiValueMap()
 
 
     /**
@@ -273,11 +279,24 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
             fragmentTransaction.commit()
             val outFragment: IBaseFragment<*> = mFragmentStack[mFragmentStack.size - 1]
             inFragment.onResume()
-            val stackEntity: FragmentStackEntity? =
-                mFragmentEntityMap[outFragment]
+            var stackEntity:FragmentStackEntity?=null
+            if(mFragmentEntityMap.getValues(outFragment)!=null){
+                stackEntity = mFragmentEntityMap.getValue(outFragment,getIndex(mFragmentEntityMap.getValues(outFragment).size))
+            }
             mFragmentStack.remove(outFragment)
-            mFragmentEntityMap.remove(outFragment)
-            fragmentStack.remove(outFragment.javaClass.simpleName)
+
+            if(mFragmentEntityMap.getValues(outFragment)!=null){
+                mFragmentEntityMap.remove(outFragment,getIndex(mFragmentEntityMap.getValues(outFragment).size))
+            }else{
+                mFragmentEntityMap.remove(outFragment)
+            }
+
+            if(fragmentStack.getValues(outFragment.javaClass.simpleName)!=null){
+                fragmentStack.remove(outFragment.javaClass.simpleName,getIndex(fragmentStack.getValues(outFragment.javaClass.simpleName).size))
+            }else{
+                fragmentStack.remove(outFragment.javaClass.simpleName)
+            }
+
             if (stackEntity!=null&&stackEntity.requestCode != REQUEST_CODE_INVALID) {
                 inFragment.onFragmentResult(
                     stackEntity.requestCode,
@@ -291,8 +310,28 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (!onBackStackFragment()) {
-            finish()
+        if(mFragmentStack.size>0){
+            val fragment: IBaseFragment<*> = mFragmentStack[mFragmentStack.size - 1]
+            val isBack=fragment.onBackPressed()
+            if(isBack){
+                if (!onBackStackFragment()) {
+                    finish()
+                }
+            }
+        }else{
+            if (!onBackStackFragment()) {
+                finish()
+            }
+        }
+
+    }
+
+
+    private fun getIndex(currentIndex:Int):Int{
+        return if(currentIndex-1<=0){
+            0
+        }else{
+            currentIndex-1
         }
     }
 
@@ -454,7 +493,10 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
     ) {
         var fragmentTransaction = mFManager!!.beginTransaction()
         if (thisFragment != null) {
-            val thisStackEntity = mFragmentEntityMap[thisFragment]
+            var thisStackEntity:FragmentStackEntity?=null
+            if(mFragmentEntityMap.getValues(thisFragment)!=null){
+                thisStackEntity = mFragmentEntityMap.getValue(thisFragment,getIndex(mFragmentEntityMap.getValues(thisFragment).size))
+            }
             if (thisStackEntity != null) {
                 if (thisStackEntity.isSticky) {
                     thisFragment.onPause()
@@ -471,9 +513,19 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
                     }
                     fragmentTransaction.commitNow()
                     fragmentTransaction = mFManager!!.beginTransaction()
-                    mFragmentEntityMap.remove(thisFragment)
                     mFragmentStack.remove(thisFragment)
-                    fragmentStack.remove(thisFragment.javaClass.simpleName)
+
+                    if(mFragmentEntityMap.getValues(thisFragment)!=null){
+                        mFragmentEntityMap.remove(thisFragment,getIndex(mFragmentEntityMap.getValues(thisFragment).size))
+                    }else{
+                        mFragmentEntityMap.remove(thisFragment)
+                    }
+
+                    if(fragmentStack.getValues(thisFragment.javaClass.simpleName)!=null){
+                        fragmentStack.remove(thisFragment.javaClass.simpleName,getIndex(fragmentStack.getValues(thisFragment.javaClass.simpleName).size))
+                    }else{
+                        fragmentStack.remove(thisFragment.javaClass.simpleName)
+                    }
                 }
             }
         }
@@ -490,18 +542,17 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
         fragmentStackEntity.isSticky = stickyStack
         fragmentStackEntity.requestCode = requestCode
         thatFragment.setStackEntity(fragmentStackEntity)
-        mFragmentEntityMap[thatFragment] = fragmentStackEntity
+        mFragmentEntityMap.add(thatFragment,fragmentStackEntity)
         mFragmentStack.add(thatFragment)
-        fragmentStack[fragmentTag]=thatFragment
+        fragmentStack.add(fragmentTag,thatFragment)
     }
-
 
     fun <T : IBaseFragment<*>> findFragment(clazz: Class<T>):T?{
         val fragmentTag: String =
             clazz.newInstance().javaClass.simpleName
 
-        if(fragmentStack[fragmentTag]!=null){
-            return fragmentStack[fragmentTag] as T
+        if(fragmentStack.getValues(fragmentTag)!=null&&fragmentStack.getValue(fragmentTag,getIndex(fragmentStack.getValues(fragmentTag).size))!=null){
+            return fragmentStack.getValue(fragmentTag,getIndex(fragmentStack.getValues(fragmentTag).size)) as T
         }
         return null
     }

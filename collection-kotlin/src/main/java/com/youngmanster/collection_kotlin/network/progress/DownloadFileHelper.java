@@ -36,11 +36,9 @@ public class DownloadFileHelper {
             }
         }
 
-        long currentLength = 0;
         OutputStream os = null;
 
         InputStream is = responseBody.byteStream(); //获取下载输入流
-        long totalLength = responseBody.contentLength();
 
         try {
             os = new FileOutputStream(file); //输出流
@@ -48,14 +46,6 @@ public class DownloadFileHelper {
             byte[] buff = new byte[1024];
             while ((len = is.read(buff)) != -1) {
                 os.write(buff, 0, len);
-                currentLength += len;
-                //计算当前下载百分比，并经由回调传出
-                RxJavaUtils.doInUIThread(new RxUITask<Integer>((int) (100 * currentLength / totalLength)) {
-                    @Override
-                    public void doInUIThread(Integer integer) {
-                        builder.getRxObservableListener().onDownloadProgress(integer);
-                    }
-                });
             }
 
             RxJavaUtils.doInUIThread(new RxUITask<String>(strFile) {

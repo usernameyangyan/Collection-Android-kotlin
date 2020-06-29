@@ -10,7 +10,7 @@ import com.youngmanster.collection_kotlin.mvp.BasePresenter
  *Describe:
  */
 
-abstract class BaseFragment<T:BasePresenter<*>>:IBaseFragment<T>(){
+abstract class BaseFragment<T:BasePresenter<*>>: IBaseFragment<T>(){
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

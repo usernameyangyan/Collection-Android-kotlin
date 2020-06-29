@@ -10,8 +10,8 @@ publish {
     userOrg = 'youngmanopen'
     groupId = 'com.youngman'
     artifactId = 'collection_kotlin'
-    publishVersion = '1.5.3'
-    desc = '修复SkinAppCompatDelegateImpl单元测试不通过'
+    publishVersion = '1.7.5'
+    desc = '1.上传下载增加进度条  2.解决上传大文件日志造成内存溢出问题 3.解决进度条导致get请求失败'
     website = 'https://github.com/usernameyangyan/Collection-Android-kotlin'// 可以设置github的项目地址
 }
 
@@ -43,7 +43,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -59,8 +59,8 @@ dependencies {
      *  https://github.com/wasabeef/glide-transformations
      *  高斯模糊的Glide
      */
-    implementation thirdDependencies.glideTransformation
-    implementation thirdDependencies.glide
+    api thirdDependencies.glideTransformation
+    api thirdDependencies.glide
     annotationProcessor thirdDependencies.glideCompiler
 
     /**

@@ -1,6 +1,7 @@
 package com.youngmanster.collectionkotlin.fragment.skip
 
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
+import com.youngmanster.collection_kotlin.utils.LogUtils
 import com.youngmanster.collectionkotlin.R
 import com.youngmanster.collectionkotlin.base.BaseFragment
 
@@ -15,9 +16,6 @@ class SkipFragment2:BaseFragment<BasePresenter<*>>() {
     }
 
     override fun init() {
-
-
-
     }
 
     override fun requestData() {

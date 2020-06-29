@@ -31,7 +31,6 @@ public class RequestBuilder<T> {
     private HttpType httpType= HttpType.DEFAULT_GET;
     private RxObservableListener<T> rxObservableListener;
     private Map<String, Object> requestParam;
-    private MultipartBody.Part part;
     private MultipartBody.Part []parts;
     private boolean isDiskCacheNetworkSaveReturn;
     private Map<String, String> headers;
@@ -62,8 +61,6 @@ public class RequestBuilder<T> {
         DEFAULT_POST,
         JSON_PARAM_POST,
         FIELDMAP_POST,
-        //单文件上传
-        ONE_MULTIPART_POST,
         //多文件上传
         MULTIPLE_MULTIPART_POST,
         DOWNLOAD_FILE_GET,
@@ -188,20 +185,8 @@ public class RequestBuilder<T> {
         return reqType;
     }
 
-    public MultipartBody.Part getPart() {
-        return part;
-    }
 
-    public RequestBuilder setImagePath(String key, String imagePath) {
-        File file = new File(imagePath);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part part = MultipartBody.Part.createFormData(key, file.getName(), requestFile);
-        this.part = part;
-        return this;
-    }
-
-
-    public RequestBuilder setImagePaths(String key, String[]imagePaths) {
+    public RequestBuilder setFilePaths(String key, String[]imagePaths) {
 
         parts =new MultipartBody.Part[imagePaths.length];
         for(int i=0;i<imagePaths.length;i++){

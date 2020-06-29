@@ -1,7 +1,6 @@
 package com.youngmanster.collectionkotlin.fragment.skip
-
-import android.os.Bundle
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
+import com.youngmanster.collection_kotlin.utils.LogUtils
 import com.youngmanster.collectionkotlin.R
 import com.youngmanster.collectionkotlin.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_skip.*

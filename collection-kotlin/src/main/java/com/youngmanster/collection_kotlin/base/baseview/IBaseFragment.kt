@@ -33,7 +33,9 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
     /**
      * 是否加载过数据
      */
-    private var isDataInitiated:Boolean = false
+    var isDataInitiated:Boolean = false
+    private var isInitLazy:Boolean=false
+    private var isResumeLoad=false
     private var frame_caption_container:FrameLayout?=null
     private var frame_content_container:FrameLayout?=null
 
@@ -50,14 +52,9 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
         mPresenter = ClassGetUtil.getClass(this, 0)
         mPresenter?.setV(this)
         mainView=inflater.inflate(R.layout.collection_library_default_base_fragment,container,false)
+
         frame_caption_container=mainView!!.findViewById(R.id.frame_caption_container)
         frame_content_container=mainView!!.findViewById(R.id.frame_content_container)
-
-        if (getLayoutId() != 0) {
-            addContainerFrame(getLayoutId())
-        }else{
-            throw IllegalArgumentException("请设置getLayoutId")
-        }
 
         val isShowCustomActionBar: Boolean = isShowCustomActionBar()
         val customBarRes = setCustomActionBar()
@@ -80,20 +77,46 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
             frame_caption_container?.visibility = View.GONE
         }
 
+        isInitLazy=onCreateViewAndInitLazy()
+
+        isResumeLoad=true
+        if(!isInitLazy){
+            layoutInit()
+        }
+
         return mainView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+        if(!isInitLazy){
+            isResumeLoad=false
+            isInitLazy=true
+            init()
+        }
     }
-
 
     override fun onResume() {
         super.onResume()
+
+        if(isInitLazy&&isResumeLoad){
+            isInitLazy=false
+            layoutInit()
+            init()
+        }
+
         if(!isDataInitiated){
             requestData()
             isDataInitiated=true
+        }
+    }
+
+
+    private fun layoutInit(){
+        if (getLayoutId() != 0) {
+            addContainerFrame(getLayoutId())
+        }else{
+            throw IllegalArgumentException("请设置getLayoutId")
         }
     }
 
@@ -104,6 +127,12 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
         isDataInitiated=false
     }
 
+    /**
+     * 是否进行布局懒加载
+     */
+    open fun onCreateViewAndInitLazy(): Boolean {
+        return false
+    }
     /**
      * 显示默认顶部Title栏
      */
@@ -176,8 +205,8 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
             return this
         }
 
-        fun setTitleColor(color: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<TextView>(R.id.titleTv)?.setTextColor(color)
+        fun setTitleColor(context: Context,color: Int): DefaultDefineActionBarConfig {
+            defaultDefineView?.findViewById<TextView>(R.id.titleTv)?.setTextColor(ContextCompat.getColor(context,color))
             return this
         }
 
@@ -228,6 +257,11 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
 
 
     /******************************Fragment**********************************/
+
+
+    open fun onBackPressed():Boolean{
+        return true
+    }
 
     /**
      * IBaseActivity.
@@ -443,7 +477,6 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
     ) {
         mActivity?.startFragment(this, targetFragment, stickyStack, requestCode,isSkipAnimation)
     }
-
 
     fun <T : IBaseFragment<*>> findFragment(clazz: Class<T>):T?{
         return mActivity!!.findFragment(clazz)

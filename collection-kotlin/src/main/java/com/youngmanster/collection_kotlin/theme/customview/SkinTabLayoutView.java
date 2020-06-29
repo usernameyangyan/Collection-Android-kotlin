@@ -45,9 +45,9 @@ public class SkinTabLayoutView extends CommonTabLayout implements SkinCompatSupp
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CommonTabLayout,
                 0, 0);
 
-        indicatorColor = a.getResourceId(R.styleable.CommonTabLayout_tab_tabIndicatorColor, 0);
-        textSelectColor= a.getResourceId(R.styleable.CommonTabLayout_tab_tabSelectedTextColor,0);
-        textUnSelectColor=a.getResourceId(R.styleable.CommonTabLayout_tab_tabTextColor,0);
+        indicatorColor = a.getResourceId(R.styleable.CommonTabLayout_tab_c_tabIndicatorColor, 0);
+        textSelectColor= a.getResourceId(R.styleable.CommonTabLayout_tab_c_tabSelectedTextColor,0);
+        textUnSelectColor=a.getResourceId(R.styleable.CommonTabLayout_tab_c_tabTextColor,0);
         a.recycle();
 
         applyItemColorResource();

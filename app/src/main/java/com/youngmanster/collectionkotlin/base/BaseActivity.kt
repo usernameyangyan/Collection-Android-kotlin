@@ -20,6 +20,7 @@ abstract class BaseActivity<T : BasePresenter<*>> : IBaseActivity<T>() {
         super.onCreate(savedInstanceState)
         defineActionBarConfig
             .setBarBackground(R.color.colorPrimaryDark)
+            .setTitleColor(this,R.color.white)
             .setBackIcon(R.mipmap.ic_back_btn)
             .setBackClick(View.OnClickListener {
                 onBackPressed()

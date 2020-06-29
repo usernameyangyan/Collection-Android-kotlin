@@ -61,6 +61,13 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
     }
 
     @Override
+    public void remove(K key, int index) {
+        if(mSource.get(key)!=null){
+            mSource.get(key).remove(index);
+        }
+    }
+
+    @Override
     public void clear() {
         mSource.clear();
     }

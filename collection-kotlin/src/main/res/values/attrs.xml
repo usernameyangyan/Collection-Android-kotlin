@@ -40,29 +40,29 @@
 
 
 	<declare-styleable name="CommonTabLayout">
-		<attr name="tab_tabIndicatorWidth"/>
-		<attr name="tab_tabIndicatorHeight" />
-		<attr name="tab_tabIndicatorColor"/>
-		<attr name="tab_indicator_marginLeft"/>
-		<attr name="tab_indicator_marginRight"/>
-		<attr name="tab_indicator_marginTop"/>
-		<attr name="tab_indicator_marginBottom"/>
-		<attr name="tab_tabTextColor"/>
-		<attr name="tab_tabTextSize"/>
-		<attr name="tab_tabSelectedTextColor"/>
-		<attr name="tab_padding"/>
-		<attr name="tab_tabContentStart" />
-		<attr name="tab_indicator_corner"/>
-		<attr name="tab_textAllCaps"/>
-		<attr name="tab_indicator_gravity">
+		<attr name="tab_c_tabIndicatorWidth" format="dimension"/>
+		<attr name="tab_c_tabWidth" format="dimension"/>
+		<attr name="tab_c_tabIndicatorHeight"  format="dimension"/>
+		<attr name="tab_c_tabIndicatorColor"  format="color"/>
+		<attr name="tab_c_indicator_marginLeft" format="dimension"/>
+		<attr name="tab_c_indicator_marginRight" format="dimension"/>
+		<attr name="tab_c_indicator_marginTop" format="dimension"/>
+		<attr name="tab_c_indicator_marginBottom" format="dimension"/>
+		<attr name="tab_c_tabTextColor" format="color"/>
+		<attr name="tab_c_tabTextSize" format="dimension"/>
+		<attr name="tab_c_tabSelectedTextColor" format="color"/>
+		<attr name="tab_c_padding" format="dimension"/>
+		<attr name="tab_c_indicator_corner" format="dimension"/>
+		<attr name="tab_c_textAllCaps" format="boolean"/>
+		<attr name="tab_c_indicator_gravity">
 			<enum name="bottom" value="0"/>
 			<enum name="top" value="1"/>
 		</attr>
-		<attr name="tab_tabMode">
+		<attr name="tab_c_tabMode">
 			<enum name="scrollable" value="0"/>
 			<enum name="fixed" value="1"/>
 		</attr>
-		<attr name="tab_indicator_style">
+		<attr name="tab_c_indicator_style">
 			<enum name="line" value="0"/>
 			<enum name="triangle" value="1"/>
 			<enum name="block" value="2"/>
@@ -70,21 +70,21 @@
 	</declare-styleable>
 
 	<declare-styleable name="OutSideFrameTabLayout">
-		<attr name="tab_tabIndicatorColor" />
-		<attr name="tab_indicator_corner" />
-		<attr name="tab_indicator_marginLeft"/>
-		<attr name="tab_indicator_marginRight"/>
-		<attr name="tab_indicator_marginTop"/>
-		<attr name="tab_indicator_marginBottom"/>
-		<attr name="tab_tabTextColor"/>
-		<attr name="tab_tabTextSize"/>
-		<attr name="tab_tabSelectedTextColor"/>
-		<attr name="tab_padding" />
-		<attr name="tab_textAllCaps"/>
-		<attr name="tab_bar_color"/>
-		<attr name="tab_bar_stroke_color"/>
-		<attr name="tab_bar_stroke_width"/>
-		<attr name="tab_width"/>
+		<attr name="tab_tabIndicatorColor" format="color"/>
+		<attr name="tab_indicator_corner" format="dimension"/>
+		<attr name="tab_indicator_marginLeft" format="dimension"/>
+		<attr name="tab_indicator_marginRight" format="dimension"/>
+		<attr name="tab_indicator_marginTop" format="dimension"/>
+		<attr name="tab_indicator_marginBottom" format="dimension"/>
+		<attr name="tab_tabTextColor" format="color"/>
+		<attr name="tab_tabTextSize" format="dimension"/>
+		<attr name="tab_tabSelectedTextColor" format="color"/>
+		<attr name="tab_padding" format="dimension"/>
+		<attr name="tab_textAllCaps" format="boolean"/>
+		<attr name="tab_bar_color" format="color"/>
+		<attr name="tab_bar_stroke_color" format="color"/>
+		<attr name="tab_bar_stroke_width" format="dimension"/>
+		<attr name="tab_width" format="dimension"/>
 	</declare-styleable>
 
 
