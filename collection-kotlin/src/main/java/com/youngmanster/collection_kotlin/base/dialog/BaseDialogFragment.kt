@@ -160,12 +160,32 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
-        manager.beginTransaction().add(this, tag).commitAllowingStateLoss()
+
+
+        try {
+            if (this.isAdded)
+                this.dismiss();
+            else
+                manager.beginTransaction().add(this, tag).commitAllowingStateLoss()
+
+        }catch (e:Exception){
+            this.dismiss()
+        }
+
     }
 
 
     override fun show(transaction: FragmentTransaction, tag: String?): Int {
-        return transaction.add(this, tag).commitAllowingStateLoss()
+        try {
+            if (this.isAdded)
+                this.dismiss();
+            else
+                return transaction.add(this, tag).commitAllowingStateLoss()
+        }catch (e:Exception){
+            this.dismiss()
+        }
+
+        return 0
     }
 
     override fun dismiss() {

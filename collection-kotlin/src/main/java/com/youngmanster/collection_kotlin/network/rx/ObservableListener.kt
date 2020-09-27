@@ -11,6 +11,6 @@ import com.youngmanster.collection_kotlin.network.NetWorkCodeException
 interface ObservableListener<T> {
     fun onNext(result: T)
     fun onError(e: NetWorkCodeException.ResponseThrowable)
-    fun onDownloadProgress(total:Long,progress:Float)
-    fun onUploadProgress(total: Long, progress: Float)
+    fun onDownloadProgress(total:Long,currentLength:Long,progress:Float)
+    fun onUploadProgress(total: Long,progress: Float)
 }

@@ -1,4 +1,4 @@
-package com.youngmanster.collection_kotlin.network.gson;
+package com.youngmanster.collection_kotlin.network.convert;
 
 import android.text.TextUtils;
 

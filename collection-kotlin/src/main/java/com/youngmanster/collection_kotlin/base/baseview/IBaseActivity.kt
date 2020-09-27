@@ -3,7 +3,6 @@ package com.youngmanster.collection_kotlin.base.baseview
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.ArrayMap
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -16,16 +15,12 @@ import androidx.appcompat.app.SkinAppCompatDelegateImpl
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.google.gson.Gson
 import com.youngmanster.collection_kotlin.R
 import com.youngmanster.collection_kotlin.base.set.LinkedMultiValueMap
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.mvp.ClassGetUtil
-import com.youngmanster.collection_kotlin.network.gson.GsonUtils
-import com.youngmanster.collection_kotlin.utils.LogUtils
 import kotlinx.android.synthetic.main.collection_library_default_base_activity.*
 import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * Created by yangy

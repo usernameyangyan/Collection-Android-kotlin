@@ -2,23 +2,17 @@ package com.youngmanster.collectionkotlin.mvp.presenter
 
 import android.content.Context
 import com.youngmanster.collection_kotlin.data.DataManager
+import com.youngmanster.collectionkotlin.mvp.view.IWeChatChinaNewsDefinitionView
+import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.network.RequestBuilder
 import com.youngmanster.collection_kotlin.network.rx.RxObservableListener
-import com.youngmanster.collection_kotlin.utils.LogUtils
 import com.youngmanster.collectionkotlin.bean.HttpResult
 import com.youngmanster.collectionkotlin.bean.WeChatNews
 import com.youngmanster.collectionkotlin.common.ApiUrl
 import com.youngmanster.collectionkotlin.common.AppConfig
-import com.youngmanster.collectionkotlin.mvp.contract.WeChatChinaNewsContract
 
-/**
- * Created by yangy
- *2020-02-23
- *Describe:
- */
-
-class WeChatChinaNewsDefinitionPresenter : WeChatChinaNewsContract.Presenter(){
-    override fun requestChinaNews(context: Context, page: Int, num: Int) {
+class WeChatChinaNewsDefinitionPresenter : BasePresenter<IWeChatChinaNewsDefinitionView>() {
+    fun requestChinaNews(context: Context, page: Int, num: Int) {
 
         val filePath = AppConfig.getStorageDir(context) + "wechat/china"
         val fileName = "limttime.t"

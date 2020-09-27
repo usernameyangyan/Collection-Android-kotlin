@@ -1,14 +1,17 @@
 package com.youngmanster.collectionkotlin.fragment.mvp
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mvp.annotation.MvpAnnotation
 import com.youngmanster.collection_kotlin.base.stateview.StateView
+import com.youngmanster.collection_kotlin.mvp.BasePresenter
+import com.youngmanster.collection_kotlin.mvp.BaseView
 import com.youngmanster.collection_kotlin.utils.ToastUtils
 import com.youngmanster.collectionkotlin.R
 import com.youngmanster.collectionkotlin.adapter.mvp.WeChatFeaturedAdapter
 import com.youngmanster.collectionkotlin.base.BaseFragment
 import com.youngmanster.collectionkotlin.bean.WeChatNews
-import com.youngmanster.collectionkotlin.mvp.contract.WeChatChinaNewsContract
 import com.youngmanster.collectionkotlin.mvp.presenter.WeChatChinaNewsDefinitionPresenter
+import com.youngmanster.collectionkotlin.mvp.view.IWeChatChinaNewsDefinitionView
 import kotlinx.android.synthetic.main.fragment_wechat_news.*
 import kotlinx.android.synthetic.main.layout_state.*
 import java.util.ArrayList
@@ -18,9 +21,13 @@ import java.util.ArrayList
  *2020-02-23
  *Describe:
  */
-
+@MvpAnnotation(
+    prefixName = "WeChatChinaNewsDefinition",
+    basePresenterClazz = BasePresenter::class,
+    baseViewClazz = BaseView::class
+)
 class FragmentChinaNewsDefinition :BaseFragment<WeChatChinaNewsDefinitionPresenter>(),
-    WeChatChinaNewsContract.View{
+    IWeChatChinaNewsDefinitionView{
 
     private val PAGE_SIZE = 15
     private var pageSize = 1
@@ -47,7 +54,7 @@ class FragmentChinaNewsDefinition :BaseFragment<WeChatChinaNewsDefinitionPresent
     }
 
     override fun requestData() {
-        (mPresenter as WeChatChinaNewsDefinitionPresenter).requestChinaNews(activity!!,pageSize, PAGE_SIZE)
+        mPresenter?.requestChinaNews(activity!!,pageSize, PAGE_SIZE)
     }
 
     override fun refreshUI(weChatNews: List<WeChatNews>?) {

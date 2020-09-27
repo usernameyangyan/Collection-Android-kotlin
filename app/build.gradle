@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -16,6 +16,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
+
+
+        javaCompileOptions{
+            annotationProcessorOptions{
+                includeCompileClasspath = true
+                arguments = ["mvp_create_package_path": "com.youngmanster.collectionkotlin",
+                             "project_java_path" : file("src/main/java").getAbsolutePath()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -45,6 +54,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation project(':collection-kotlin')
+    implementation project(':mvpprocessor')
+    kapt project(':mvpprocessor')
 
     implementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
 }

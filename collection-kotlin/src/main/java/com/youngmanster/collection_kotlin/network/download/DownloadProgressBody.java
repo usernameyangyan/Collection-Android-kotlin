@@ -1,10 +1,7 @@
-package com.youngmanster.collection_kotlin.network.progress;
-
-import android.util.Log;
-
+package com.youngmanster.collection_kotlin.network.download;
+import com.youngmanster.collection_kotlin.network.NetWorkCodeException;
 import com.youngmanster.collection_kotlin.network.RequestBuilder;
-import com.youngmanster.collection_kotlin.utils.LogUtils;
-
+import java.io.File;
 import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -29,15 +26,18 @@ public class DownloadProgressBody extends ResponseBody {
     private RequestBuilder requestBuilder;
     //包装完成的BufferedSource
     private BufferedSource bufferedSource;
-
+    private int code;
+    private String downUrl;
     /**
      * 构造函数，赋值
      *
      * @param responseBody     待包装的响应体
      */
-    public DownloadProgressBody(ResponseBody responseBody, RequestBuilder requestBuilder) {
+    public DownloadProgressBody(ResponseBody responseBody, RequestBuilder requestBuilder,int code) {
         this.responseBody = responseBody;
-        this.requestBuilder = requestBuilder;
+        this.code=code;
+        this.requestBuilder=requestBuilder;
+        this.downUrl = requestBuilder.getSaveDownloadFilePath()+File.separator+requestBuilder.getSaveDownloadFileName();
     }
 
     /**
@@ -86,29 +86,31 @@ public class DownloadProgressBody extends ResponseBody {
             //当前读取字节数
             long totalBytesRead = 0L;
             float preValue=-1;
-            long contentLength = 0L;
+            File file = new File(downUrl);
 
             @Override
             public long read(Buffer sink, long byteCount) throws IOException {
                 long bytesRead = super.read(sink, byteCount);
-
-                if (contentLength == 0) {
-                    //获得contentLength的值，后续不再调用
-                    contentLength = contentLength();
-                }
-
                 //增加当前读取的字节数，如果读取完成了bytesRead会返回-1
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
                 //回调，如果contentLength()不知道长度，会返回-1
-                if(requestBuilder != null){
-                    DecimalFormat fmt = new DecimalFormat("#0.00");
-                    fmt.setRoundingMode(RoundingMode.DOWN);
-                    String s = fmt.format((float) totalBytesRead /responseBody.contentLength());
-                    float progress = Float.parseFloat(s);
+                if(requestBuilder!=null&&bytesRead != -1&&!NetWorkCodeException.Companion.isError(code)){
+                    long loacalSize = file.length();//本地已下载的长度
+                    long trueTotal = loacalSize + responseBody.contentLength() - totalBytesRead;//文件真实长度
+
+                    float progress=(float) loacalSize /trueTotal;
+                    if(progress>0){
+                        DecimalFormat fmt = new DecimalFormat("#0.00");
+                        fmt.setRoundingMode(RoundingMode.DOWN);
+                        String s = fmt.format(progress);
+                        progress=Float.parseFloat(s);
+                    }
+
                     if(preValue!=progress){
-                        requestBuilder.getRxObservableListener().onDownloadProgress(contentLength, progress);
+                        requestBuilder.getRxObservableListener().onDownloadProgress(trueTotal,loacalSize, progress);
                         preValue=progress;
                     }
+
                 }
                 return bytesRead;
             }

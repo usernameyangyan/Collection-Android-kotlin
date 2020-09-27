@@ -45,7 +45,7 @@ class MVPActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.OnIt
 
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        recycler_rv.setLayoutManager(linearLayoutManager)
+        recycler_rv.layoutManager = linearLayoutManager
         val header = LayoutInflater.from(this).inflate(R.layout.layout_network_header, null)
         recycler_rv.addHeaderView(header)
     }

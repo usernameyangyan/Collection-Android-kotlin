@@ -1,5 +1,6 @@
 package com.youngmanster.collection_kotlin.network.rx
 
+import com.youngmanster.collection_kotlin.utils.LogUtils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import okhttp3.ResponseBody
@@ -25,6 +26,6 @@ class RxManager{
     }
 
     fun clear(){
-        compositeDisposable.dispose()
+        compositeDisposable.clear()
     }
 }

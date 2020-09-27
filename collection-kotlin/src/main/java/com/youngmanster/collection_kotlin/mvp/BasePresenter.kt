@@ -1,7 +1,5 @@
 package com.youngmanster.collection_kotlin.mvp
-import android.util.Log
 import com.youngmanster.collection_kotlin.network.rx.RxManager
-
 /**
  * Created by yangy
  *2020-02-20
@@ -17,6 +15,7 @@ abstract class BasePresenter<T>{
     }
 
     fun onDestroy(){
+        this.mView=null
         rxManager.clear()
     }
 }

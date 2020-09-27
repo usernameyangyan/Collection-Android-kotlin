@@ -2,15 +2,18 @@ package com.youngmanster.collectionkotlin.fragment.mvp
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.mvp.annotation.MvpAnnotation
 import com.youngmanster.collection_kotlin.base.stateview.StateView
+import com.youngmanster.collection_kotlin.mvp.BasePresenter
+import com.youngmanster.collection_kotlin.mvp.BaseView
 import com.youngmanster.collection_kotlin.recyclerview.PullToRefreshRecyclerView
 import com.youngmanster.collection_kotlin.utils.ToastUtils
 import com.youngmanster.collectionkotlin.R
 import com.youngmanster.collectionkotlin.adapter.mvp.WeChatFeaturedAdapter
 import com.youngmanster.collectionkotlin.base.BaseFragment
 import com.youngmanster.collectionkotlin.bean.WeChatNews
-import com.youngmanster.collectionkotlin.mvp.contract.WeChatWorldNewsContract
 import com.youngmanster.collectionkotlin.mvp.presenter.WeChatWorldNewsDefinitionPresenter
+import com.youngmanster.collectionkotlin.mvp.view.IWeChatWorldNewsDefinitionView
 import kotlinx.android.synthetic.main.fragment_wechat_news1.*
 import kotlinx.android.synthetic.main.layout_state.*
 import java.util.ArrayList
@@ -20,8 +23,13 @@ import java.util.ArrayList
  *2020-02-23
  *Describe:
  */
+@MvpAnnotation(
+    prefixName = "WeChatWorldNewsDefinition",
+    basePresenterClazz = BasePresenter::class,
+    baseViewClazz = BaseView::class
+)
 class FragmentWorldNewsDefinition :BaseFragment<WeChatWorldNewsDefinitionPresenter>(),
-    WeChatWorldNewsContract.View, PullToRefreshRecyclerView.OnRefreshAndLoadMoreListener,
+    IWeChatWorldNewsDefinitionView, PullToRefreshRecyclerView.OnRefreshAndLoadMoreListener,
     SwipeRefreshLayout.OnRefreshListener{
 
 
@@ -56,7 +64,7 @@ class FragmentWorldNewsDefinition :BaseFragment<WeChatWorldNewsDefinitionPresent
     }
 
     override fun requestData() {
-        (mPresenter as WeChatWorldNewsDefinitionPresenter).requestWorldNews(activity!!,pageSize, PAGE_SIZE)
+        mPresenter?.requestWorldNews(activity!!,pageSize, PAGE_SIZE)
     }
 
     override fun refreshUI(weChatNews: List<WeChatNews>?) {

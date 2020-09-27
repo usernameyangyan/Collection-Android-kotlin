@@ -1,15 +1,18 @@
 package com.youngmanster.collectionkotlin.fragment.mvp
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mvp.annotation.MvpAnnotation
 import com.youngmanster.collection_kotlin.base.stateview.StateView
+import com.youngmanster.collection_kotlin.mvp.BasePresenter
+import com.youngmanster.collection_kotlin.mvp.BaseView
 import com.youngmanster.collection_kotlin.recyclerview.PullToRefreshRecyclerView
 import com.youngmanster.collection_kotlin.utils.ToastUtils
 import com.youngmanster.collectionkotlin.R
 import com.youngmanster.collectionkotlin.adapter.mvp.WeChatFeaturedAdapter
 import com.youngmanster.collectionkotlin.base.BaseFragment
 import com.youngmanster.collectionkotlin.bean.WeChatNews
-import com.youngmanster.collectionkotlin.mvp.contract.WeChatFeaturedContract
 import com.youngmanster.collectionkotlin.mvp.presenter.WeChatFeaturedNoCommonClassPresenter
+import com.youngmanster.collectionkotlin.mvp.view.IWeChatFeaturedNoCommonClassView
 import kotlinx.android.synthetic.main.activity_wechat_featured.*
 import kotlinx.android.synthetic.main.layout_state.*
 import java.util.ArrayList
@@ -19,8 +22,13 @@ import java.util.ArrayList
  *2020-02-22
  *Describe:
  */
+@MvpAnnotation(
+    prefixName = "WeChatFeaturedNoCommonClass",
+    basePresenterClazz = BasePresenter::class,
+    baseViewClazz = BaseView::class
+)
 class FragmentWeChatFeaturedNoCommonClass :BaseFragment<WeChatFeaturedNoCommonClassPresenter>(),
-    WeChatFeaturedContract.View, PullToRefreshRecyclerView.OnRefreshAndLoadMoreListener{
+    IWeChatFeaturedNoCommonClassView, PullToRefreshRecyclerView.OnRefreshAndLoadMoreListener{
 
     private val PAGE_SIZE = 15
     private var pageSize = 1
@@ -42,7 +50,7 @@ class FragmentWeChatFeaturedNoCommonClass :BaseFragment<WeChatFeaturedNoCommonCl
     }
 
     override fun requestData() {
-        (mPresenter as WeChatFeaturedNoCommonClassPresenter).requestFeaturedNews(
+        mPresenter?.requestFeaturedNews(
             pageSize,
             PAGE_SIZE
         )

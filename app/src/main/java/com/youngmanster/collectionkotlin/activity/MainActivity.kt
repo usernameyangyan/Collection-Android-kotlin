@@ -11,6 +11,7 @@ import com.youngmanster.collectionkotlin.activity.base.BaseUiActivity
 import com.youngmanster.collectionkotlin.activity.baseadapter.BaseAdapterActivity
 import com.youngmanster.collectionkotlin.activity.customview.CustomViewActivity
 import com.youngmanster.collectionkotlin.activity.data.DataManagerActivity
+import com.youngmanster.collectionkotlin.activity.download.DownFileActivity
 import com.youngmanster.collectionkotlin.activity.fragment.FragmentActivity
 import com.youngmanster.collectionkotlin.activity.mvp.MVPActivity
 import com.youngmanster.collectionkotlin.activity.recyclerview.RecyclerViewActivity
@@ -22,7 +23,6 @@ import kotlinx.android.synthetic.main.activity_main.*
  *2020-02-20
  *Describe:
  */
-
 class MainActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.OnItemClickListener{
 
     private var mainViewAdapter: MainViewAdapter? = null
@@ -46,6 +46,7 @@ class MainActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.OnI
         listData.add("RecyclerView")
         listData.add("BaseAdapter")
         listData.add("MVP+RxJava+Retrofit")
+        listData.add("断点上传/下载")
         listData.add("DataManager(Retrofit/SharePreference/SQLite)")
         listData.add("Base")
         listData.add("CustomView")
@@ -70,19 +71,23 @@ class MainActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.OnI
                 startAc(MVPActivity::class.java)
             }
 
-            3 ->{
-                startAc(DataManagerActivity::class.java)
+            3 -> {
+                startAc(DownFileActivity::class.java)
             }
 
             4 ->{
-                startAc(BaseUiActivity::class.java)
+                startAc(DataManagerActivity::class.java)
             }
 
             5 ->{
-                startAc(CustomViewActivity::class.java)
+                startAc(BaseUiActivity::class.java)
             }
 
             6 ->{
+                startAc(CustomViewActivity::class.java)
+            }
+
+            7 ->{
                 startAc(FragmentActivity::class.java)
             }
         }

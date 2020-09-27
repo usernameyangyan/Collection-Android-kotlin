@@ -1,15 +1,18 @@
 package com.youngmanster.collectionkotlin.fragment.mvp
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mvp.annotation.MvpAnnotation
 import com.youngmanster.collection_kotlin.base.stateview.StateView
+import com.youngmanster.collection_kotlin.mvp.BasePresenter
+import com.youngmanster.collection_kotlin.mvp.BaseView
 import com.youngmanster.collection_kotlin.recyclerview.PullToRefreshRecyclerView
 import com.youngmanster.collection_kotlin.utils.ToastUtils
 import com.youngmanster.collectionkotlin.R
 import com.youngmanster.collectionkotlin.adapter.mvp.WeChatFeaturedAdapter
 import com.youngmanster.collectionkotlin.base.BaseFragment
 import com.youngmanster.collectionkotlin.bean.WeChatNews
-import com.youngmanster.collectionkotlin.mvp.contract.WeChatFeaturedContract
 import com.youngmanster.collectionkotlin.mvp.presenter.WeChatFeaturedPresenter
+import com.youngmanster.collectionkotlin.mvp.view.IWeChatFeaturedView
 import kotlinx.android.synthetic.main.activity_wechat_featured.*
 import kotlinx.android.synthetic.main.layout_state.*
 import java.util.ArrayList
@@ -19,7 +22,12 @@ import java.util.ArrayList
  *2020-02-22
  *Describe:
  */
-class FragmentWeChatFeaturedCommonClass :BaseFragment<WeChatFeaturedPresenter>(),WeChatFeaturedContract.View,
+@MvpAnnotation(
+    prefixName = "WeChatFeatured",
+    basePresenterClazz = BasePresenter::class,
+    baseViewClazz = BaseView::class
+)
+class FragmentWeChatFeaturedCommonClass :BaseFragment<WeChatFeaturedPresenter>(),IWeChatFeaturedView,
     PullToRefreshRecyclerView.OnRefreshAndLoadMoreListener{
 
 
@@ -51,7 +59,7 @@ class FragmentWeChatFeaturedCommonClass :BaseFragment<WeChatFeaturedPresenter>()
     }
 
     override fun requestData() {
-        (mPresenter as WeChatFeaturedPresenter).requestFeaturedNews(pageSize, PAGE_SIZE)
+        mPresenter?.requestFeaturedNews(pageSize, PAGE_SIZE)
     }
 
     override fun refreshUI(newsList: List<WeChatNews>?) {

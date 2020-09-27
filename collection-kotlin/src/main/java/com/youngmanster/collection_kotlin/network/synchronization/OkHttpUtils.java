@@ -4,7 +4,7 @@ import com.youngmanster.collection_kotlin.config.Config;
 import com.youngmanster.collection_kotlin.network.NetWorkCodeException;
 import com.youngmanster.collection_kotlin.network.RequestBuilder;
 import com.youngmanster.collection_kotlin.network.RetrofitManager;
-import com.youngmanster.collection_kotlin.network.gson.GsonUtils;
+import com.youngmanster.collection_kotlin.network.convert.GsonUtils;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -38,24 +38,7 @@ public class OkHttpUtils {
                             requestBuilder.getReqType() == RequestBuilder.ReqType.DEFAULT_CACHE_MODEL ||
                             requestBuilder.getReqType() == RequestBuilder.ReqType.DEFAULT_CACHE_LIST)) {
 
-
-                if (requestBuilder.getReqType() == RequestBuilder.ReqType.NO_CACHE_MODEL ||
-                        requestBuilder.getReqType() == RequestBuilder.ReqType.NO_CACHE_LIST) {
-                    if (Config.Companion.getHEADERS() != null && Config.Companion.getHEADERS().size() > 0) {
-                        okHttpClient = RetrofitManager.Companion.getOkHttpClient(false, true);
-                    } else {
-                        okHttpClient = RetrofitManager.Companion.getOkHttpClient(false, false);
-
-                    }
-                } else {
-                    if (Config.Companion.getHEADERS() != null && Config.Companion.getHEADERS().size() > 0) {
-                        okHttpClient = RetrofitManager.Companion.getOkHttpClient(true, true);
-                    } else {
-                        okHttpClient = RetrofitManager.Companion.getOkHttpClient(true, false);
-
-                    }
-                }
-
+                okHttpClient = RetrofitManager.Companion.getOkHttpClient(requestBuilder);
 
                 String url;
                 if (requestBuilder.getUrl().contains("https://") || requestBuilder.getUrl().contains("http://")) {
@@ -85,8 +68,6 @@ public class OkHttpUtils {
                     }
                     builder.post(requestBody.build());
                 } else {
-
-
                     String data = GsonUtils.getGsonWithoutExpose().toJson(requestBuilder.getRequestParam());
                     MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     RequestBody requestBody = RequestBody.create(JSON, data);
@@ -104,19 +85,9 @@ public class OkHttpUtils {
                     if (requestBuilder.isReturnOriginJson()) {
                         a = (T) body;
                     } else if (Config.Companion.getMClASS() == null) {
-                        if (requestBuilder.getReqType() == RequestBuilder.ReqType.NO_CACHE_MODEL ||
-                                requestBuilder.getReqType() == RequestBuilder.ReqType.DEFAULT_CACHE_MODEL) {
-                            a = GsonUtils.fromJsonNoCommonClass(body, requestBuilder.getTransformClass());
-                        } else {
-                            a = GsonUtils.fromJsonNoCommonClass(body, requestBuilder.getTransformClass());
-                        }
-                    } else if (!requestBuilder.isUserCommonClass()) {
-                        if (requestBuilder.getReqType() == RequestBuilder.ReqType.NO_CACHE_MODEL ||
-                                requestBuilder.getReqType() == RequestBuilder.ReqType.DEFAULT_CACHE_MODEL) {
-                            a = GsonUtils.fromJsonNoCommonClass(body, requestBuilder.getTransformClass());
-                        } else {
-                            a = GsonUtils.fromJsonNoCommonClass(body, requestBuilder.getTransformClass());
-                        }
+                        a = GsonUtils.fromJsonNoCommonClass(body, requestBuilder.getTransformClass());
+                    } else if (!requestBuilder.isUseCommonClass()) {
+                        a = GsonUtils.fromJsonNoCommonClass(body, requestBuilder.getTransformClass());
                     } else {
                         if (requestBuilder.getReqType() == RequestBuilder.ReqType.NO_CACHE_MODEL ||
                                 requestBuilder.getReqType() == RequestBuilder.ReqType.DEFAULT_CACHE_MODEL) {

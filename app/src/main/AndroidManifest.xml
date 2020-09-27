@@ -100,7 +100,7 @@
 
         <activity android:name=".activity.fragment.FragmentActivity"/>
 
-        <activity android:name=".activity.test.TestActivity"/>
+        <activity android:name=".activity.download.DownFileActivity" />
 
     </application>
 </manifest>
