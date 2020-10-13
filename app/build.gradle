@@ -54,8 +54,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation project(':collection-kotlin')
-    implementation project(':mvpprocessor')
-    kapt project(':mvpprocessor')
+    implementation 'com.youngman.mvp:mvpprocessor:1.0.0'
+    kapt 'com.youngman.mvp:mvpprocessor:1.0.0'
 
     implementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
 }

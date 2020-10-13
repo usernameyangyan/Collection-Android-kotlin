@@ -6,9 +6,10 @@ import android.util.Log
 import com.youngmanster.collection_kotlin.config.Config
 import com.youngmanster.collection_kotlin.config.Config.Companion.CONTEXT
 import com.youngmanster.collection_kotlin.config.Config.Companion.MAX_CACHE_SECONDS
-import com.youngmanster.collection_kotlin.network.interceptor.BasicParamsInterceptor
 import com.youngmanster.collection_kotlin.network.download.DownloadProgressBody
+import com.youngmanster.collection_kotlin.network.interceptor.BasicParamsInterceptor
 import com.youngmanster.collection_kotlin.network.progress.UploadProgressBody
+import com.youngmanster.collection_kotlin.network.request.RequestMethodImpl
 import com.youngmanster.collection_kotlin.utils.NetworkUtils
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
@@ -29,27 +30,27 @@ class RetrofitManager {
 
     companion object {
 
-        private const val DEFAULT_REQUEST=0
-        private const val MULTIPLE_MULTIPART_POST=1
-        private const val DOWNLOAD_FILE_GET=2
-        private const val HEADERS_REQUEST=3
-        private const val HEADERS_CACHE_REQUEST=4
-        private const val CACHE_REQUEST=5
+        private const val DEFAULT_REQUEST = 0
+        private const val MULTIPLE_MULTIPART_POST = 1
+        private const val DOWNLOAD_FILE_GET = 2
+        private const val HEADERS_REQUEST = 3
+        private const val HEADERS_CACHE_REQUEST = 4
+        private const val CACHE_REQUEST = 5
 
         private var mRetrofit: Retrofit? = null
-        private val retrofitMap=ArrayMap<Int,Retrofit>()
+        private val retrofitMap = ArrayMap<Int, Retrofit>()
 
         private fun getRetrofit(requestBuilder: RequestBuilder<*>?): Retrofit {
 
-            val type=getRetrofitTypeCode(requestBuilder)
-            mRetrofit=retrofitMap[type]
+            val type = getRetrofitTypeCode(requestBuilder)
+            mRetrofit = retrofitMap[type]
             if (mRetrofit == null) {
                 mRetrofit = Retrofit.Builder().baseUrl(Config.URL_DOMAIN!!)
                     .client(getOkHttpClient(requestBuilder))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build()
 
-                retrofitMap[type]=mRetrofit
+                retrofitMap[type] = mRetrofit
             }
             return mRetrofit!!
         }
@@ -80,7 +81,7 @@ class RetrofitManager {
             if (requestBuilder?.httpType == RequestBuilder.HttpType.DOWNLOAD_FILE_GET) {
                 builder.addInterceptor(object : Interceptor {
                     @Throws(IOException::class)
-                    override fun intercept(chain: Interceptor.Chain):Response {
+                    override fun intercept(chain: Interceptor.Chain): Response {
                         val originalResponse: Response = chain.proceed(chain.request())
                         return originalResponse.newBuilder()
                             .body(
@@ -95,7 +96,7 @@ class RetrofitManager {
                     }
                 })
 
-            }else {
+            } else {
                 if (Config.HEADERS != null && Config.HEADERS!!.isNotEmpty()) {
                     val basicParamsInterceptor = BasicParamsInterceptor.Builder()
                         .addHeaderParamsMap(Config.HEADERS)
@@ -112,7 +113,7 @@ class RetrofitManager {
 
 
                 }
-                if(requestBuilder.httpType == RequestBuilder.HttpType.MULTIPLE_MULTIPART_POST){
+                if (requestBuilder.httpType == RequestBuilder.HttpType.MULTIPLE_MULTIPART_POST) {
                     builder.addInterceptor(object : Interceptor {
                         @Throws(IOException::class)
                         override fun intercept(chain: Interceptor.Chain): Response {
@@ -152,38 +153,37 @@ class RetrofitManager {
 
 
         //获取当前Retrofit类型值
-        private fun getRetrofitTypeCode(requestBuilder: RequestBuilder<*>?):Int{
-            if(requestBuilder?.httpType == RequestBuilder.HttpType.DOWNLOAD_FILE_GET){
+        private fun getRetrofitTypeCode(requestBuilder: RequestBuilder<*>?): Int {
+            if (requestBuilder?.httpType == RequestBuilder.HttpType.DOWNLOAD_FILE_GET) {
                 return DOWNLOAD_FILE_GET
-            }else{
-                var isHeaders=false
-                var isCache=false
-                if(Config.HEADERS != null && Config.HEADERS!!.isNotEmpty()){
-                    isHeaders=true
+            } else {
+                var isHeaders = false
+                var isCache = false
+                if (Config.HEADERS != null && Config.HEADERS!!.isNotEmpty()) {
+                    isHeaders = true
                 }
 
                 if (isCache(requestBuilder?.reqType!!) && !TextUtils.isEmpty(Config.URL_CACHE) && CONTEXT != null) {
-                    isCache=true
+                    isCache = true
                 }
 
-                if(requestBuilder.httpType == RequestBuilder.HttpType.MULTIPLE_MULTIPART_POST){
+                if (requestBuilder.httpType == RequestBuilder.HttpType.MULTIPLE_MULTIPART_POST) {
                     return MULTIPLE_MULTIPART_POST
                 }
 
-                if(isHeaders&&isCache){
+                if (isHeaders && isCache) {
                     return HEADERS_CACHE_REQUEST
                 }
-                if(isHeaders){
+                if (isHeaders) {
                     return HEADERS_REQUEST
                 }
-                if(isCache){
+                if (isCache) {
                     return CACHE_REQUEST
                 }
 
                 return DEFAULT_REQUEST
             }
         }
-
 
 
         /**
@@ -224,13 +224,106 @@ class RetrofitManager {
 
 
         /**
-         * 接口定义类,获取到可以缓存的retrofit
+         * 接口定义类
          * @param tClass
-         * @param <T>
+         * @param requestBuilder
          * @return
-        </T> */
+         */
         fun <T> getApiService(tClass: Class<T>, requestBuilder: RequestBuilder<*>?): T {
             return getRetrofit(requestBuilder).create(tClass)
         }
+
+
+        /**
+         * 自定义接口请求
+         * @param tClass
+         * @return
+         */
+        private class SingletonHolder {
+            companion object {
+                val INSTANCE: CustomizeRequest = CustomizeRequest()
+            }
+
+        }
+
+        fun getCustomizeRequest(): CustomizeRequest {
+            return SingletonHolder.INSTANCE
+        }
+    }
+
+    class CustomizeRequest {
+        private var okHttpClient: OkHttpClient? = null
+
+        /**
+         * 自定义
+         */
+        fun setCustomizeOkHttpClient(okHttpClient: OkHttpClient): CustomizeRequest {
+            this.okHttpClient = okHttpClient
+            return this
+        }
+
+
+        fun <T> getCustomizeApiService(tClass: Class<T>?): T {
+            return getRetrofit().create(tClass)
+        }
+
+
+        /**
+         * 自定义默认Retrofit
+         */
+        private fun getRetrofit(): Retrofit {
+            if (okHttpClient == null) {
+                okHttpClient = getDefaultOkHttpClient()
+            }
+            return Retrofit.Builder().baseUrl(Config.URL_DOMAIN!!)
+                .client(okHttpClient)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+        }
+
+
+        /**
+         * 自定义默认OkHttpClient
+         */
+        private fun getDefaultOkHttpClient(): OkHttpClient {
+            val builder = OkHttpClient.Builder()
+            //如果不是在正式包，添加拦截 打印响应json
+            if (Config.DEBUG) {
+                val logging = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+                    override fun log(message: String) {
+                        Log.d("RetrofitManager", "收到响应: $message")
+                    }
+                })
+
+                logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+                builder.addInterceptor(logging)
+
+            }
+
+            if (Config.HEADERS != null && Config.HEADERS!!.isNotEmpty()) {
+                val basicParamsInterceptor = BasicParamsInterceptor.Builder()
+                    .addHeaderParamsMap(Config.HEADERS)
+                    .build()
+
+                builder.addInterceptor(basicParamsInterceptor)
+            }
+
+            if (!TextUtils.isEmpty(Config.URL_CACHE) && CONTEXT != null) {
+                //设置缓存
+                val httpCacheDirectory = File(Config.URL_CACHE!!)
+                builder.cache(Cache(httpCacheDirectory, Config.MAX_MEMORY_SIZE))
+                builder.addInterceptor(getInterceptor())
+            }
+
+            return builder.connectTimeout(
+                Config.CONNECT_TIMEOUT_SECONDS.toLong(),
+                TimeUnit.SECONDS
+            )
+                .readTimeout(Config.READ_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
+                .writeTimeout(Config.WRITE_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
+                .build()
+
+        }
+
     }
 }

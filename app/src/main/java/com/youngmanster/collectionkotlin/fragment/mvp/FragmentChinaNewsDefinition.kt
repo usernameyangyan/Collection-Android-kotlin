@@ -5,6 +5,7 @@ import com.mvp.annotation.MvpAnnotation
 import com.youngmanster.collection_kotlin.base.stateview.StateView
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.mvp.BaseView
+import com.youngmanster.collection_kotlin.network.RetrofitManager
 import com.youngmanster.collection_kotlin.utils.ToastUtils
 import com.youngmanster.collectionkotlin.R
 import com.youngmanster.collectionkotlin.adapter.mvp.WeChatFeaturedAdapter
@@ -54,6 +55,8 @@ class FragmentChinaNewsDefinition :BaseFragment<WeChatChinaNewsDefinitionPresent
     }
 
     override fun requestData() {
+
+
         mPresenter?.requestChinaNews(activity!!,pageSize, PAGE_SIZE)
     }
 

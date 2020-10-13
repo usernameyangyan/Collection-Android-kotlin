@@ -12,4 +12,5 @@ class HttpResult<T> : Serializable {
     var code: Int = 0
     var message: String? = null
     var result: T? = null
+    var data: T? = null
 }

@@ -1,3 +1,2 @@
-include ':mvpprocessor'
 include ':app', ':collection-kotlin'
 rootProject.name='Collection-Android-kotlin'
