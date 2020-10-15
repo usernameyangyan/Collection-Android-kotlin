@@ -31,8 +31,8 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 > 3.bug修复
 
 #### v1.5.3
-> 1.DialogFragment替换AlertDialog   
-> 2.SharePreference统一初始化  
+> 1.DialogFragment替换AlertDialog
+> 2.SharePreference统一初始化
 > 3.增加Fragment的跳转
 > 4.DataManager.DataForHttp增加文件下载
 
@@ -584,11 +584,12 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
 | setHttpTypeAndReqType |设置请求数据类型和请求方式 | 
 | setFilePaths |设置多个文件路径
 | isUserCommonClass |设置是否使用公用类转化 | 
-| setReqMode |设置同步异步 | 
+| setReqMode |设置同步异步 |
+| isOpenBreakpointDownloadOrUpload |是否开启断点下载 |
 
 （2）使用模块
 
-         val requestBuilder=RequestBuilder(object :RxObservableListener<HttpResult<List<WeChatNews>>>(mView){
+         val requestBuilder=RequestBuilder(object :RxObservableListener<HttpResult<List<WeChatNews>>>(){
             override fun onNext(result: HttpResult<List<WeChatNews>>) {
                 mView?.refreshUI(result.result)
             }
@@ -612,15 +613,7 @@ Collection聚合了项目搭建的一些基本模块，节约开发者时间，�
            fun onDownloadProgress(total:Long,progress:Float)
            fun onUploadProgress(total: Long, progress: Float)
 ######  只会重写onNext方法，其它两个方法可以自行选择重写。
-######   （2）RxObservableListener提供两个构造函数
-    protected RxObservableListener(BaseView view){
-	    this.mView = view;
-    }
 
-    protected RxObservableListener(BaseView view, String errorMsg){
-	     this.mView = view;
-         this.mErrorMsg = errorMsg;
-    }
 
 ######  这两个构造函数主要主要是为了统一处理onError的，如果要自定义错误提醒，则可以选择第二个构造函数。
 
