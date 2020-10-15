@@ -1,5 +1,7 @@
 package com.youngmanster.collection_kotlin.mvp
 import com.youngmanster.collection_kotlin.network.rx.RxManager
+import com.youngmanster.collection_kotlin.utils.LogUtils
+
 /**
  * Created by yangy
  *2020-02-20

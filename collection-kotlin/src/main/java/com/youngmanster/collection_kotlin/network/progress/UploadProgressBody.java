@@ -1,6 +1,8 @@
 package com.youngmanster.collection_kotlin.network.progress;
 
 import com.youngmanster.collection_kotlin.network.RequestBuilder;
+import com.youngmanster.collection_kotlin.network.rx.utils.RxJavaUtils;
+import com.youngmanster.collection_kotlin.network.rx.utils.RxUITask;
 
 import java.io.IOException;
 import java.math.RoundingMode;
@@ -104,8 +106,18 @@ public class UploadProgressBody extends RequestBody {
                     String s = fmt.format((float) bytesWritten /contentLength);
                     float progress = Float.parseFloat(s);
 
-                    if(preValue!=progress){
-                        requestBuilder.getRxObservableListener().onUploadProgress(contentLength, progress);
+                    if(preValue!=progress&&requestBuilder.getRxObservableListener()!=null){
+                        RxJavaUtils.doInUIThread(new RxUITask<Float>(progress) {
+                            /**
+                             * 在UI线程中执行
+                             *
+                             * @param progress 任务执行的入参
+                             */
+                            @Override
+                            public void doInUIThread(Float progress) {
+                                requestBuilder.getRxObservableListener().onUploadProgress(contentLength, progress);
+                            }
+                        });
                         preValue=progress;
                     }
 

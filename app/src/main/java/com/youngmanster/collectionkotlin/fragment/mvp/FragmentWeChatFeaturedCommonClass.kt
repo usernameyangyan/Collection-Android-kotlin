@@ -59,7 +59,7 @@ class FragmentWeChatFeaturedCommonClass :BaseFragment<WeChatFeaturedPresenter>()
     }
 
     override fun requestData() {
-        mPresenter?.requestFeaturedNews(pageSize, PAGE_SIZE)
+        mPresenter?.requestFeaturedNews(activity!!,pageSize, PAGE_SIZE)
     }
 
     override fun refreshUI(newsList: List<WeChatNews>?) {

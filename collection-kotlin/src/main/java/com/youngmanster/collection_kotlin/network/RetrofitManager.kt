@@ -30,31 +30,12 @@ class RetrofitManager {
 
     companion object {
 
-        private const val DEFAULT_REQUEST = 0
-        private const val MULTIPLE_MULTIPART_POST = 1
-        private const val DOWNLOAD_FILE_GET = 2
-        private const val HEADERS_REQUEST = 3
-        private const val HEADERS_CACHE_REQUEST = 4
-        private const val CACHE_REQUEST = 5
-
-        private var mRetrofit: Retrofit? = null
-        private val retrofitMap = ArrayMap<Int, Retrofit>()
-
         private fun getRetrofit(requestBuilder: RequestBuilder<*>?): Retrofit {
-
-            val type = getRetrofitTypeCode(requestBuilder)
-            mRetrofit = retrofitMap[type]
-            if (mRetrofit == null) {
-                mRetrofit = Retrofit.Builder().baseUrl(Config.URL_DOMAIN!!)
-                    .client(getOkHttpClient(requestBuilder))
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .build()
-
-                retrofitMap[type] = mRetrofit
-            }
-            return mRetrofit!!
+            return Retrofit.Builder().baseUrl(Config.URL_DOMAIN!!)
+                .client(getOkHttpClient(requestBuilder))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
         }
-
 
         fun getOkHttpClient(requestBuilder: RequestBuilder<*>?): OkHttpClient {
             val builder = OkHttpClient.Builder()
@@ -151,39 +132,6 @@ class RetrofitManager {
             return false
         }
 
-
-        //获取当前Retrofit类型值
-        private fun getRetrofitTypeCode(requestBuilder: RequestBuilder<*>?): Int {
-            if (requestBuilder?.httpType == RequestBuilder.HttpType.DOWNLOAD_FILE_GET) {
-                return DOWNLOAD_FILE_GET
-            } else {
-                var isHeaders = false
-                var isCache = false
-                if (Config.HEADERS != null && Config.HEADERS!!.isNotEmpty()) {
-                    isHeaders = true
-                }
-
-                if (isCache(requestBuilder?.reqType!!) && !TextUtils.isEmpty(Config.URL_CACHE) && CONTEXT != null) {
-                    isCache = true
-                }
-
-                if (requestBuilder.httpType == RequestBuilder.HttpType.MULTIPLE_MULTIPART_POST) {
-                    return MULTIPLE_MULTIPART_POST
-                }
-
-                if (isHeaders && isCache) {
-                    return HEADERS_CACHE_REQUEST
-                }
-                if (isHeaders) {
-                    return HEADERS_REQUEST
-                }
-                if (isCache) {
-                    return CACHE_REQUEST
-                }
-
-                return DEFAULT_REQUEST
-            }
-        }
 
 
         /**

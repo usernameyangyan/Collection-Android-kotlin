@@ -1,5 +1,7 @@
 package com.youngmanster.collectionkotlin.mvp.presenter
 
+import android.app.Activity
+import android.content.Context
 import com.youngmanster.collection_kotlin.data.DataManager
 import com.youngmanster.collectionkotlin.mvp.view.IWeChatFeaturedView
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
@@ -10,10 +12,10 @@ import com.youngmanster.collectionkotlin.bean.WeChatNews
 import com.youngmanster.collectionkotlin.common.ApiUrl
 
 class WeChatFeaturedPresenter : BasePresenter<IWeChatFeaturedView>() {
-    fun requestFeaturedNews(page: Int, num: Int) {
+    fun requestFeaturedNews(context: Activity,page: Int, num: Int) {
 
         val requestBuilder=
-            RequestBuilder(object : RxObservableListener<HttpResult<List<WeChatNews>>>(mView){
+            RequestBuilder(object : RxObservableListener<HttpResult<List<WeChatNews>>>(){
             override fun onNext(result: HttpResult<List<WeChatNews>>) {
                 mView?.refreshUI(result.result)
             }

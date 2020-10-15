@@ -51,6 +51,7 @@ class FragmentWeChatFeaturedNoCommonClass :BaseFragment<WeChatFeaturedNoCommonCl
 
     override fun requestData() {
         mPresenter?.requestFeaturedNews(
+            activity!!,
             pageSize,
             PAGE_SIZE
         )

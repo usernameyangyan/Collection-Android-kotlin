@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.net.SocketException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -103,10 +104,8 @@ public class DownloadFileHelper {
                 raf.write(fileReader, 0, read);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+        }finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();

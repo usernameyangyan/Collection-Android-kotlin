@@ -1,5 +1,6 @@
 package com.youngmanster.collectionkotlin.mvp.presenter
 
+import android.app.Activity
 import android.content.Context
 import com.youngmanster.collection_kotlin.data.DataManager
 import com.youngmanster.collectionkotlin.mvp.view.IWeChatWorldNewsDefinitionView
@@ -12,12 +13,12 @@ import com.youngmanster.collectionkotlin.common.ApiUrl
 import com.youngmanster.collectionkotlin.common.AppConfig
 
 class WeChatWorldNewsDefinitionPresenter : BasePresenter<IWeChatWorldNewsDefinitionView>() {
-    fun requestWorldNews(context: Context, page: Int, num: Int) {
+    fun requestWorldNews(context: Activity, page: Int, num: Int) {
         val filePath = AppConfig.getStorageDir(context) + "wechat/world"
         val fileName = "$page.t"
 
         val requestBuilder=
-            RequestBuilder(object : RxObservableListener<HttpResult<List<WeChatNews>>>(mView){
+            RequestBuilder(object : RxObservableListener<HttpResult<List<WeChatNews>>>(){
             override fun onNext(result: HttpResult<List<WeChatNews>>) {
                 mView?.refreshUI(result.result)
             }

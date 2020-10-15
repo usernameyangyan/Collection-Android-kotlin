@@ -40,7 +40,6 @@ public class OkHttpUtils {
                             requestBuilder.getReqType() == RequestBuilder.ReqType.NO_CACHE_LIST ||
                             requestBuilder.getReqType() == RequestBuilder.ReqType.DEFAULT_CACHE_MODEL ||
                             requestBuilder.getReqType() == RequestBuilder.ReqType.DEFAULT_CACHE_LIST)) {
-
                 okHttpClient = RetrofitManager.Companion.getOkHttpClient(requestBuilder);
 
                 String url;
@@ -54,8 +53,8 @@ public class OkHttpUtils {
                     HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
                             .newBuilder();
                     Set set = requestBuilder.getRequestParam().keySet();
-                    for (Iterator iter = set.iterator(); iter.hasNext(); ) {
-                        String key = (String) iter.next();
+                    for (Object o : set) {
+                        String key = (String) o;
                         Object value = requestBuilder.getRequestParam().get(key);
                         urlBuilder.addQueryParameter(key, value.toString());
                     }
@@ -64,8 +63,8 @@ public class OkHttpUtils {
                 } else if (requestBuilder.getHttpType() == RequestBuilder.HttpType.DEFAULT_POST) {
                     FormBody.Builder requestBody = new FormBody.Builder();
                     Set set = requestBuilder.getRequestParam().keySet();
-                    for (Iterator iter = set.iterator(); iter.hasNext(); ) {
-                        String key = (String) iter.next();
+                    for (Object o : set) {
+                        String key = (String) o;
                         Object value = requestBuilder.getRequestParam().get(key);
                         requestBody.add(key, value.toString());
                     }
@@ -81,10 +80,10 @@ public class OkHttpUtils {
                     }
 
                     Set set = requestBuilder.getRequestParam().keySet();
-                    for (Iterator iter = set.iterator(); iter.hasNext(); ) {
-                        String key = (String) iter.next();
+                    for (Object o : set) {
+                        String key = (String) o;
                         Object value = requestBuilder.getRequestParam().get(key);
-                        body.addFormDataPart(key,  value.toString());
+                        body.addFormDataPart(key, value.toString());
                     }
 
                     RequestBody body1 = body.build();

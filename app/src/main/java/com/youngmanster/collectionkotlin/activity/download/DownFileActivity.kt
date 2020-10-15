@@ -2,6 +2,7 @@ package com.youngmanster.collectionkotlin.activity.download
 import com.mvp.annotation.MvpAnnotation
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.mvp.BaseView
+import com.youngmanster.collection_kotlin.utils.LogUtils
 import com.youngmanster.collectionkotlin.R
 import com.youngmanster.collectionkotlin.base.BaseActivity
 import com.youngmanster.collectionkotlin.mvp.presenter.DownloadFilePresenter
@@ -31,8 +32,14 @@ class DownFileActivity:BaseActivity<DownloadFilePresenter>(),IDownloadFileView{
      */
     override fun init() {
 
+        defineActionBarConfig.setTitle("断点下载文件")
+
         downloadBtn.setOnClickListener {
             mPresenter?.downloadFile(this)
+        }
+
+        stopDownloadBtn.setOnClickListener {
+            mPresenter?.stopDownload()
         }
 
     }
@@ -44,8 +51,8 @@ class DownFileActivity:BaseActivity<DownloadFilePresenter>(),IDownloadFileView{
 
     }
 
-    override fun updateProgress() {
-
+    override fun updateProgress(progress: Float) {
+        progressTv.text="已下载："+ String.format("%.1f",progress*100)+"%"
     }
 
     override fun onError(errorMsg: String) {

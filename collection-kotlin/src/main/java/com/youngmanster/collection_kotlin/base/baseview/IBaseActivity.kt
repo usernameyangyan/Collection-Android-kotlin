@@ -1,5 +1,6 @@
 package com.youngmanster.collection_kotlin.base.baseview
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -240,6 +241,7 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
             var isSticky = false
             var requestCode: Int = REQUEST_CODE_INVALID
 
+            @SuppressLint("WrongConstant")
             @ResultCode
             var resultCode = RESULT_CANCELED
             var result: Bundle? = null

@@ -1,9 +1,16 @@
 package com.youngmanster.collection_kotlin.network.download;
 import com.youngmanster.collection_kotlin.network.NetWorkCodeException;
 import com.youngmanster.collection_kotlin.network.RequestBuilder;
+import com.youngmanster.collection_kotlin.network.rx.utils.RxJavaUtils;
+import com.youngmanster.collection_kotlin.network.rx.utils.RxUITask;
+import com.youngmanster.collection_kotlin.utils.LogUtils;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.math.RoundingMode;
+import java.net.SocketException;
 import java.text.DecimalFormat;
 
 import okhttp3.MediaType;
@@ -89,14 +96,15 @@ public class DownloadProgressBody extends ResponseBody {
             File file = new File(downUrl);
 
             @Override
-            public long read(Buffer sink, long byteCount) throws IOException {
+            public long read(@NotNull Buffer sink, long byteCount) throws IOException {
+
                 long bytesRead = super.read(sink, byteCount);
                 //增加当前读取的字节数，如果读取完成了bytesRead会返回-1
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
                 //回调，如果contentLength()不知道长度，会返回-1
                 if(requestBuilder!=null&&bytesRead != -1&&!NetWorkCodeException.Companion.isError(code)){
-                    long loacalSize = file.length();//本地已下载的长度
-                    long trueTotal = loacalSize + responseBody.contentLength() - totalBytesRead;//文件真实长度
+                    final long loacalSize = file.length();//本地已下载的长度
+                    final long trueTotal = loacalSize + responseBody.contentLength() - totalBytesRead;//文件真实长度
 
                     float progress=(float) loacalSize /trueTotal;
                     if(progress>0){
@@ -107,7 +115,21 @@ public class DownloadProgressBody extends ResponseBody {
                     }
 
                     if(preValue!=progress){
-                        requestBuilder.getRxObservableListener().onDownloadProgress(trueTotal,loacalSize, progress);
+
+                        RxJavaUtils.doInUIThread(new RxUITask<Float>(progress) {
+                            /**
+                             * 在UI线程中执行
+                             *
+                             * @param progress 任务执行的入参
+                             */
+                            @Override
+                            public void doInUIThread(Float progress) {
+                                if(requestBuilder.getRxObservableListener()!=null){
+                                    requestBuilder.getRxObservableListener().onDownloadProgress(trueTotal,loacalSize, progress);
+                                }
+                            }
+                        });
+
                         preValue=progress;
                     }
 
