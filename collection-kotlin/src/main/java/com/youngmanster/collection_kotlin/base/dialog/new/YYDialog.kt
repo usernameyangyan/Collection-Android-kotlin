@@ -55,7 +55,6 @@ class YYDialog:YYBaseDialog,IDialog{
     }
 
     override fun getDialogWidth(): Int {
-        LogUtils.info("100000","内容为："+controller!!.getDialogWidth())
         return controller!!.getDialogWidth()
     }
 
