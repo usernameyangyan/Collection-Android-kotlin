@@ -122,6 +122,7 @@ public class RequestMethodImpl implements RequestMethod {
      */
     @Override
     public <T> DisposableObserver downloadFile(final RequestBuilder<T> builder) {
+
         return Observable.just(builder.getUrl())
                 .flatMap(new Function<String, ObservableSource<DownloadInfo>>() {
                     @Override

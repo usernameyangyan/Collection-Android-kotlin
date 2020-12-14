@@ -1,22 +1,16 @@
 package com.youngmanster.collection_kotlin.base.dialog
 
-import android.content.Context
 import android.content.DialogInterface
-import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.youngmanster.collection_kotlin.R
-import com.youngmanster.collection_kotlin.utils.GlideUtils
-import com.youngmanster.collection_kotlin.utils.LogUtils
-import kotlin.math.roundToInt
 
 /**
  * Created by yangy
  *2020-02-21
  *Describe:
  */
-
+@Deprecated("this class is deprecated!")
 class CommonDialog : BaseDialogFragment {
 
     //点击事件监听

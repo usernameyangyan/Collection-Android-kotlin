@@ -3,4 +3,9 @@
     <item type="id" name="hierarchy"></item>
     <item type="id" name="isexpand"></item>
     <item type="id" name="statusbarutil_translucent_view" />
+
+    <item name="btn_ok" type="id" />
+    <item name="btn_cancel" type="id" />
+    <item name="dialog_title" type="id" />
+    <item name="dialog_content" type="id" />
 </resources>

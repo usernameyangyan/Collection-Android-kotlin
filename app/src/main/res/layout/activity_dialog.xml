@@ -36,7 +36,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginRight="30dp"
 				android:layout_marginLeft="30dp"
-				android:text="@string/dialog_sample_3"
+				android:text="实例三：一个Button"
 				android:layout_marginTop="30dp"/>
 			<Button
 				android:id="@+id/dialog_btn4"
@@ -52,9 +52,17 @@
 				android:layout_height="wrap_content"
 				android:layout_marginRight="30dp"
 				android:layout_marginLeft="30dp"
-				android:text="@string/dialog_sample_5"
+				android:text="实例五：底部弹框"
 				android:layout_marginTop="30dp"/>
 
+			<Button
+				android:id="@+id/dialog_btn6"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginRight="30dp"
+				android:layout_marginLeft="30dp"
+				android:text="实例六：多个弹框"
+				android:layout_marginTop="30dp"/>
 
 		</LinearLayout>
 

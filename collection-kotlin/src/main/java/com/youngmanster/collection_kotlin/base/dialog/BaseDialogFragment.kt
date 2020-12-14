@@ -17,7 +17,7 @@ import com.youngmanster.collection_kotlin.utils.LogUtils
  *2020/4/28
  *Describe:
  */
-
+@Deprecated("this class is deprecated!")
 abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
 
     var mainView: View? = null
@@ -44,7 +44,6 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
         if (mainView != null) {
             builder!!.setView(mainView)
         }
-
         onViewCreated()
         return builder!!.create()
     }
@@ -86,14 +85,6 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
             }
 
         })
-        if (savedInstanceState != null)
-        {
-            val dialogState = savedInstanceState.getBundle("android:savedDialogState");
-            if (dialogState != null)
-            {
-                this.dialog!!.onRestoreInstanceState(dialogState);
-            }
-        }
 
         showConfig()
     }
@@ -160,16 +151,14 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
-
-
         try {
             if (this.isAdded)
-                this.dismiss();
+                this.dismissAllowingStateLoss()
             else
                 manager.beginTransaction().add(this, tag).commitAllowingStateLoss()
 
         }catch (e:Exception){
-            this.dismiss()
+            this.dismissAllowingStateLoss()
         }
 
     }
@@ -178,21 +167,22 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
     override fun show(transaction: FragmentTransaction, tag: String?): Int {
         try {
             if (this.isAdded)
-                this.dismiss();
+                this.dismissAllowingStateLoss();
             else
                 return transaction.add(this, tag).commitAllowingStateLoss()
         }catch (e:Exception){
-            this.dismiss()
+            this.dismissAllowingStateLoss()
         }
 
         return 0
     }
 
+    override fun dismissAllowingStateLoss() {
+        super.dismissAllowingStateLoss()
+        onDismiss()
+    }
+
     override fun dismiss() {
-        try {
-            super.dismiss()
-            onDismiss()
-        }catch(e: IllegalStateException){
-        }
+        dismissAllowingStateLoss()
     }
 }
