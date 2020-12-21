@@ -11,6 +11,16 @@ public class DownloadInfo {
     private long progress;
     private String fileName;
     private String filePath;
+    private boolean isFinish;
+
+
+    public boolean isFinish() {
+        return isFinish;
+    }
+
+    public void setFinish(boolean finish) {
+        isFinish = finish;
+    }
 
     public DownloadInfo(String url) {
         this.url = url;

@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.annotation.Nullable
 import androidx.fragment.app.DialogFragment
-import com.youngmanster.collection_kotlin.utils.LogUtils
 
 /**
  * Created by yangy

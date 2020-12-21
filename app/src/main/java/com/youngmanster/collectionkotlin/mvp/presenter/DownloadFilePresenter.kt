@@ -29,7 +29,7 @@ class DownloadFilePresenter : BasePresenter<IDownloadFileView>() {
 
         })
 
-        resultRequestBuilder.setUrl("http://acj6.0098118.com/pc6_soure/2020-8-20/8e52be6ad1a369aDOC1IU99ueAbq6.apk")
+        resultRequestBuilder.setUrl("https://dev.indoormap.huatugz.com/api/mapdata/appVersion/app/b6ee010c8ccb64648a3466e812173e88")
             .setSaveDownloadFilePathAndFileName(AppConfig.getStorageDir(context),"1.apk")
             .setTransformClass(DownloadInfo::class.java)
             .setHttpTypeAndReqType(RequestBuilder.HttpType.DOWNLOAD_FILE_GET, RequestBuilder.ReqType.DOWNLOAD_FILE_MODEL)

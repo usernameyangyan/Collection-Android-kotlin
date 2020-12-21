@@ -83,6 +83,7 @@ public class DownloadFileHelper {
         RandomAccessFile raf = null;
         String path=filePath+File.separator+fileName;
         File file = new File(path);
+        boolean isFinish=false;
 
         File fileDir = new File(filePath);
         if (!fileDir.exists()) {
@@ -99,6 +100,7 @@ public class DownloadFileHelper {
             while (true) {
                 int read = inputStream.read(fileReader);
                 if (read == -1) {
+                    isFinish=true;
                     break;
                 }
                 raf.write(fileReader, 0, read);
@@ -124,6 +126,7 @@ public class DownloadFileHelper {
         }
         DownloadInfo downloadInfo = new DownloadInfo(url);
         downloadInfo.setFileName(fileName);
+        downloadInfo.setFinish(isFinish);
         downloadInfo.setFilePath(filePath);
         downloadInfo.setProgress(file.length());
         return downloadInfo;

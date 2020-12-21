@@ -10,8 +10,9 @@ publish {
     userOrg = 'youngmanopen'
     groupId = 'com.youngman'
     artifactId = 'collection_kotlin'
-    publishVersion = '1.8.8'
-    desc = '发布V1.8.8'
+    publishVersion = '1.9.9'
+
+    desc = '发布V1.9.9'
     website = 'https://github.com/usernameyangyan/Collection-Android-kotlin'// 可以设置github的项目地址
 }
 

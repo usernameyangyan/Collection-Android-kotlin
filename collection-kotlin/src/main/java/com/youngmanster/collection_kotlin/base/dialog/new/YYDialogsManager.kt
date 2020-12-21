@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
  *2020/12/14
  *Describe:
  */
-class YYDialogsManager private constructor() {
+open class YYDialogsManager private constructor() {
     @Volatile
     private var showing = false //是否有dialog在展示
 

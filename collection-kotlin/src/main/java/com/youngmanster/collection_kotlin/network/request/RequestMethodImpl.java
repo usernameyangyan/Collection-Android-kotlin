@@ -2,7 +2,9 @@ package com.youngmanster.collection_kotlin.network.request;
 
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.youngmanster.collection_kotlin.config.Config;
 import com.youngmanster.collection_kotlin.network.NetWorkCodeException;
 import com.youngmanster.collection_kotlin.network.RequestBuilder;
 import com.youngmanster.collection_kotlin.network.RequestService;
@@ -17,6 +19,7 @@ import com.youngmanster.collection_kotlin.network.rx.utils.RxJavaUtils;
 import com.youngmanster.collection_kotlin.network.rx.utils.RxUITask;
 import com.youngmanster.collection_kotlin.utils.FileUtils;
 import com.youngmanster.collection_kotlin.utils.LogUtils;
+import com.youngmanster.collection_kotlin.utils.NetworkUtils;
 
 import java.io.IOException;
 
@@ -157,8 +160,19 @@ public class RequestMethodImpl implements RequestMethod {
                     @SuppressLint("StaticFieldLeak")
                     @Override
                     public void _onNext(DownloadInfo t) {
-
-                        builder.getRxObservableListener().onNext((T) t);
+                        if(!t.isFinish()&&!NetworkUtils.isNetworkConnected(Config.Companion.getCONTEXT())){
+                            NetWorkCodeException.ResponseThrowable ex = new NetWorkCodeException.ResponseThrowable();
+                            ex.setCode(NetWorkCodeException.Companion.getNETWORD_ERROR());
+                            ex.setErrorMessage(NetWorkCodeException.Companion.getNETWORD_ERROR_MESSAGE());
+                            builder.getRxObservableListener().onError(ex);
+                        }else if(!t.isFinish()){
+                            NetWorkCodeException.ResponseThrowable ex = new NetWorkCodeException.ResponseThrowable();
+                            ex.setCode(NetWorkCodeException.Companion.getUNKNOWN());
+                            ex.setErrorMessage("下载中断,请检查下载文件是否存在异常");
+                            builder.getRxObservableListener().onError(ex);
+                        }else{
+                            builder.getRxObservableListener().onNext((T) t);
+                        }
                     }
 
                     @Override

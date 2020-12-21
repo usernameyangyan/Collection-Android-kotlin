@@ -22,7 +22,7 @@ import com.youngmanster.collection_kotlin.utils.LogUtils
  *2020/12/14
  *Describe:
  */
-class YYDialog:YYBaseDialog,IDialog{
+open class YYDialog:YYBaseDialog,IDialog{
     private var context: Context? = null
     private var controller: YYDialogController? = null
     private var buildListener: IDialog.OnBuildListener? = null
