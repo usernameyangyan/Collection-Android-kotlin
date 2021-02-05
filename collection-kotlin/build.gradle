@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply from : "config.gradle"
 apply plugin: 'com.novoda.bintray-release'
 
 
@@ -10,20 +9,20 @@ publish {
     userOrg = 'youngmanopen'
     groupId = 'com.youngman'
     artifactId = 'collection_kotlin'
-    publishVersion = '1.9.9'
+    publishVersion = '2.0.9'
 
-    desc = '发布V1.9.9'
+    desc = '更新依赖库，以及bug'
     website = 'https://github.com/usernameyangyan/Collection-Android-kotlin'// 可以设置github的项目地址
 }
 
 
 android {
-    compileSdkVersion app.compileSdkVersion
-    buildToolsVersion app.buildToolsVersion
+    compileSdkVersion 30
+    buildToolsVersion '30.0.1'
 
     defaultConfig {
-        minSdkVersion app.minSdkVersion
-        targetSdkVersion app.targetSdkVersion
+        minSdkVersion 19
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -44,40 +43,41 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.core:core-ktx:1.3.1'
-    testImplementation 'junit:junit:4.12'
+    implementation 'androidx.core:core-ktx:1.3.2'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    api thirdDependencies.gson
+    api 'com.google.code.gson:gson:2.8.6'
 
     /**
      *  动画集合
      *  https://github.com/81813780/AVLoadingIndicatorView
      */
-    implementation thirdDependencies.avi
+    implementation 'com.wang.avi:library:2.1.3'
     /**
      *  https://github.com/wasabeef/glide-transformations
      *  高斯模糊的Glide
      */
-    api thirdDependencies.glideTransformation
-    api thirdDependencies.glide
-    annotationProcessor thirdDependencies.glideCompiler
+    api 'jp.wasabeef:glide-transformations:4.1.0'
+    api 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     /**
      *  retrofit和rxjava
      */
-    api thirdDependencies.rxjava
-    api thirdDependencies.rxandroid
-    api thirdDependencies.retrofit
-    api thirdDependencies.gsonConverter
-    api thirdDependencies.rxjavaAdapter
-    api thirdDependencies.loggingInterceptor
+    api 'io.reactivex.rxjava3:rxjava:3.0.0'
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
+    api 'com.squareup.okhttp3:logging-interceptor:4.6.0'
 
     //Android x上的控件
-    api supportDependencies.cardview
-    api supportDependencies.appCompat
-    api supportDependencies.material
-    api supportDependencies.recyclerview
-    api supportDependencies.constraintlayout
+    api 'androidx.cardview:cardview:1.0.0'
+    api 'androidx.appcompat:appcompat:1.3.0-alpha02'
+    api 'com.google.android.material:material:1.2.1'
+    api 'androidx.recyclerview:recyclerview:1.1.0'
+    api 'androidx.constraintlayout:constraintlayout:2.0.4'
+    api 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 }

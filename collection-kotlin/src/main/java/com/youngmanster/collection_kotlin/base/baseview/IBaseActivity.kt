@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -20,6 +21,7 @@ import com.youngmanster.collection_kotlin.R
 import com.youngmanster.collection_kotlin.base.set.LinkedMultiValueMap
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.mvp.ClassGetUtil
+import com.youngmanster.collection_kotlin.utils.LogUtils
 import kotlinx.android.synthetic.main.collection_library_default_base_activity.*
 import java.util.*
 
@@ -40,7 +42,12 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mFManager = supportFragmentManager
-        setContentView(R.layout.collection_library_default_base_activity)
+        try {
+            setContentView(R.layout.collection_library_default_base_activity)
+        }catch (e:Exception){
+            Log.d("10000","内容为：滚滚滚")
+        }
+
         if (getLayoutId() != 0) {
             addContainerFrame(getLayoutId())
         }else{
@@ -55,7 +62,7 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
         val isShowCustomActionBar: Boolean = isShowCustomActionBar()
         val customRes = setCustomActionBar()
         if (!isShowActionBar) {//如果系统ActionBar隐藏并且自定义Bar显示
-            supportActionBar!!.hide()
+            supportActionBar?.hide()
             if (isShowCustomActionBar) {
                 if (customRes != 0) {
                     customBar = LayoutInflater.from(this)
@@ -212,9 +219,9 @@ abstract class IBaseActivity<T : BasePresenter<*>> : AppCompatActivity() {
         startActivity(intent)
     }
 
-    override fun getDelegate(): AppCompatDelegate {
-        return SkinAppCompatDelegateImpl.get(this, this)
-    }
+//    override fun getDelegate(): AppCompatDelegate {
+//        return SkinAppCompatDelegateImpl.get(this, this)
+//    }
 
     /**
      * 布局文件加载

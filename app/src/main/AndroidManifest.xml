@@ -102,5 +102,7 @@
 
         <activity android:name=".activity.download.DownFileActivity" />
 
+        <activity android:name=".activity.baseadapter.ExpandRecyclerViewActivity" />
+
     </application>
 </manifest>

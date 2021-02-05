@@ -22,37 +22,44 @@ public class ConvertParamUtils {
      * @return
      */
     public static <T> String convertParamToJson(RequestBuilder<T> builder) {
+        String json="";
 
-        Set set = builder.getRequestParam().keySet();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("{");
-        for (Iterator iter = set.iterator(); iter.hasNext(); ) {
+        if(builder.getNoKeyParam()!=null){
+            json=builder.getNoKeyParam().toString();
+        }else{
+            Set set = builder.getRequestParam().keySet();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("{");
+            for (Iterator iter = set.iterator(); iter.hasNext(); ) {
 
-            String key = (String) iter.next();
-            stringBuilder.append("\"");
-            stringBuilder.append(key);
-            stringBuilder.append("\"");
-            stringBuilder.append(":");
-
-            if (builder.getRequestParam().get(key) != null &&
-                    !builder.getRequestParam().get(key).toString().equals("") && (
-                    (builder.getRequestParam().get(key).toString().charAt(0) == '[' && (builder.getRequestParam().get(key).toString().charAt(builder.getRequestParam().get(key).toString().length() - 1) == ']')) ||
-                            (builder.getRequestParam().get(key).toString().charAt(0) == '{' && (builder.getRequestParam().get(key).toString().charAt(builder.getRequestParam().get(key).toString().length() - 1) == '}')))) {
-                stringBuilder.append(builder.getRequestParam().get(key));
-            } else {
+                String key = (String) iter.next();
                 stringBuilder.append("\"");
-                stringBuilder.append(builder.getRequestParam().get(key));
+                stringBuilder.append(key);
                 stringBuilder.append("\"");
+                stringBuilder.append(":");
+
+                if (builder.getRequestParam().get(key) != null &&
+                        !builder.getRequestParam().get(key).toString().equals("") && (
+                        (builder.getRequestParam().get(key).toString().charAt(0) == '[' && (builder.getRequestParam().get(key).toString().charAt(builder.getRequestParam().get(key).toString().length() - 1) == ']')) ||
+                                (builder.getRequestParam().get(key).toString().charAt(0) == '{' && (builder.getRequestParam().get(key).toString().charAt(builder.getRequestParam().get(key).toString().length() - 1) == '}')))) {
+                    stringBuilder.append(builder.getRequestParam().get(key));
+                } else {
+                    stringBuilder.append("\"");
+                    stringBuilder.append(builder.getRequestParam().get(key));
+                    stringBuilder.append("\"");
+                }
+                stringBuilder.append(",");
             }
-            stringBuilder.append(",");
-        }
-        String str = stringBuilder.toString();
-        String json = str.substring(0, str.length() - 1);
-        json = json + "}";
+            String str = stringBuilder.toString();
+            json = str.substring(0, str.length() - 1);
+            json = json + "}";
 
-        if (json.equals("}")) {
-            json = "{" + json;
+            if (json.equals("}")) {
+                json = "{" + json;
+            }
         }
+
+
 
         return json;
 

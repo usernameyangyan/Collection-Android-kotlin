@@ -112,13 +112,13 @@ final class SkinCompatDrawableManager {
             androidx.appcompat.R.drawable.abc_textfield_activated_mtrl_alpha,
             androidx.appcompat.R.drawable.abc_textfield_search_activated_mtrl_alpha,
             androidx.appcompat.R.drawable.abc_cab_background_top_mtrl_alpha,
-            androidx.appcompat.R.drawable.abc_text_cursor_material,
-            androidx.appcompat.R.drawable.abc_text_select_handle_left_mtrl_dark,
-            androidx.appcompat.R.drawable.abc_text_select_handle_middle_mtrl_dark,
-            androidx.appcompat.R.drawable.abc_text_select_handle_right_mtrl_dark,
-            androidx.appcompat.R.drawable.abc_text_select_handle_left_mtrl_light,
-            androidx.appcompat.R.drawable.abc_text_select_handle_middle_mtrl_light,
-            androidx.appcompat.R.drawable.abc_text_select_handle_right_mtrl_light
+            androidx.appcompat.R.drawable.abc_text_cursor_material
+//            androidx.appcompat.R.drawable.abc_text_select_handle_left_mtrl_dark,
+//            androidx.appcompat.R.drawable.abc_text_select_handle_middle_mtrl_dark,
+//            androidx.appcompat.R.drawable.abc_text_select_handle_right_mtrl_dark,
+//            androidx.appcompat.R.drawable.abc_text_select_handle_left_mtrl_light,
+//            androidx.appcompat.R.drawable.abc_text_select_handle_middle_mtrl_light,
+//            androidx.appcompat.R.drawable.abc_text_select_handle_right_mtrl_light
     };
 
     /**

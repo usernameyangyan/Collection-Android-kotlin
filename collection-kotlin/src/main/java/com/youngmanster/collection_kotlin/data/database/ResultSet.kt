@@ -11,21 +11,21 @@ import java.util.*
 class ResultSet:Serializable{
     private  val serialVersionUID = 2510654675439416448L
 
-    private val nameValueMap = LinkedHashMap<String, Any>()
+    private val nameValueMap = LinkedHashMap<String, Any?>()
 
-    private val indexValueMap = LinkedHashMap<Int, Any>()
+    private val indexValueMap = LinkedHashMap<Int, Any?>()
 
     private val columnNameList = ArrayList<String>()
 
     private var index = 0
 
 
-    internal fun setValue(columnName: String, columnValue: Any) {
+    internal fun setValue(columnName: String, columnValue: Any?) {
         var column = columnName
         column = column.toLowerCase()
         columnNameList.add(column)
         nameValueMap[column] = columnValue
-        indexValueMap[index++] = columnValue
+        indexValueMap[index++] = columnName
     }
 
     fun changeValue(index: Int, value: Any) {

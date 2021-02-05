@@ -2,6 +2,7 @@ package com.youngmanster.collectionkotlin.fragment.mvp
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
 import com.mvp.annotation.MvpAnnotation
 import com.youngmanster.collection_kotlin.base.stateview.StateView
 import com.youngmanster.collection_kotlin.mvp.BasePresenter

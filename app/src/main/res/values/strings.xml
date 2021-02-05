@@ -10,6 +10,7 @@
 	<string name="activity_base_adapter_title">BaseAdapter</string>
 	<string name="activity_item_click_title">ItemClick/ItemLongClick</string>
 	<string name="activity_drag_delete_title">item拖拽/item滑动删除</string>
+	<string name="activity_expand_title">可伸展RecyclerView</string>
 	<string name="activity_multiple_title">多布局</string>
 
 	<string name="activity_wechat_title">资讯精选</string>

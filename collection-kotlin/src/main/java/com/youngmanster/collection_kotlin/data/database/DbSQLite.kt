@@ -349,14 +349,15 @@ class DbSQLite {
             val result = ResultSet()
             for (index in 0 until columnCount) {
                 columnType = cursor.getType(index)
-                when (columnType) {
-                    Cursor.FIELD_TYPE_BLOB -> columnVal = cursor.getBlob(index)
-                    Cursor.FIELD_TYPE_FLOAT -> columnVal = cursor.getDouble(index)
-                    Cursor.FIELD_TYPE_INTEGER -> columnVal = cursor.getLong(index)
-                    Cursor.FIELD_TYPE_NULL -> columnVal = null
-                    else -> columnVal = cursor.getString(index)
+                columnVal = when (columnType) {
+                    Cursor.FIELD_TYPE_BLOB -> cursor.getBlob(index)
+                    Cursor.FIELD_TYPE_FLOAT -> cursor.getDouble(index)
+                    Cursor.FIELD_TYPE_INTEGER -> cursor.getLong(index)
+                    Cursor.FIELD_TYPE_NULL -> null
+                    else -> cursor.getString(index)
                 }
-                result.setValue(cursor.getColumnName(index), columnVal!!)
+
+                result.setValue(cursor.getColumnName(index), columnVal)
             }
             resultList.add(result)
         }

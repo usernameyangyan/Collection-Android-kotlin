@@ -40,6 +40,8 @@ public class RequestBuilder<T> {
     private Map<String, Object> requestParam;
     private MultipartBody.Part []parts;
     private boolean isDiskCacheNetworkSaveReturn;
+    private Object noKeyParam;
+
     private Map<String, String> headers;
 
     public static class ReqType {
@@ -186,6 +188,16 @@ public class RequestBuilder<T> {
         headers.put(key, value);
         return this;
     }
+
+    public Object getNoKeyParam() {
+        return noKeyParam;
+    }
+
+    public RequestBuilder setNoKeyParam(Object noKeyParam) {
+        this.noKeyParam = noKeyParam;
+        return this;
+    }
+
 
 
     public RequestBuilder setHeaders(Map<String, String> headers) {

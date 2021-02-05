@@ -38,6 +38,7 @@ class BaseAdapterActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdap
         mDatas.add("ItemClick/ItemLongClick")
         mDatas.add("多布局")
         mDatas.add("item拖拽/item滑动删除")
+        mDatas.add(getString(R.string.activity_expand_title))
         refreshUI()
     }
 
@@ -69,6 +70,10 @@ class BaseAdapterActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdap
 
             2 -> {
                 startAc(DragAndDeleteActivity::class.java)
+            }
+
+            3 -> {
+                startAc(ExpandRecyclerViewActivity::class.java)
             }
         }
     }

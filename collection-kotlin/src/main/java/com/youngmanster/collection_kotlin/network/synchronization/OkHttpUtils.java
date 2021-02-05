@@ -91,7 +91,13 @@ public class OkHttpUtils {
                             .post(body1);
 
                 } else {
-                    String data = GsonUtils.getGsonWithoutExpose().toJson(requestBuilder.getRequestParam());
+                    String data;
+                    if(requestBuilder.getNoKeyParam()!=null){
+                        data=requestBuilder.getNoKeyParam().toString();
+                    }else{
+                        data = GsonUtils.getGsonWithoutExpose().toJson(requestBuilder.getRequestParam());
+                    }
+
                     MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     RequestBody requestBody = RequestBody.create(JSON, data);
                     builder.url(url)
