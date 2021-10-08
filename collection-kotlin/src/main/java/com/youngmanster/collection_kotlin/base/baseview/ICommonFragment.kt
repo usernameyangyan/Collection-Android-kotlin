@@ -15,33 +15,30 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.youngmanster.collection_kotlin.R
-import com.youngmanster.collection_kotlin.mvp.BasePresenter
-import com.youngmanster.collection_kotlin.mvp.ClassGetUtil
-
 
 /**
- * Created by yangy
- *2020-02-21
- *Describe:
+ *  author : yangyan
+ *  date : 2021/5/10 5:20 PM
+ *  description :
  */
+abstract class ICommonFragment : Fragment() {
 
-abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
-
-    var mainView: View?=null
-    var mPresenter: T? = null
+    var mainView: View? = null
+    protected var bindingFragmentLayout: View? = null
+    var isDestroy = false
 
     /**
      * 是否加载过数据
      */
-    var isDataInitiated:Boolean = false
-    private var isInitLazy:Boolean=false
-    private var isResumeLoad=false
-    private var frame_caption_container:FrameLayout?=null
-    private var frame_content_container:FrameLayout?=null
+    var isDataInitiated: Boolean = false
+    private var isInitLazy: Boolean = false
+    private var isResumeLoad = false
+    private var frame_caption_container: FrameLayout? = null
+    private var frame_content_container: FrameLayout? = null
+
 
     val defineActionBarConfig: DefaultDefineActionBarConfig = DefaultDefineActionBarConfig()
-    var customBar: View?=null
-
+    var customBar: View? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,12 +46,11 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
         savedInstanceState: Bundle?
     ): View? {
 
-        mPresenter = ClassGetUtil.getClass(this, 0)
-        mPresenter?.setV(this)
-        mainView=inflater.inflate(R.layout.collection_library_default_base_fragment,container,false)
+        mainView =
+            inflater.inflate(R.layout.collection_library_default_base_fragment, container, false)
 
-        frame_caption_container=mainView!!.findViewById(R.id.frame_caption_container)
-        frame_content_container=mainView!!.findViewById(R.id.frame_content_container)
+        frame_caption_container = mainView!!.findViewById(R.id.frame_caption_container)
+        frame_content_container = mainView!!.findViewById(R.id.frame_content_container)
 
         val isShowCustomActionBar: Boolean = isShowCustomActionBar()
         val customBarRes = setCustomActionBar()
@@ -65,11 +61,15 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
                     .inflate(customBarRes, frame_caption_container, false)
                 frame_caption_container?.addView(customBar)
             } else {
-                val defaultBar:View = LayoutInflater.from(activity)
-                    .inflate(R.layout.collection_library_default_common_toolbar, frame_caption_container, false)
+                val defaultBar: View = LayoutInflater.from(activity)
+                    .inflate(
+                        R.layout.collection_library_default_common_toolbar,
+                        frame_caption_container,
+                        false
+                    )
 
                 frame_caption_container?.addView(defaultBar)
-                defineActionBarConfig.defaultDefineView=defaultBar
+                defineActionBarConfig.defaultDefineView = defaultBar
             }
 
             frame_caption_container?.visibility = View.VISIBLE
@@ -77,21 +77,22 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
             frame_caption_container?.visibility = View.GONE
         }
 
-        isInitLazy=onCreateViewAndInitLazy()
+        isInitLazy = onCreateViewAndInitLazy()
 
-        isResumeLoad=true
-        if(!isInitLazy){
+        isResumeLoad = true
+        if (!isInitLazy) {
             layoutInit()
         }
 
         return mainView
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(!isInitLazy){
-            isResumeLoad=false
-            isInitLazy=true
+        if (!isInitLazy) {
+            isResumeLoad = false
+            isInitLazy = true
             init()
         }
     }
@@ -99,23 +100,23 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
     override fun onResume() {
         super.onResume()
 
-        if(isInitLazy&&isResumeLoad){
-            isInitLazy=false
+        if (isInitLazy && isResumeLoad) {
+            isInitLazy = false
             layoutInit()
             init()
         }
 
-        if(!isDataInitiated){
+        if (!isDataInitiated) {
             requestData()
-            isDataInitiated=true
+            isDataInitiated = true
         }
     }
 
 
-    private fun layoutInit(){
+    private fun layoutInit() {
         if (getLayoutId() != 0) {
             addContainerFrame(getLayoutId())
-        }else{
+        } else {
             throw IllegalArgumentException("请设置getLayoutId")
         }
     }
@@ -123,9 +124,11 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mPresenter?.onDestroy()
-        isDataInitiated=false
+        isDataInitiated = false
+
+        isDestroy = true
     }
+
 
     /**
      * 是否进行布局懒加载
@@ -133,6 +136,7 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
     open fun onCreateViewAndInitLazy(): Boolean {
         return false
     }
+
     /**
      * 显示默认顶部Title栏
      */
@@ -145,7 +149,7 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
      * 设置自定义ActionBar
      */
 
-    open fun setCustomActionBar(): Int{
+    open fun setCustomActionBar(): Int {
         return 0
     }
 
@@ -157,56 +161,69 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
         var defaultDefineView: View? = null
 
 
-        fun hideBackBtn():DefaultDefineActionBarConfig{
-            defaultDefineView?.findViewById<ImageView>(R.id.btnBack)?.visibility=View.GONE
+        fun hideBackBtn(): DefaultDefineActionBarConfig {
+            defaultDefineView?.findViewById<ImageView>(R.id.btnBack)?.visibility = View.GONE
             return this
         }
 
         fun setBarBackground(bgColor: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<LinearLayout>(R.id.common_bar_panel)?.setBackgroundResource(bgColor)
+            defaultDefineView?.findViewById<LinearLayout>(R.id.common_bar_panel)
+                ?.setBackgroundResource(bgColor)
             return this
         }
 
-        fun setBarPadding(left:Int,top:Int,right:Int,bottom:Int):DefaultDefineActionBarConfig{
-            (defaultDefineView?.findViewById<RelativeLayout>(R.id.inRootRel)?.layoutParams as LinearLayout.LayoutParams).setMargins(left,top,right,bottom)
+        fun setBarPadding(
+            left: Int,
+            top: Int,
+            right: Int,
+            bottom: Int
+        ): DefaultDefineActionBarConfig {
+            (defaultDefineView?.findViewById<RelativeLayout>(R.id.inRootRel)?.layoutParams as LinearLayout.LayoutParams).setMargins(
+                left,
+                top,
+                right,
+                bottom
+            )
             return this
         }
 
-        fun setBarDividingLineHeight(height: Int):DefaultDefineActionBarConfig{
-            defaultDefineView?.findViewById<View>(R.id.lineView)?.layoutParams?.height=height
+        fun setBarDividingLineHeight(height: Int): DefaultDefineActionBarConfig {
+            defaultDefineView?.findViewById<View>(R.id.lineView)?.layoutParams?.height = height
             return this
         }
 
-        fun setBarDividingLineBackground(color: Int):DefaultDefineActionBarConfig{
+        fun setBarDividingLineBackground(color: Int): DefaultDefineActionBarConfig {
             defaultDefineView?.findViewById<View>(R.id.lineView)?.setBackgroundResource(color)
             return this
         }
 
-        fun setBarDividingLineShowStatus(isShow:Boolean):DefaultDefineActionBarConfig{
-            if(isShow){
-                defaultDefineView?.findViewById<View>(R.id.lineView)?.visibility=View.VISIBLE
-            }else{
-                defaultDefineView?.findViewById<View>(R.id.lineView)?.visibility=View.GONE
+        fun setBarDividingLineShowStatus(isShow: Boolean): DefaultDefineActionBarConfig {
+            if (isShow) {
+                defaultDefineView?.findViewById<View>(R.id.lineView)?.visibility = View.VISIBLE
+            } else {
+                defaultDefineView?.findViewById<View>(R.id.lineView)?.visibility = View.GONE
             }
 
             return this
         }
 
         fun setBarHeight(height: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<LinearLayout>(R.id.common_bar_panel)?.layoutParams?.height = height
+            defaultDefineView?.findViewById<LinearLayout>(R.id.common_bar_panel)?.layoutParams?.height =
+                height
             return this
         }
 
         fun setBackIcon(resId: Int): DefaultDefineActionBarConfig {
             defaultDefineView?.findViewById<ImageView>(R.id.btnBack)?.setImageResource(resId)
-            if(resId != 0){
-                defaultDefineView?.findViewById<ImageView>(R.id.btnBack)?.visibility=View.VISIBLE
+            if (resId != 0) {
+                defaultDefineView?.findViewById<ImageView>(R.id.btnBack)?.visibility = View.VISIBLE
             }
             return this
         }
 
-        fun setTitleColor(context: Context,color: Int): DefaultDefineActionBarConfig {
-            defaultDefineView?.findViewById<TextView>(R.id.titleTv)?.setTextColor(ContextCompat.getColor(context,color))
+        fun setTitleColor(context: Context, color: Int): DefaultDefineActionBarConfig {
+            defaultDefineView?.findViewById<TextView>(R.id.titleTv)
+                ?.setTextColor(ContextCompat.getColor(context, color))
             return this
         }
 
@@ -220,13 +237,11 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
             return this
         }
 
-        fun setBackClick(onListener:View.OnClickListener):DefaultDefineActionBarConfig{
+        fun setBackClick(onListener: View.OnClickListener): DefaultDefineActionBarConfig {
             defaultDefineView?.findViewById<ImageView>(R.id.btnBack)?.setOnClickListener(onListener)
             return this
         }
     }
-
-
 
     /**
      * add the children layout
@@ -234,8 +249,9 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
      * @param layoutResID
      */
     private fun addContainerFrame(layoutResID: Int) {
-        val view = LayoutInflater.from(activity).inflate(layoutResID, frame_content_container, false)
-        frame_content_container?.addView(view)
+        bindingFragmentLayout =
+            LayoutInflater.from(activity).inflate(layoutResID, frame_content_container, false)
+        frame_content_container?.addView(bindingFragmentLayout)
     }
 
     /**
@@ -254,22 +270,20 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
     abstract fun requestData()
 
 
-
-
     /******************************Fragment**********************************/
 
 
-    open fun onBackPressed():Boolean{
+    open fun onBackPressed(): Boolean {
         return true
     }
 
     /**
      * IBaseActivity.
      */
-    private var mActivity: IBaseActivity<*>? = null
+    private var mActivity: ICommonActivity? = null
 
-    companion object{
-        const val REQUEST_CODE_INVALID = IBaseActivity.REQUEST_CODE_INVALID
+    companion object {
+        const val REQUEST_CODE_INVALID = ICommonActivity.REQUEST_CODE_INVALID
         const val RESULT_OK: Int = Activity.RESULT_OK
         const val RESULT_CANCELED = Activity.RESULT_CANCELED
     }
@@ -278,26 +292,26 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
     /**
      * Stack info.
      */
-    private var mStackEntity: IBaseActivity.Companion.FragmentStackEntity? = null
+    private var mStackEntity: ICommonActivity.Companion.FragmentStackEntity? = null
 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        mActivity = context as IBaseActivity<*>
+        mActivity = context as ICommonActivity
     }
 
 
     /**
      * Get the resultCode for requestCode.
      */
-    fun setStackEntity(@NonNull stackEntity: IBaseActivity.Companion.FragmentStackEntity) {
+    fun setStackEntity(@NonNull stackEntity: ICommonActivity.Companion.FragmentStackEntity) {
         this.mStackEntity = stackEntity
     }
 
     /**
      * Set result.
      *
-     * @param resultCode result code, one of [IBaseFragment.RESULT_OK], [IBaseFragment.RESULT_CANCELED].
+     * @param resultCode result code, one of [RESULT_OK], [RESULT_CANCELED].
      */
     protected fun setResult(@ResultCode resultCode: Int) {
         mStackEntity!!.resultCode = resultCode
@@ -334,9 +348,9 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
      *
      * @param clazz fragment class.
     </T> */
-    fun <T : IBaseFragment<*>> startFragment(clazz: Class<T>) {
+    fun <T : ICommonFragment> startFragment(clazz: Class<T>) {
         try {
-            val targetFragment: IBaseFragment<*> = clazz.newInstance()
+            val targetFragment: ICommonFragment = clazz.newInstance()
             startFragment(
                 targetFragment,
                 true,
@@ -354,12 +368,12 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
      *
      * @param clazz       fragment class.
     </T> */
-    fun <T : IBaseFragment<*>> startFragment(
+    fun <T : ICommonFragment> startFragment(
         clazz: Class<T>,
         isSkipAnimation: Boolean
     ) {
         try {
-            val targetFragment: IBaseFragment<*> = clazz.newInstance()
+            val targetFragment: ICommonFragment = clazz.newInstance()
             startFragment(
                 targetFragment,
                 true,
@@ -376,8 +390,8 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
      *
      * @param targetFragment fragment to display.
     </T> */
-    fun <T : IBaseFragment<*>> startFragment(targetFragment: T) {
-        startFragment(targetFragment, true, REQUEST_CODE_INVALID,false)
+    fun <T : ICommonFragment> startFragment(targetFragment: T) {
+        startFragment(targetFragment, true, REQUEST_CODE_INVALID, false)
     }
 
     /**
@@ -386,7 +400,7 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
      * @param targetFragment fragment to display.
      * @param stickyStack    sticky back stack.
     </T> */
-    fun <T : IBaseFragment<*>> startFragment(
+    fun <T : ICommonFragment> startFragment(
         targetFragment: T,
         isSkipAnimation: Boolean
     ) {
@@ -404,32 +418,32 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
      * @param clazz       fragment to display.
      * @param requestCode requestCode.
     </T> */
-    fun <T : IBaseFragment<*>> startFragmentForResult(
+    fun <T : ICommonFragment> startFragmentForResult(
         clazz: Class<T>,
         requestCode: Int
     ) {
         try {
-            val targetFragment: IBaseFragment<*> = clazz.newInstance()
-            startFragment(targetFragment, true, requestCode,false)
+            val targetFragment: ICommonFragment = clazz.newInstance()
+            startFragment(targetFragment, true, requestCode, false)
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
     }
 
     /**
-    * Show a fragment for result.
-    *
-    * @param clazz       fragment to display.
-    * @param requestCode requestCode.
+     * Show a fragment for result.
+     *
+     * @param clazz       fragment to display.
+     * @param requestCode requestCode.
     </T> */
-    fun <T : IBaseFragment<*>> startFragmentForResult(
+    fun <T : ICommonFragment> startFragmentForResult(
         clazz: Class<T>,
         requestCode: Int,
         isSkipAnimation: Boolean
     ) {
         try {
-            val targetFragment: IBaseFragment<*> = clazz.newInstance()
-            startFragment(targetFragment, true, requestCode,isSkipAnimation)
+            val targetFragment: ICommonFragment = clazz.newInstance()
+            startFragment(targetFragment, true, requestCode, isSkipAnimation)
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
@@ -441,11 +455,11 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
      * @param targetFragment fragment to display.
      * @param requestCode    requestCode.
     </T> */
-    fun <T : IBaseFragment<*>> startFragmentForResult(
+    fun <T : ICommonFragment> startFragmentForResult(
         targetFragment: T,
         requestCode: Int
     ) {
-        startFragment(targetFragment, true, requestCode,false)
+        startFragment(targetFragment, true, requestCode, false)
     }
 
     /**
@@ -454,12 +468,12 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
      * @param targetFragment fragment to display.
      * @param requestCode    requestCode.
     </T> */
-    fun <T : IBaseFragment<*>> startFragmentForResult(
+    fun <T : ICommonFragment> startFragmentForResult(
         targetFragment: T,
         requestCode: Int,
         isSkipAnimation: Boolean
     ) {
-        startFragment(targetFragment, true, requestCode,isSkipAnimation)
+        startFragment(targetFragment, true, requestCode, isSkipAnimation)
     }
 
     /**
@@ -469,16 +483,40 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
      * @param stickyStack    sticky back stack.
      * @param requestCode    requestCode.
     </T> */
-    private  fun <T : IBaseFragment<*>> startFragment(
+    private fun <T : ICommonFragment> startFragment(
         targetFragment: T,
         stickyStack: Boolean,
         requestCode: Int,
-        isSkipAnimation:Boolean
+        isSkipAnimation: Boolean
     ) {
-        mActivity?.startFragment(this, targetFragment, stickyStack, requestCode,isSkipAnimation)
+        mActivity?.startFragment(
+            mActivity?.getCurrentFragment(),
+            targetFragment,
+            stickyStack,
+            requestCode,
+            isSkipAnimation
+        )
     }
 
-    fun <T : IBaseFragment<*>> findFragment(clazz: Class<T>):T?{
+    /**
+     * 移除Fragment
+     */
+    fun <T : ICommonFragment> removeFragment(fragment: T, isSkipAnimation: Boolean = false) {
+        mActivity?.removeFragment(fragment, isSkipAnimation)
+    }
+
+    fun <T : ICommonFragment> removeFragment(
+        clazz: Class<T>,
+        isSkipAnimation: Boolean = false
+    ) {
+        mActivity?.removeFragment(clazz, isSkipAnimation)
+    }
+
+    /**
+     * 查找Fragment
+     */
+
+    fun <T : ICommonFragment> findFragment(clazz: Class<T>): T? {
         return mActivity!!.findFragment(clazz)
     }
 
@@ -511,4 +549,5 @@ abstract class IBaseFragment<T: BasePresenter<*>>:Fragment(){
         }
         return null
     }
+
 }

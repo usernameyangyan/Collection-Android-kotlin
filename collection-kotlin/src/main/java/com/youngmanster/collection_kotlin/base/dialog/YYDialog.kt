@@ -1,12 +1,9 @@
-package com.youngmanster.collection_kotlin.base.dialog.new
+package com.youngmanster.collection_kotlin.base.dialog
 
 import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
-import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -15,14 +12,14 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.youngmanster.collection_kotlin.R
 import com.youngmanster.collection_kotlin.utils.DisplayUtils
-import com.youngmanster.collection_kotlin.utils.LogUtils
 
 /**
  * Created by yangy
  *2020/12/14
  *Describe:
  */
-open class YYDialog:YYBaseDialog,IDialog{
+open class YYDialog: YYBaseDialog,
+    IDialog {
     private var context: Context? = null
     private var controller: YYDialogController? = null
     private var buildListener: IDialog.OnBuildListener? = null
@@ -33,7 +30,10 @@ open class YYDialog:YYBaseDialog,IDialog{
 
 
     constructor(){
-        controller = YYDialogController(this)
+        controller =
+            YYDialogController(
+                this
+            )
     }
 
     override fun onAttach(context: Context) {
@@ -89,7 +89,10 @@ open class YYDialog:YYBaseDialog,IDialog{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (controller == null) {
-            controller = YYDialogController(this)
+            controller =
+                YYDialogController(
+                    this
+                )
         }
     }
 
@@ -142,9 +145,14 @@ open class YYDialog:YYBaseDialog,IDialog{
         if (dismissListener != null) {
             dismissListener!!.onDismiss(this)
         }
+
+        dismissListener=null
+        buildListener=null
+
         if (controller != null) {
             controller = null
         }
+
         super.onDestroy()
     }
 
@@ -182,7 +190,7 @@ open class YYDialog:YYBaseDialog,IDialog{
          * @return Builder
          */
         fun setScreenWidthP(percentage: Float): Builder {
-            params.dialogWidth = (DisplayUtils.getScreenWidthPixels(params.context!!) * percentage).toInt()
+            params.dialogWidth = (DisplayUtils.getScreenWidthPixels() * percentage).toInt()
             return this
         }
 
@@ -193,7 +201,7 @@ open class YYDialog:YYBaseDialog,IDialog{
          * @return Builder
          */
         fun setScreenHeightP(percentage: Float): Builder {
-            params.dialogHeight = (DisplayUtils.getScreenHeightPixels(params.context!!) * percentage).toInt()
+            params.dialogHeight = (DisplayUtils.getScreenHeightPixels() * percentage).toInt()
             return this
         }
 
@@ -384,7 +392,7 @@ open class YYDialog:YYBaseDialog,IDialog{
          *
          * @return SYDialog
          */
-        fun show():YYDialog {
+        fun show(): YYDialog {
             if (params.layoutRes <= 0 && params.dialogView == null) {
                 //如果没有设置布局 提供默认设置
                 setDefaultOption()
@@ -433,7 +441,8 @@ open class YYDialog:YYBaseDialog,IDialog{
 
         init {
             require(context is Activity) { "Context must be Activity" }
-            params = YYDialogController.YYParams()
+            params =
+                YYDialogController.YYParams()
             params.context = context
             params.fragmentManager = (context as AppCompatActivity).supportFragmentManager
 

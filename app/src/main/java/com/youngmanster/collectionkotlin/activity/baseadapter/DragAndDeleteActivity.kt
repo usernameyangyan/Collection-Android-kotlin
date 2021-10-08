@@ -59,12 +59,12 @@ class DragAndDeleteActivity :BaseActivity<BasePresenter<*>>(), BaseRecyclerViewA
 
 
     override fun onMoveComplete() {
-        ToastUtils.showToast(this, "移动操作完成")
+        ToastUtils.showToast("移动操作完成")
 
     }
 
     override fun onDeleteComplete() {
-        ToastUtils.showToast(this, "删除操作完成")
+        ToastUtils.showToast("删除操作完成")
     }
 
 }

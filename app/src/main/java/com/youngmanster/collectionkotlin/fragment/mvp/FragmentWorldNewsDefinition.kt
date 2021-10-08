@@ -65,7 +65,7 @@ class FragmentWorldNewsDefinition :BaseFragment<WeChatWorldNewsDefinitionPresent
     }
 
     override fun requestData() {
-        mPresenter?.requestWorldNews(activity!!,pageSize, PAGE_SIZE)
+        mPresenter?.requestWorldNews(requireActivity(),pageSize, PAGE_SIZE)
     }
 
     override fun refreshUI(weChatNews: List<WeChatNews>?) {
@@ -102,7 +102,7 @@ class FragmentWorldNewsDefinition :BaseFragment<WeChatWorldNewsDefinitionPresent
     }
 
     override fun onError(errorMsg: String) {
-        ToastUtils.showToast(activity,errorMsg)
+        ToastUtils.showToast(errorMsg)
         if(mDatas.size == 0){
             state_view.showViewByState(StateView.STATE_DISCONNECT)
         }

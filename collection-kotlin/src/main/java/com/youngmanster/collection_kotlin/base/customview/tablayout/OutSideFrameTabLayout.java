@@ -94,15 +94,15 @@ public class OutSideFrameTabLayout extends FrameLayout implements ViewPager.OnPa
 
         mTextSelectColor = ta.getColor(R.styleable.OutSideFrameTabLayout_tab_tabSelectedTextColor, 0);
         mTextUnSelectColor = ta.getColor(R.styleable.OutSideFrameTabLayout_tab_tabTextColor, 0);
-        mTextSize = ta.getDimension(R.styleable.OutSideFrameTabLayout_tab_tabTextSize, DisplayUtils.Companion.dip2px(context, 14));
+        mTextSize = ta.getDimension(R.styleable.OutSideFrameTabLayout_tab_tabTextSize, DisplayUtils.Companion.dip2px(14));
         mTextAllCaps = ta.getBoolean(R.styleable.OutSideFrameTabLayout_tab_textAllCaps, false);
 
         tabWidth = ta.getDimension(R.styleable.OutSideFrameTabLayout_tab_width, 0);
-        mTabPadding = ta.getDimension(R.styleable.OutSideFrameTabLayout_tab_padding, DisplayUtils.Companion.dip2px(context,10));
+        mTabPadding = ta.getDimension(R.styleable.OutSideFrameTabLayout_tab_padding, DisplayUtils.Companion.dip2px(10));
 
         mBarColor = ta.getColor(R.styleable.OutSideFrameTabLayout_tab_bar_color, Color.TRANSPARENT);
         mBarStrokeColor = ta.getColor(R.styleable.OutSideFrameTabLayout_tab_bar_stroke_color, mIndicatorColor);
-        mBarStrokeWidth = ta.getDimension(R.styleable.OutSideFrameTabLayout_tab_bar_stroke_width, DisplayUtils.Companion.dip2px(context, 1));
+        mBarStrokeWidth = ta.getDimension(R.styleable.OutSideFrameTabLayout_tab_bar_stroke_width, DisplayUtils.Companion.dip2px(1));
 
         ta.recycle();
     }

@@ -16,22 +16,16 @@ class SQLiteVersionMigrate {
     }
 
     fun setMigrateListener(migrate: MigrateListener) {
-        val isFirst=DataManager.DataForSharePreferences.getObject(SqlHelper.isFirstUseKey,true)
 
-        if(isFirst!!){
-            DataManager.DataForSharePreferences.saveObject(SqlHelper.isFirstUseKey,false)
-            DataManager.DataForSharePreferences.saveObject(SqlHelper.PREFS_TABLE_VERSION_KEY,Config.SQLITE_DB_VERSION)
-        }else{
-            val tableVersion = DataManager.DataForSharePreferences.getObject(
-                SqlHelper.PREFS_TABLE_VERSION_KEY,
-                0
-            )
+        val tableVersion = DataManager.DataForSharePreferences.getObject(
+            SqlHelper.PREFS_TABLE_VERSION_KEY,
+            0
+        )
 
-            if (Config.SQLITE_DB_VERSION > tableVersion!!) {
-                migrate.onMigrate(tableVersion, Config.SQLITE_DB_VERSION)
-            }
+        if (Config.SQLITE_DB_VERSION > tableVersion!!) {
+            migrate.onMigrate(tableVersion, Config.SQLITE_DB_VERSION)
         }
 
-
+        DataManager.DataForSharePreferences.saveObject(SqlHelper.PREFS_TABLE_VERSION_KEY,Config.SQLITE_DB_VERSION)
     }
 }

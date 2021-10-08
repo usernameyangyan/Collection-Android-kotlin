@@ -1077,20 +1077,20 @@ public class FlexboxLayout extends ViewGroup implements FlexContainer {
 
     @Override
     protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
-        return p instanceof FlexboxLayout.LayoutParams;
+        return p instanceof LayoutParams;
     }
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new FlexboxLayout.LayoutParams(getContext(), attrs);
+        return new LayoutParams(getContext(), attrs);
     }
 
     @Override
     protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams lp) {
-        if (lp instanceof FlexboxLayout.LayoutParams) {
-            return new FlexboxLayout.LayoutParams((FlexboxLayout.LayoutParams) lp);
+        if (lp instanceof LayoutParams) {
+            return new LayoutParams((LayoutParams) lp);
         } else if (lp instanceof MarginLayoutParams) {
-            return new FlexboxLayout.LayoutParams((MarginLayoutParams) lp);
+            return new LayoutParams((MarginLayoutParams) lp);
         }
         return new LayoutParams(lp);
     }
@@ -1358,12 +1358,12 @@ public class FlexboxLayout extends ViewGroup implements FlexContainer {
         requestLayout();
     }
 
-    @FlexboxLayout.DividerMode
+    @DividerMode
     public int getShowDividerVertical() {
         return mShowDividerVertical;
     }
 
-    @FlexboxLayout.DividerMode
+    @DividerMode
     public int getShowDividerHorizontal() {
         return mShowDividerHorizontal;
     }
@@ -1518,7 +1518,7 @@ public class FlexboxLayout extends ViewGroup implements FlexContainer {
      *
      * Note that some parent fields (which are not primitive nor a class implements
      */
-    public static class LayoutParams extends ViewGroup.MarginLayoutParams implements FlexItem {
+    public static class LayoutParams extends MarginLayoutParams implements FlexItem {
 
         /**
          * @see FlexItem#getOrder()
@@ -1812,8 +1812,8 @@ public class FlexboxLayout extends ViewGroup implements FlexContainer {
             this.width = in.readInt();
         }
 
-        public static final Parcelable.Creator<LayoutParams> CREATOR
-                = new Parcelable.Creator<LayoutParams>() {
+        public static final Creator<LayoutParams> CREATOR
+                = new Creator<LayoutParams>() {
             @Override
             public LayoutParams createFromParcel(Parcel source) {
                 return new LayoutParams(source);

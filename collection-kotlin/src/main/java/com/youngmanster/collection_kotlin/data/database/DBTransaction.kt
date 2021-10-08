@@ -22,6 +22,7 @@ class DBTransaction {
                 try {
                     transctionInterface.onTransact()
                     sqliteDb?.setTransactionSuccessful()
+                }catch (e:Exception){
                 } finally {
                     sqliteDb?.endTransaction()
                 }

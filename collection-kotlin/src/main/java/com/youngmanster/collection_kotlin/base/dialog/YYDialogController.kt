@@ -1,4 +1,4 @@
-package com.youngmanster.collection_kotlin.base.dialog.new
+package com.youngmanster.collection_kotlin.base.dialog
 
 import android.content.Context
 import android.text.Html
@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.youngmanster.collection_kotlin.R
 import com.youngmanster.collection_kotlin.utils.DisplayUtils
-import com.youngmanster.collection_kotlin.utils.LogUtils
 import java.lang.ref.WeakReference
 
 /**
@@ -45,6 +44,8 @@ class YYDialogController {
     private var btn_ok: Button? = null
     private var btn_cancel:Button? = null
     private var tv_ProgressTip:TextView?=null
+
+
 
 
     constructor(dialog: IDialog){
@@ -100,9 +101,9 @@ class YYDialogController {
     fun setChildView(view: View?) {
         setDialogView(view)
 
-        if(layoutRes==R.layout.collection_library_dialog_progress) {
+        if(layoutRes== R.layout.collection_library_dialog_progress) {
             dealLoadingDialog()
-        }else if(layoutRes==R.layout.lib_ui_layout_dialog_default){
+        }else if(layoutRes== R.layout.lib_ui_layout_dialog_default){
             dealDefaultDialog(
                 mPositiveButtonListener, mNegativeButtonListener, titleStr,
                 contentStr, showBtnLeft, negativeStr, showBtnRight, positiveStr
@@ -127,8 +128,8 @@ class YYDialogController {
         if (dialogView == null) return
         mNegativeButtonListener = negativeBtnListener
         mPositiveButtonListener = positiveBtnListener
-        btn_ok = dialogView!!.findViewById<View>(R.id.btn_ok) as Button
-        btn_cancel = dialogView!!.findViewById<View>(R.id.btn_cancel) as Button
+        btn_ok = dialogView!!.findViewById(R.id.btn_ok)
+        btn_cancel = dialogView!!.findViewById(R.id.btn_cancel)
         if (showBtnRight && showBtnLeft) {
             //左右两个按钮都存在
             if (btn_ok != null) {
@@ -169,7 +170,7 @@ class YYDialogController {
         if (TextUtils.isEmpty(contentStr) && mDialog!!.get() != null && mDialog!!.get()!!
                 .getContext() != null
         ) {
-            tv_title.minHeight = DisplayUtils.dip2px(mDialog!!.get()!!.getContext()!!, 100f)
+            tv_title.minHeight = DisplayUtils.dip2px(100f)
             tv_title.gravity = Gravity.CENTER
             tv_title.setPadding(0, 10, 0, 0)
         }
@@ -267,7 +268,7 @@ class YYDialogController {
             if (dialogWidth > 0) {
                 controller.dialogWidth = dialogWidth
             }else{
-                controller.dialogWidth=(DisplayUtils.getScreenWidthPixels(context!!) * 0.85f).toInt()
+                controller.dialogWidth=(DisplayUtils.getScreenWidthPixels() * 0.85f).toInt()
             }
             if (dialogHeight > 0) {
                 controller.dialogHeight = dialogHeight

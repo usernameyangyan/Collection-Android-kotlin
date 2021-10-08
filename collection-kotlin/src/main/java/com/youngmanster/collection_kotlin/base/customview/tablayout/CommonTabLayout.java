@@ -148,22 +148,22 @@ public class CommonTabLayout extends HorizontalScrollView implements ViewPager.O
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CommonTabLayout,
                 defStyleAttr, 0);
 
-        tabIndicatorHeight = a.getDimensionPixelSize(R.styleable.CommonTabLayout_tab_c_tabIndicatorHeight, DisplayUtils.Companion.dip2px(context, mIndicatorStyle == INDICATOR_TRIANGLE ? 4 : (mIndicatorStyle == INDICATOR_BLOCK ? -1 : 2)));
+        tabIndicatorHeight = a.getDimensionPixelSize(R.styleable.CommonTabLayout_tab_c_tabIndicatorHeight, DisplayUtils.Companion.dip2px(mIndicatorStyle == INDICATOR_TRIANGLE ? 4 : (mIndicatorStyle == INDICATOR_BLOCK ? -1 : 2)));
         tabIndicatorWidth = a.getDimensionPixelSize(R.styleable.CommonTabLayout_tab_c_tabIndicatorWidth, 0);
         tabWidth = a.getDimensionPixelSize(R.styleable.CommonTabLayout_tab_c_tabWidth, 0);
 
         mIndicatorStyle = a.getInt(R.styleable.CommonTabLayout_tab_c_indicator_style, INDICATOR_LINE);
         tabIndicatorColor = a.getColor(R.styleable.CommonTabLayout_tab_c_tabIndicatorColor, 0);
-        tabIndicatorCornerRadius = a.getDimension(R.styleable.CommonTabLayout_tab_c_indicator_corner, DisplayUtils.Companion.dip2px(context, mIndicatorStyle == INDICATOR_BLOCK ? -1 : 0));
-        tabIndicatorMarginLeft = a.getDimension(R.styleable.CommonTabLayout_tab_c_indicator_marginLeft, DisplayUtils.Companion.dip2px(context, mIndicatorStyle == INDICATOR_BLOCK ? 10 : 0));
-        tabIndicatorMarginTop = a.getDimension(R.styleable.CommonTabLayout_tab_c_indicator_marginTop, DisplayUtils.Companion.dip2px(context, mIndicatorStyle == INDICATOR_BLOCK ? 7 : 0));
-        tabIndicatorMarginRight = a.getDimension(R.styleable.CommonTabLayout_tab_c_indicator_marginRight, DisplayUtils.Companion.dip2px(context, mIndicatorStyle == INDICATOR_BLOCK ? 10 : 0));
-        tabIndicatorMarginBottom = a.getDimension(R.styleable.CommonTabLayout_tab_c_indicator_marginBottom, DisplayUtils.Companion.dip2px(context, mIndicatorStyle == INDICATOR_BLOCK ? 7 : 0));
-        tabPadding = a.getDimension(R.styleable.CommonTabLayout_tab_c_padding, DisplayUtils.Companion.dip2px(context,10));
+        tabIndicatorCornerRadius = a.getDimension(R.styleable.CommonTabLayout_tab_c_indicator_corner, DisplayUtils.Companion.dip2px(mIndicatorStyle == INDICATOR_BLOCK ? -1 : 0));
+        tabIndicatorMarginLeft = a.getDimension(R.styleable.CommonTabLayout_tab_c_indicator_marginLeft, DisplayUtils.Companion.dip2px(mIndicatorStyle == INDICATOR_BLOCK ? 10 : 0));
+        tabIndicatorMarginTop = a.getDimension(R.styleable.CommonTabLayout_tab_c_indicator_marginTop, DisplayUtils.Companion.dip2px(mIndicatorStyle == INDICATOR_BLOCK ? 7 : 0));
+        tabIndicatorMarginRight = a.getDimension(R.styleable.CommonTabLayout_tab_c_indicator_marginRight, DisplayUtils.Companion.dip2px(mIndicatorStyle == INDICATOR_BLOCK ? 10 : 0));
+        tabIndicatorMarginBottom = a.getDimension(R.styleable.CommonTabLayout_tab_c_indicator_marginBottom, DisplayUtils.Companion.dip2px(mIndicatorStyle == INDICATOR_BLOCK ? 7 : 0));
+        tabPadding = a.getDimension(R.styleable.CommonTabLayout_tab_c_padding, DisplayUtils.Companion.dip2px(10));
         mIndicatorGravity = a.getInt(R.styleable.CommonTabLayout_tab_c_indicator_gravity, GRAVITY_BOTTOM);
         tabTextSelectColor = a.getColor(R.styleable.CommonTabLayout_tab_c_tabSelectedTextColor, 0);
         tabTextUnSelectColor = a.getColor(R.styleable.CommonTabLayout_tab_c_tabTextColor, 0);
-        tabTextSize = a.getDimension(R.styleable.CommonTabLayout_tab_c_tabTextSize, DisplayUtils.Companion.dip2px(context, 14));
+        tabTextSize = a.getDimension(R.styleable.CommonTabLayout_tab_c_tabTextSize, DisplayUtils.Companion.dip2px(14));
         mTextAllCaps = a.getBoolean(R.styleable.CommonTabLayout_tab_c_textAllCaps, false);
 
         mMode = a.getInt(R.styleable.CommonTabLayout_tab_c_tabMode, MODE_SCROLLABLE);
@@ -209,7 +209,7 @@ public class CommonTabLayout extends HorizontalScrollView implements ViewPager.O
             if(tabWidth>0){
                 mTabsContainer.getLayoutParams().width = (int) tabWidth;
             }else{
-                mTabsContainer.getLayoutParams().width = DisplayUtils.Companion.getScreenWidthPixels(mContext);
+                mTabsContainer.getLayoutParams().width = DisplayUtils.Companion.getScreenWidthPixels();
             }
         }
 
@@ -263,7 +263,7 @@ public class CommonTabLayout extends HorizontalScrollView implements ViewPager.O
             if(tabWidth>0){
                 lp_tab = new LinearLayout.LayoutParams((int) (tabWidth / mTabCount), LayoutParams.MATCH_PARENT);
             }else{
-                lp_tab = new LinearLayout.LayoutParams(DisplayUtils.Companion.getScreenWidthPixels(mContext) / mTabCount, LayoutParams.MATCH_PARENT);
+                lp_tab = new LinearLayout.LayoutParams(DisplayUtils.Companion.getScreenWidthPixels() / mTabCount, LayoutParams.MATCH_PARENT);
             }
         } else {
             lp_tab = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
@@ -299,7 +299,7 @@ public class CommonTabLayout extends HorizontalScrollView implements ViewPager.O
             if(tabWidth>0){
                 lp_tab = new LinearLayout.LayoutParams((int) (tabWidth / mTabCount), LayoutParams.MATCH_PARENT);
             }else{
-                lp_tab = new LinearLayout.LayoutParams(DisplayUtils.Companion.getScreenWidthPixels(mContext) / customViews.size(), LayoutParams.MATCH_PARENT);
+                lp_tab = new LinearLayout.LayoutParams(DisplayUtils.Companion.getScreenWidthPixels() / customViews.size(), LayoutParams.MATCH_PARENT);
             }
         } else {
             lp_tab = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);

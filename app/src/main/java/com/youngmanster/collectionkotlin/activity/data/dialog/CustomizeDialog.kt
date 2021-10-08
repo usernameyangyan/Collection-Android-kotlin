@@ -4,9 +4,8 @@ import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.youngmanster.collection_kotlin.base.dialog.BaseDialogFragment
-import com.youngmanster.collection_kotlin.base.dialog.new.IDialog
-import com.youngmanster.collection_kotlin.base.dialog.new.YYDialog
+import com.youngmanster.collection_kotlin.base.dialog.IDialog
+import com.youngmanster.collection_kotlin.base.dialog.YYDialog
 import com.youngmanster.collection_kotlin.recyclerview.BaseRecyclerViewAdapter
 import com.youngmanster.collection_kotlin.utils.DisplayUtils
 import com.youngmanster.collection_kotlin.utils.ToastUtils
@@ -38,7 +37,7 @@ class CustomizeDialog : BaseRecyclerViewAdapter.OnItemClickListener {
 
         YYDialog.Builder(context!!)
             .setDialogView(R.layout.dialog_list)
-            .setHeight(DisplayUtils.dip2px(context!!, 300f))
+            .setHeight(DisplayUtils.dip2px(300f))
             .setBuildChildListener(object : IDialog.OnBuildListener {
                 override fun onBuildChildView(dialog: IDialog?, view: View?, layoutRes: Int) {
                     rv_Item = view?.findViewById(R.id.rv_Item)
@@ -58,7 +57,7 @@ class CustomizeDialog : BaseRecyclerViewAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(view: View, position: Int) {
-        ToastUtils.showToast(context, itemStr[position])
+        ToastUtils.showToast(itemStr[position])
     }
 
 }

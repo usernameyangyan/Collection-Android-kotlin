@@ -31,7 +31,7 @@ class WeChatNewsDefinitionActivity:BaseActivity<BasePresenter<*>>(){
 
     override fun init() {
         defineActionBarConfig.setTitle("自定义磁盘缓存")
-        customTabView.tabIndicatorWidth= (DisplayUtils.getScreenWidthPixels(this)/2).toFloat()
+        customTabView.tabIndicatorWidth= (DisplayUtils.getScreenWidthPixels()/2).toFloat()
 
         fragments.add(FragmentWorldNewsDefinition())
         fragments.add(FragmentChinaNewsDefinition())

@@ -31,7 +31,6 @@ public class ConvertParamUtils {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("{");
             for (Iterator iter = set.iterator(); iter.hasNext(); ) {
-
                 String key = (String) iter.next();
                 stringBuilder.append("\"");
                 stringBuilder.append(key);
@@ -40,13 +39,28 @@ public class ConvertParamUtils {
 
                 if (builder.getRequestParam().get(key) != null &&
                         !builder.getRequestParam().get(key).toString().equals("") && (
-                        (builder.getRequestParam().get(key).toString().charAt(0) == '[' && (builder.getRequestParam().get(key).toString().charAt(builder.getRequestParam().get(key).toString().length() - 1) == ']')) ||
-                                (builder.getRequestParam().get(key).toString().charAt(0) == '{' && (builder.getRequestParam().get(key).toString().charAt(builder.getRequestParam().get(key).toString().length() - 1) == '}')))) {
+                        (builder.getRequestParam().get(key).toString().charAt(0) == '['
+                                && (builder.getRequestParam().get(key).toString().charAt(builder.getRequestParam().get(key).toString().length() - 1) == ']')) ||
+                                (builder.getRequestParam().get(key).toString().charAt(0) == '{'
+                                        && (builder.getRequestParam().get(key).toString().charAt(builder.getRequestParam().get(key).toString().length() - 1) == '}')))) {
                     stringBuilder.append(builder.getRequestParam().get(key));
                 } else {
-                    stringBuilder.append("\"");
-                    stringBuilder.append(builder.getRequestParam().get(key));
-                    stringBuilder.append("\"");
+                    Object value=builder.getRequestParam().get(key);
+                    if(value instanceof Integer){
+                        stringBuilder.append(value);
+                    }else if(value instanceof Boolean){
+                        stringBuilder.append(value);
+                    }else if(value instanceof Long){
+                        stringBuilder.append(value);
+                    } else if(value instanceof Float){
+                        stringBuilder.append(value);
+                    }else if(value instanceof Double){
+                        stringBuilder.append(value);
+                    }else{
+                        stringBuilder.append("\"");
+                        stringBuilder.append(value);
+                        stringBuilder.append("\"");
+                    }
                 }
                 stringBuilder.append(",");
             }

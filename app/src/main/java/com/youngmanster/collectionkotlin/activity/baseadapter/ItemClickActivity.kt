@@ -18,7 +18,7 @@ import java.util.ArrayList
  *Describe:
  */
 
-class ItemClickActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.OnItemClickListener,BaseRecyclerViewAdapter.onItemLongClickListener,
+class ItemClickActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.OnItemClickListener,BaseRecyclerViewAdapter.OnItemLongClickListener,
     View.OnClickListener{
 
     private val mDatas = ArrayList<ClickItem>()
@@ -54,17 +54,17 @@ class ItemClickActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapte
 
 
     override fun onClick(v: View?) {
-        ToastUtils.showToast(this, "其实点击我没有奖")
+        ToastUtils.showToast("其实点击我没有奖")
 
     }
 
     override fun onItemClick(view: View, position: Int) {
-        ToastUtils.showToast(this, mDatas[position].title!!)
+        ToastUtils.showToast(mDatas[position].title!!)
 
     }
 
     override fun onItemLongClick(view: View, position: Int): Boolean {
-        ToastUtils.showToast(this, "进行长按操作")
+        ToastUtils.showToast("进行长按操作")
         return true
     }
 

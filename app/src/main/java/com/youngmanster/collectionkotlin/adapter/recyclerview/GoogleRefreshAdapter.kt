@@ -24,8 +24,8 @@ class GoogleRefreshAdapter(
     var mItemWidth: Int=0
 
     init {
-        mScreenWidth = DisplayUtils.getScreenWidthPixels(mContext)
-        mItemWidth = (mScreenWidth - DisplayUtils.dip2px(mContext, 30f)) / 3
+        mScreenWidth = DisplayUtils.getScreenWidthPixels()
+        mItemWidth = (mScreenWidth - DisplayUtils.dip2px(30f)) / 3
     }
 
     override fun convert(baseViewHolder: BaseViewHolder, t: String) {

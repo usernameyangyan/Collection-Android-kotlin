@@ -1,9 +1,7 @@
 package com.youngmanster.collection_kotlin.network;
 
 import androidx.annotation.IntDef;
-
 import com.youngmanster.collection_kotlin.network.rx.RxObservableListener;
-
 import java.io.File;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +9,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Map;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -41,6 +38,8 @@ public class RequestBuilder<T> {
     private MultipartBody.Part []parts;
     private boolean isDiskCacheNetworkSaveReturn;
     private Object noKeyParam;
+    private RequestBody body;
+    private boolean isNeedLog=true;
 
     private Map<String, String> headers;
 
@@ -85,14 +84,28 @@ public class RequestBuilder<T> {
         public @interface ReqTypeConstant {}
     }
 
+
     public static class HttpType{
         public final static int DEFAULT_GET  = 0;
         public final static int DEFAULT_POST  = 1;
-        public final static int JSON_PARAM_POST  = 2;
-        public final static int MULTIPLE_MULTIPART_POST  = 3;
-        public final static int DOWNLOAD_FILE_GET  =4;
+        public final static int MULTIPLE_MULTIPART_POST  = 2;
+        public final static int DOWNLOAD_FILE_GET  =3;
+        public final static int DEFAULT_DELETE  = 4;
+        public final static int MULTIPLE_MULTIPART_PUT  = 5;
+        public final static int BODY_PUT = 6;
+        public final static int BODY_POST = 7;
+        public final static int BODY_PATCH = 8;
+        public final static int BODY_DELETE = 9;
+        public final static int JSON_PARAM_DELETE  = 10;
+        public final static int JSON_PARAM_POST  = 11;
+        public final static int JSON_PARAM_PUT  = 12;
+        public final static int JSON_PARAM_PATCH  = 13;
 
-        @IntDef({ DEFAULT_GET,DEFAULT_POST,JSON_PARAM_POST,MULTIPLE_MULTIPART_POST,DOWNLOAD_FILE_GET})
+        @IntDef({ DEFAULT_GET,DEFAULT_POST,DEFAULT_DELETE,JSON_PARAM_POST
+                ,JSON_PARAM_DELETE,MULTIPLE_MULTIPART_POST,
+                DOWNLOAD_FILE_GET,MULTIPLE_MULTIPART_PUT,
+                JSON_PARAM_PUT,JSON_PARAM_PATCH,BODY_PUT,BODY_POST
+                ,BODY_PATCH,BODY_DELETE})
         @Target({ElementType.FIELD, ElementType.METHOD,ElementType.PARAMETER})//限制范围为字段/方法/参数
         @Retention(RetentionPolicy.SOURCE) //仅在源码期间有效，不会在编译进class文件，影响性能
         public @interface HttpTypeConstant {}
@@ -113,6 +126,7 @@ public class RequestBuilder<T> {
         this.rxObservableListener = rxObservableListener;
         requestParam = new HashMap<>();
         headers=new HashMap<>();
+        headers.put("Connection","close");
     }
 
     public RequestBuilder setTransformClass(Class clazz) {
@@ -131,6 +145,26 @@ public class RequestBuilder<T> {
 
     public String getUrl() {
         return url;
+    }
+
+
+    public RequestBuilder setBody(RequestBody body) {
+        this.body = body;
+        return this;
+    }
+
+
+    public RequestBuilder setNeedLog(boolean isNeedLog) {
+        this.isNeedLog = isNeedLog;
+        return this;
+    }
+
+    public boolean isNeedLog(){
+        return isNeedLog;
+    }
+
+    public RequestBody getBody() {
+        return body;
     }
 
     public RequestBuilder setSaveDownloadFilePathAndFileName(String filePath, String fileName){

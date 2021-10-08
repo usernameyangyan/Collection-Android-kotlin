@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.youngmanster.collection_kotlin.R
+import com.youngmanster.collection_kotlin.config.Config
 import java.util.*
 
 /**
@@ -26,76 +27,76 @@ class DisplayUtils {
         /**
          * 将px值转换为dip或dp值，保证尺寸大小不变（有精度损失）
          */
-        fun px2dip(context: Context, pxValue: Float): Int {
-            val scale = context.resources.displayMetrics.density
+        fun px2dip(pxValue: Float): Int {
+            val scale = Config.CONTEXT!!.resources.displayMetrics.density
             return (pxValue / scale + 0.5f).toInt()
         }
 
         /**
          * 将px值转换为dip或dp值，保证尺寸大小不变（无精度损失）
          */
-        fun px2dipByFloat(context: Context, pxValue: Float): Float {
-            val scale = context.resources.displayMetrics.density
+        fun px2dipByFloat(pxValue: Float): Float {
+            val scale = Config.CONTEXT!!.resources.displayMetrics.density
             return pxValue / scale
         }
 
         /**
          * 将dip或dp值转换为px值，保证尺寸大小不变（有精度损失），类似Context.getDimensionPixelSize方法（四舍五入）
          */
-        fun dip2px(context: Context, dipValue: Float): Int {
-            val scale = context.resources.displayMetrics.density
+        fun dip2px(dipValue: Float): Int {
+            val scale = Config.CONTEXT!!.resources.displayMetrics.density
             return (dipValue * scale + 0.5f).toInt()
         }
 
         /**
          * 将dip或dp值转换为px值，保证尺寸大小不变（无精度损失），类似Context.getDimension方法
          */
-        fun dip2pxByFloat(context: Context, dipValue: Float): Float {
-            val scale = context.resources.displayMetrics.density
+        fun dip2pxByFloat(dipValue: Float): Float {
+            val scale = Config.CONTEXT!!.resources.displayMetrics.density
             return dipValue * scale
         }
 
         /**
          * 将px值转换为sp值，保证文字大小不变
          */
-        fun px2sp(context: Context, pxValue: Float): Int {
-            val fontScale = context.resources.displayMetrics.scaledDensity
+        fun px2sp(pxValue: Float): Int {
+            val fontScale = Config.CONTEXT!!.resources.displayMetrics.scaledDensity
             return (pxValue / fontScale + 0.5f).toInt()
         }
 
         /**
          * 将sp值转换为px值，保证文字大小不变
          */
-        fun sp2px(context: Context, spValue: Float): Int {
-            val fontScale = context.resources.displayMetrics.scaledDensity
+        fun sp2px(spValue: Float): Int {
+            val fontScale = Config.CONTEXT!!.resources.displayMetrics.scaledDensity
             return (spValue * fontScale + 0.5f).toInt()
         }
 
         /**
          * 屏幕宽度
          */
-        fun getScreenWidthPixels(context: Context): Int {
-            return context.resources.displayMetrics.widthPixels
+        fun getScreenWidthPixels(): Int {
+            return Config.CONTEXT!!.resources.displayMetrics.widthPixels
         }
 
         /**
          * 屏幕高度
          */
-        fun getScreenHeightPixels(context: Context): Int {
-            return context.resources.displayMetrics.heightPixels
+        fun getScreenHeightPixels(): Int {
+            return Config.CONTEXT!!.resources.displayMetrics.heightPixels
         }
 
-        fun getDisplayInfo(context: Context): String {
+        fun getDisplayInfo(): String {
             val infoFormat = "宽:%s,高:%s 宽Dip:%s,高Dip:%s\ndpi:%s,1dip=%sPixels"
-            val screenWidthPixels = DisplayUtils.getScreenWidthPixels(context)
-            val screenHeightPixels = DisplayUtils.getScreenHeightPixels(context)
-            val density = context.resources.displayMetrics.density
-            val infoFormatValue = arrayOf<Any>(
+            val screenWidthPixels = getScreenWidthPixels()
+            val screenHeightPixels = getScreenHeightPixels()
+            val density = Config.CONTEXT!!.resources.displayMetrics.density
+            val infoFormatValue = arrayOf(
                 screenWidthPixels,
                 screenHeightPixels,
                 (screenWidthPixels / density).toInt(),
                 (screenHeightPixels / density).toInt(),
-                context.resources.displayMetrics.densityDpi,
+                    Config.CONTEXT!!.resources.displayMetrics.densityDpi,
                 density
             )
             return String.format(Locale.getDefault(), infoFormat, *infoFormatValue)
@@ -267,6 +268,22 @@ class DisplayUtils {
 
             return actionbarSizeTypedArray.getDimension(0, 0f).toInt()
         }
+
+
+        fun hideBottomUIMenu(context: Context) {
+            //隐藏虚拟按键，并且全屏
+            // lower api
+            val v: View = (context as Activity).window.decorView
+            v.systemUiVisibility = View.GONE
+        }
+
+        fun showBottomUIMenu(context: Context) {
+            //隐藏虚拟按键，并且全屏
+            // lower api
+            val v: View = (context as Activity).window.decorView
+            v.systemUiVisibility = View.VISIBLE
+        }
+
 
     }
 

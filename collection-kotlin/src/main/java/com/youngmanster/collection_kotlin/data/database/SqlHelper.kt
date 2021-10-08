@@ -15,8 +15,6 @@ class SqlHelper {
     companion object {
 
         val PREFS_TABLE_VERSION_KEY = "collection_library_prefs_versioins"
-        val isFirstUseKey = "collection_library_db_use_key"
-
         /**
          * return table version
          * @param clazz

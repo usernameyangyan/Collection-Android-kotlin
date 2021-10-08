@@ -1,5 +1,7 @@
 package com.youngmanster.collection_kotlin.data
 
+import android.os.Parcelable
+import com.tencent.mmkv.MMKV
 import com.youngmanster.collection_kotlin.data.database.PagingList
 import com.youngmanster.collection_kotlin.data.database.ResultSet
 import com.youngmanster.collection_kotlin.data.database.SQLiteDataBase
@@ -211,6 +213,109 @@ class DataManager{
                 }
 
                 return null
+            }
+
+        }
+    }
+
+
+    class DataForMMKV{
+        companion object{
+            fun <T> saveObject(key:String,con:T){
+                when (con) {
+                    is Int -> {
+                        MMKVWithLocalData.getInstance().encodeInt(key,con)
+                    }
+                    is String -> {
+                        MMKVWithLocalData.getInstance().encodeString(key,con)
+                    }
+                    is Boolean -> {
+                        MMKVWithLocalData.getInstance().encodeBoolean(key,con)
+                    }
+                    is Long -> {
+                        MMKVWithLocalData.getInstance().encodeLong(key,con)
+                    }
+                    is Float -> {
+                        MMKVWithLocalData.getInstance().encodeFloat(key,con)
+                    }
+
+                    is Double -> {
+                        MMKVWithLocalData.getInstance().encodeDouble(key,con)
+                    }
+
+                    is ByteArray -> {
+                        MMKVWithLocalData.getInstance().encodeByteArray(key,con)
+                    }
+
+                    is Parcelable -> {
+                        MMKVWithLocalData.getInstance().encodeParcelable(key,con)
+                    }
+
+                    else -> LogUtils.error("DataManager","暂不支持该类型数据")
+                }
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            fun <T>getObject(key:String,defaultValue:T):T? {
+                when (defaultValue) {
+                    is Int -> {
+                        return MMKVWithLocalData.getInstance().decodeInt(key,defaultValue) as T
+                    }
+                    is String -> {
+                        return MMKVWithLocalData.getInstance().decodeString(key,defaultValue) as? T
+                    }
+                    is Boolean -> {
+                        return MMKVWithLocalData.getInstance().decodeBool(key,defaultValue) as? T
+                    }
+                    is Long -> {
+                        return MMKVWithLocalData.getInstance().decodeLong(key,defaultValue) as? T
+                    }
+                    is Float -> {
+                        return MMKVWithLocalData.getInstance().decodeFloat(key,defaultValue) as? T
+                    }
+
+                    is Double -> {
+                        return MMKVWithLocalData.getInstance().decodeDouble(key,defaultValue) as? T
+                    }
+
+                    is ByteArray -> {
+                        return MMKVWithLocalData.getInstance().decodeByteArray(key,defaultValue) as? T
+                    }
+
+                    is Parcelable -> {
+                        return MMKVWithLocalData.getInstance().decodeParcelable(key,defaultValue.javaClass) as? T
+                    }
+                }
+
+                return null
+            }
+
+            fun removeKey(key: String){
+                MMKVWithLocalData.getInstance().removeKey(key)
+            }
+
+            fun removeKeys(keys: Array<String>) {
+                MMKVWithLocalData.getInstance().removeKeys(keys)
+            }
+
+            fun getAllKeys(): Array<out String>? {
+                return MMKVWithLocalData.getInstance().getAllKeys()
+            }
+
+            fun hasKey(key: String): Boolean? {
+                return MMKVWithLocalData.getInstance().hasKey(key)
+            }
+
+            fun have(key: String): Boolean? {
+                return MMKVWithLocalData.getInstance().have(key)
+            }
+
+            fun clearAll() {
+                MMKVWithLocalData.getInstance().clearAll()
+            }
+
+            fun getMkv(): MMKV? {
+                return MMKVWithLocalData.getInstance().getMkv()
             }
 
         }

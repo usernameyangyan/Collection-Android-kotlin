@@ -4,11 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ProgressBar
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:id="@+id/library_loadingBar" />
+        android:orientation="vertical"
+        android:id="@+id/library_loadingProgressLinear">
+        <ProgressBar
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:id="@+id/library_loadingBar" />
+
+        <TextView
+            android:id="@+id/library_loadingProgressTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:gravity="center" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/library_loadMore_Ll"

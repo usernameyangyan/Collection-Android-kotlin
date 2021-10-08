@@ -60,6 +60,7 @@ class SharePreference private constructor() {
         sharedPreferences!!.edit()
             .putLong(key, value)
             .apply()
+
     }
 
     /**

@@ -59,8 +59,8 @@ abstract class BaseDialog {
 
 
     private fun create() {
-        screenWidthPixels = DisplayUtils.getScreenWidthPixels(context)
-        space = DisplayUtils.dip2px(context, 20f)
+        screenWidthPixels = DisplayUtils.getScreenWidthPixels()
+        space = DisplayUtils.dip2px(20f)
         builder = AlertDialog.Builder(context)
         if (mainView != null) {
             builder!!.setView(mainView)
@@ -112,7 +112,7 @@ abstract class BaseDialog {
     }
 
     fun setDialogInterval(interval: Float) {
-        space = DisplayUtils.dip2px(context, interval)
+        space = DisplayUtils.dip2px(interval)
     }
 
     fun setDialogHeight(height: Int) {

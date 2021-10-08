@@ -1,11 +1,10 @@
-package com.youngmanster.collection_kotlin.base.dialog.new
+package com.youngmanster.collection_kotlin.base.dialog
 
 import android.app.Activity
-import android.content.DialogInterface
+import android.app.Dialog
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.Nullable
@@ -16,14 +15,14 @@ import androidx.fragment.app.DialogFragment
  *2020/12/14
  *Describe:
  */
-abstract class YYBaseDialog: DialogFragment() {
-    private var mainView:View?=null
+abstract class YYBaseDialog : DialogFragment() {
+    private var mainView: View? = null
 
     @Nullable
     override fun onCreateView(
-        inflater: LayoutInflater,
-        @Nullable container: ViewGroup?,
-        @Nullable savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            @Nullable container: ViewGroup?,
+            @Nullable savedInstanceState: Bundle?
     ): View {
         if (getLayoutRes() > 0) {
             //调用方通过xml获取view
@@ -35,16 +34,45 @@ abstract class YYBaseDialog: DialogFragment() {
         return mainView!!
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val dialog = dialog
-        if (dialog != null) {
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            //如果isCancelable()是false 则会屏蔽物理返回键
-            dialog.setCancelable(isCancelable)
-            //如果isCancelableOutside()为false 点击屏幕外Dialog不会消失；反之会消失
-            dialog.setCanceledOnTouchOutside(isCancelableOutside())
-            //如果isCancelable()设置的是false 会屏蔽物理返回键
-            dialog.setOnKeyListener(DialogInterface.OnKeyListener { _, keyCode, event -> keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN && !isCancelable })
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = NoLeakDialog(requireContext(),0)
+        dialog.setHostFragmentReference(this)
+        //            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        //如果isCancelable()是false 则会屏蔽物理返回键
+        dialog.setCancelable(isCancelable)
+        //如果isCancelableOutside()为false 点击屏幕外Dialog不会消失；反之会消失
+        dialog.setCanceledOnTouchOutside(isCancelableOutside())
+        //如果isCancelable()设置的是false 会屏蔽物理返回键
+        dialog.setOnKeyListener { _, keyCode, event -> keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN && !isCancelable }
+
+        return dialog
+    }
+    private val SAVED_DIALOG_STATE_TAG = "android:savedDialogState"
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        if (showsDialog) {
+            showsDialog = false
+        }
+        super.onActivityCreated(savedInstanceState)
+        showsDialog = true
+
+
+        val view = view
+        if (view != null) {
+//            check(view.parent == null) { "DialogFragment can not be attached to a container view" }
+            dialog!!.setContentView(view)
+        }
+
+        val activity=activity
+        if (activity != null) {
+            dialog?.setOwnerActivity(activity)
+        }
+
+
+        if (savedInstanceState != null) {
+            val dialogState = savedInstanceState.getBundle(SAVED_DIALOG_STATE_TAG)
+            if (dialogState != null) {
+                dialog!!.onRestoreInstanceState(dialogState)
+            }
         }
     }
 
@@ -137,12 +165,8 @@ abstract class YYBaseDialog: DialogFragment() {
     open fun getScreenHeight(activity: Activity): Int {
         val display = activity.windowManager.defaultDisplay
         if (display != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                //api 大于17才有
-                display.getRealSize(point)
-            } else {
-                display.getSize(point)
-            }
+            //api 大于17才有
+            display.getRealSize(point)
 
             //需要减去statusBar的高度  不用考虑navigationBar Display已经自动减去了
             return point.y - getStatusBarHeight(activity)
@@ -164,6 +188,7 @@ abstract class YYBaseDialog: DialogFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        YYDialogsManager.getInstance().over()
+        YYDialogsManager.getInstance()
+            .over()
     }
 }

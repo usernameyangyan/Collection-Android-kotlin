@@ -26,8 +26,8 @@ class MainViewAdapter(
     private var mItemWidth: Int=0
 
     init {
-        mScreenWidth = DisplayUtils.getScreenWidthPixels(mContext)
-        mItemWidth = (mScreenWidth - DisplayUtils.dip2px(mContext, 20f)) / 2
+        mScreenWidth = DisplayUtils.getScreenWidthPixels()
+        mItemWidth = (mScreenWidth - DisplayUtils.dip2px(20f)) / 2
     }
 
     override fun convert(baseViewHolder: BaseViewHolder, t: String) {

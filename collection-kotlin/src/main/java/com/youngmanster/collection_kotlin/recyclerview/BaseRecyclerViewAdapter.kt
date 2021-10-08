@@ -18,7 +18,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder>
     private var mLayoutResId: Int = 0
     var mDatas: List<T>? = null
     private var mOnItemClickListener: OnItemClickListener? = null
-    private var mOnItemLongClickListener: onItemLongClickListener? = null
+    private var mOnItemLongClickListener: OnItemLongClickListener? = null
     private var onDragAndDeleteListener: OnDragAndDeleteListener? = null
     private var mRecyclerView: PullToRefreshRecyclerView? = null
 
@@ -79,7 +79,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder>
 
         baseViewHolder.convertView.setOnClickListener { v ->
             if (mOnItemClickListener != null) {
-                var position = if (mRecyclerView != null) {
+                val position = if (mRecyclerView != null) {
                     baseViewHolder.adapterPosition - mRecyclerView!!.realItemCount
                 } else {
                     baseViewHolder.adapterPosition
@@ -111,7 +111,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder>
         fun onItemClick(view: View, position: Int)
     }
 
-    interface onItemLongClickListener {
+    interface OnItemLongClickListener {
         fun onItemLongClick(view: View, position: Int): Boolean
     }
 
@@ -119,7 +119,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder>
         this.mOnItemClickListener = onItemClickListener
     }
 
-    fun setOnItemLongClickListener(onItemLongClickListener: onItemLongClickListener) {
+    fun setOnItemLongClickListener(onItemLongClickListener: OnItemLongClickListener) {
         this.mOnItemLongClickListener = onItemLongClickListener
     }
 

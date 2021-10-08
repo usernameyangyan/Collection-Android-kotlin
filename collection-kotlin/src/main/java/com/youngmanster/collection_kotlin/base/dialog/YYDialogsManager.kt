@@ -1,4 +1,4 @@
-package com.youngmanster.collection_kotlin.base.dialog.new
+package com.youngmanster.collection_kotlin.base.dialog
 
 import java.util.concurrent.ConcurrentLinkedQueue
 
@@ -15,7 +15,7 @@ open class YYDialogsManager private constructor() {
         ConcurrentLinkedQueue()
 
     companion object{
-        fun getInstance(): YYDialogsManager{
+        fun getInstance(): YYDialogsManager {
             return DialogHolder.instance
         }
         private class  DialogHolder{

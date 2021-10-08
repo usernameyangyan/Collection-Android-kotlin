@@ -1,6 +1,7 @@
 package com.youngmanster.collection_kotlin.network.convert;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.Gson;
@@ -103,5 +104,12 @@ public class GsonUtils {
                     .create();
         }
         return gsonExpose;
+    }
+
+
+    private static Gson getGsonExposeWithBuilder(String param) {
+        ExclusionStrategy excludeStrategy = new SetterExclusionStrategy(param);
+        return new GsonBuilder().setExclusionStrategies(excludeStrategy)
+                .create();
     }
 }

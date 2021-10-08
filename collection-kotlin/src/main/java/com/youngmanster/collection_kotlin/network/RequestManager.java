@@ -30,7 +30,12 @@ public class RequestManager {
         if (builder.getReqMode() == RequestBuilder.ReqMode.ASYNCHRONOUS) {
           return requestMethod.request(builder);
         } else {
-            OkHttpUtils.requestSyncData(builder);
+            try {
+                OkHttpUtils.requestSyncData(builder);
+            }catch (Exception e){
+
+            }
+
         }
         return null;
     }

@@ -39,7 +39,7 @@ class TagViewActivity :BaseActivity<BasePresenter<*>>(){
 
         tagView.create(builder,object :TagView.TagViewPressListener{
             override fun onPress(view: View, title: String, position: Int) {
-                ToastUtils.showToast(this@TagViewActivity,title)
+                ToastUtils.showToast(title)
             }
         })
 

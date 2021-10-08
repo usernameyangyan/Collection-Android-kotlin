@@ -2,6 +2,7 @@ package com.youngmanster.collection_kotlin.recyclerview;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -537,9 +538,9 @@ public class PullToRefreshRecyclerView extends RecyclerView {
 			} else if (isHeaderType(viewType)) {
 				return new HeaderAndFooterViewHolder(getHeaderViewByType(viewType));
 			} else if (viewType == TYPE_LOADMORE_FOOTER) {
-				loadMoreView.setVisibility(GONE);
 				return new HeaderAndFooterViewHolder(loadMoreView);
-			} else if (viewType == TYPE_EMPTY_VIEW) {
+			}
+			else if (viewType == TYPE_EMPTY_VIEW) {
 				return new HeaderAndFooterViewHolder(emptyView);
 			}
 

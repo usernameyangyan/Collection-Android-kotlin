@@ -86,9 +86,9 @@ class TagView : FlexboxLayout {
             val position = view.tag as Int
             onTagViewPressListener?.onPress(view,tagViewBuilder?.getTitles()!![position],position)
         }
-        val padding = DisplayUtils.dip2px(context, tagViewBuilder?.getPaddingTopAndBottom()!!)
+        val padding = DisplayUtils.dip2px(tagViewBuilder?.getPaddingTopAndBottom()!!)
         val paddingLeftAndRight =
-            DisplayUtils.dip2px(context, tagViewBuilder?.getPaddingLeftAndRight()!!)
+            DisplayUtils.dip2px(tagViewBuilder?.getPaddingLeftAndRight()!!)
         ViewCompat.setPaddingRelative(
             textView,
             paddingLeftAndRight,
@@ -100,9 +100,9 @@ class TagView : FlexboxLayout {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        val margin = DisplayUtils.dip2px(context, tagViewBuilder?.getMarginLeftAndRight()!!)
+        val margin = DisplayUtils.dip2px(tagViewBuilder?.getMarginLeftAndRight()!!)
         val marginTopAndBottom =
-            DisplayUtils.dip2px(context, tagViewBuilder?.getMarginTopAndBottom()!!)
+            DisplayUtils.dip2px(tagViewBuilder?.getMarginTopAndBottom()!!)
         layoutParams.setMargins(margin, marginTopAndBottom, margin, marginTopAndBottom)
         textView.layoutParams = layoutParams
         return textView

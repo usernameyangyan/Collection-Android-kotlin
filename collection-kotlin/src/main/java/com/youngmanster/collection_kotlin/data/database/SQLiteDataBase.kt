@@ -318,7 +318,7 @@ class SQLiteDataBase {
                         val curTableSql = rs?.get(0)?.getStringValue("sql")
 
                         val newColumnInfos = getTableColumnInfos(clazz)
-                        var curColumns = getTableColumnsInfo(curTableSql!!).toMutableMap()
+                        var curColumns = getTableColumnsInfo(curTableSql!!)?.toMutableMap()
                         val newColumnSize = newColumnInfos.size
                         var newColumnInfo: ColumnInfo
                         var newColumnName: String
@@ -327,7 +327,7 @@ class SQLiteDataBase {
                             newColumnInfo = newColumnInfos[index]
                             newColumnName = newColumnInfo.name.toLowerCase()
 
-                            if (curColumns.containsKey(newColumnName)) {
+                            if (curColumns!=null&&curColumns.containsKey(newColumnName)) {
                                 curColumns[newColumnName] = false
                             } else {
 
@@ -370,18 +370,21 @@ class SQLiteDataBase {
      * @param createSql
      * @return map, key is column name, value default true means need to delete
      */
-    private fun getTableColumnsInfo(createSql: String): Map<String, Boolean> {
-        val subSql = createSql.substring(createSql.indexOf('(') + 1, createSql.lastIndexOf(')'))
-        val columnInfos = subSql.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+    private fun getTableColumnsInfo(createSql: String?): Map<String, Boolean>? {
+        val subSql = createSql?.substring(createSql.indexOf('(') + 1, createSql.lastIndexOf(')'))
+        val columnInfos = subSql?.split(",".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
         val tableInfo = HashMap<String, Boolean>()
 
         var columnName: String
         var columnInfo: String
-        for (i in 0 until columnInfos.size) {
-            columnInfo = columnInfos[i].trim { it <= ' ' }
-            columnName = columnInfo.substring(0, columnInfo.indexOf(' '))
-            tableInfo[columnName.toLowerCase()] = true
+        if (columnInfos!=null){
+            for (element in columnInfos) {
+                columnInfo = element.trim { it <= ' ' }
+                columnName = columnInfo.substring(0, columnInfo.indexOf(' '))
+                tableInfo[columnName.toLowerCase()] = true
+            }
         }
+
 
         return tableInfo
     }

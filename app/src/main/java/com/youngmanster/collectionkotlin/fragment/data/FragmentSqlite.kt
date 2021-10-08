@@ -41,16 +41,16 @@ class FragmentSqlite:BaseFragment<BasePresenter<*>>(), View.OnClickListener{
                 user.name="张三"
                 var isSuccess=DataManager.DataForSqlite.insert(user)
                 if(isSuccess!!){
-                    ToastUtils.showToast(activity,"保存成功")
+                    ToastUtils.showToast("保存成功")
                 }else{
-                    ToastUtils.showToast(activity,"保存失败")
+                    ToastUtils.showToast("保存失败")
                 }
 
             }
 
             R.id.queryBtn->{
                 val user=DataManager.DataForSqlite.queryByFirst(User::class.java)
-                ToastUtils.showToast(activity,"姓名："+user?.name+"  "+"年龄："+user?.age)
+                ToastUtils.showToast("姓名："+user?.name+"  "+"年龄："+user?.age)
             }
 
             R.id.btn1->{
@@ -66,9 +66,9 @@ class FragmentSqlite:BaseFragment<BasePresenter<*>>(), View.OnClickListener{
                 DataManager.DataForSqlite.insertListBySync(User::class.java,list,object :SQLiteDataBase.InsertDataCompleteListener{
                     override fun onInsertDataComplete(isInsert: Boolean?) {
                         if(isInsert!!){
-                            ToastUtils.showToast(activity,"保存成功")
+                            ToastUtils.showToast("保存成功")
                         }else{
-                            ToastUtils.showToast(activity,"保存失败")
+                            ToastUtils.showToast("保存失败")
                         }
                     }
 
@@ -78,7 +78,7 @@ class FragmentSqlite:BaseFragment<BasePresenter<*>>(), View.OnClickListener{
             R.id.btn2->{
                 DataManager.DataForSqlite.queryAllBySync(User::class.java,object :SQLiteDataBase.QueryDataCompleteListener<User>{
                     override fun onQueryComplete(datas: List<User>?) {
-                        ToastUtils.showToast(activity,"查询到${datas?.size}条数据")
+                        ToastUtils.showToast("查询到${datas?.size}条数据")
                     }
 
                 })

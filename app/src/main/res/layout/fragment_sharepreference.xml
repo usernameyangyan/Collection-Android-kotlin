@@ -22,7 +22,7 @@
 		android:id="@+id/saveBtn"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="保存String数据"
+		android:text="SP保存String数据"
 		android:layout_marginTop="10dp"
 		android:layout_marginLeft="20dp"
 		android:layout_marginRight="20dp"/>
@@ -32,7 +32,27 @@
 		android:id="@+id/queryBtn"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="查询String数据"
+		android:text="SP查询String数据"
+		android:layout_marginTop="10dp"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"/>
+
+
+	<Button
+		android:id="@+id/saveBtn1"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="MMKV保存String数据"
+		android:layout_marginTop="10dp"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"/>
+
+
+	<Button
+		android:id="@+id/queryBtn1"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="MMKV查询String数据"
 		android:layout_marginTop="10dp"
 		android:layout_marginLeft="20dp"
 		android:layout_marginRight="20dp"/>

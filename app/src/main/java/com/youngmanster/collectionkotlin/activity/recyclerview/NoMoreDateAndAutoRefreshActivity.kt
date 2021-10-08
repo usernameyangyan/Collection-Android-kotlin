@@ -29,7 +29,7 @@ class NoMoreDateAndAutoRefreshActivity:BaseActivity<BasePresenter<*>>(){
     override fun init() {
         defineActionBarConfig.setTitle(getString(R.string.fragment_auto_title))
 
-        customTabView.tabIndicatorWidth= (DisplayUtils.getScreenWidthPixels(this)/2).toFloat()
+        customTabView.tabIndicatorWidth= (DisplayUtils.getScreenWidthPixels()/2).toFloat()
 
         fragments.add(FragmentNoMoreData())
         fragments.add(FragmentAutoRefresh())

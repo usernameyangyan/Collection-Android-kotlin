@@ -3,8 +3,8 @@ package com.youngmanster.collectionkotlin.fragment.recyclerview
 import android.os.Handler
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.youngmanster.collection_kotlin.base.baseview.IBaseFragment
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
+import com.youngmanster.collection_kotlin.mvp.IBaseFragment
 import com.youngmanster.collection_kotlin.recyclerview.PullToRefreshRecyclerView
 import com.youngmanster.collectionkotlin.R
 import com.youngmanster.collectionkotlin.adapter.recyclerview.DefinitionRecyclerAdapter
@@ -60,7 +60,7 @@ class FragmentEmptyView: IBaseFragment<BasePresenter<*>>(), PullToRefreshRecycle
         if (definitionRefreshAdapter == null) {
             definitionRefreshAdapter =
                 DefinitionRecyclerAdapter(
-                    activity!!,
+                    requireContext(),
                     R.layout.item_pull_refresh,
                     mDatas,
                     recycler_rv

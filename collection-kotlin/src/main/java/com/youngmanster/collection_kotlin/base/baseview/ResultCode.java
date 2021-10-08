@@ -17,13 +17,15 @@ package com.youngmanster.collection_kotlin.base.baseview;
 
 import androidx.annotation.IntDef;
 
+import com.youngmanster.collection_kotlin.mvp.IBaseFragment;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
  * Created by Yan Zhenjie on 2017/1/15.
  */
-@IntDef({IBaseFragment.RESULT_OK, IBaseFragment.RESULT_CANCELED})
+@IntDef({ICommonFragment.RESULT_OK, ICommonFragment.RESULT_CANCELED})
 @Retention(RetentionPolicy.SOURCE)
 public @interface ResultCode {
 }

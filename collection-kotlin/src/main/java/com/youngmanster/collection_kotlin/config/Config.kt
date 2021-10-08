@@ -13,7 +13,7 @@ class Config{
     companion object{
         /**必传参数 */
         //是否为BuildConfig.DEBUG,日志输出需要
-        var DEBUG: Boolean = false
+        var DEBUG: Boolean = true
         //设置Context
         @SuppressLint("StaticFieldLeak")
         var CONTEXT: Context? = null

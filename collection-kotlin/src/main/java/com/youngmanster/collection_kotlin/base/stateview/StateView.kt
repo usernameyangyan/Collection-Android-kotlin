@@ -119,14 +119,16 @@ open class StateView @JvmOverloads constructor(
             mLoadingView!!.setBackgroundColor(bgColor)
 
             val loadMore_Ll = mLoadingView!!.findViewById<LinearLayout>(R.id.library_loadMore_Ll)
-            val loadingBar = mLoadingView!!.findViewById<ProgressBar>(R.id.library_loadingBar)
             val loadingIv = mLoadingView!!.findViewById<ImageView>(R.id.library_loadingIv)
+            val loadingProgressTv=mLoadingView!!.findViewById<TextView>(R.id.library_loadingProgressTv)
+            val loadingProgressLinear=mLoadingView!!.findViewById<LinearLayout>(R.id.library_loadingProgressLinear)
+
             loadingTv = mLoadingView!!.findViewById(R.id.library_loadingTv)
 
 
             if (loadingViewDrawable != View.NO_ID) {
                 loadingIv.setBackgroundResource(loadingViewDrawable)
-                loadingBar.visibility = View.GONE
+                loadingProgressLinear.visibility = View.GONE
                 loadMore_Ll.visibility = View.VISIBLE
                 loadingTv?.text = loadingText
                 loadingTv?.setTextColor(mTextColor)
@@ -140,8 +142,11 @@ open class StateView @JvmOverloads constructor(
                 }
 
             } else {
-                loadingBar.visibility = View.VISIBLE
+                loadingProgressLinear.visibility = View.VISIBLE
                 loadMore_Ll.visibility = View.GONE
+                loadingProgressTv?.text = loadingText
+                loadingProgressTv?.setTextColor(mTextColor)
+                loadingProgressTv?.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize.toFloat())
             }
             addView(mLoadingView, VIEW_POSITION, params)
         }

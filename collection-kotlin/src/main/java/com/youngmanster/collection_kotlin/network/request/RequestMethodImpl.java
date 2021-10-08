@@ -98,19 +98,94 @@ public class RequestMethodImpl implements RequestMethod {
         } else if (builder.getHttpType() == RequestBuilder.HttpType.MULTIPLE_MULTIPART_POST) {
             if (builder.getHeaders() != null && builder.getHeaders().size() > 0) {
                 return RetrofitManager.Companion.getApiService(RequestService.class, builder)
-                        .uploadFileWithHeaders(builder.getUrl(), builder.getRequestParam(), builder.getParts(), builder.getHeaders());
+                        .uploadFileByPostWithHeaders(builder.getUrl(), builder.getRequestParam(), builder.getParts(), builder.getHeaders());
             } else {
                 return RetrofitManager.Companion.getApiService(RequestService.class, builder)
-                        .uploadFile(builder.getUrl(), builder.getRequestParam(), builder.getParts());
+                        .uploadFileByPost(builder.getUrl(), builder.getRequestParam(), builder.getParts());
+            }
+        }else if (builder.getHttpType() == RequestBuilder.HttpType.MULTIPLE_MULTIPART_PUT) {
+            if (builder.getHeaders() != null && builder.getHeaders().size() > 0) {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .uploadFileByPutWithHeaders(builder.getUrl(), builder.getRequestParam(), builder.getParts(), builder.getHeaders());
+            } else {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .uploadFileByPut(builder.getUrl(), builder.getRequestParam(), builder.getParts());
             }
         } else if (builder.getHttpType() == RequestBuilder.HttpType.JSON_PARAM_POST) {
             RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), ConvertParamUtils.convertParamToJson(builder));
             if (builder.getHeaders() != null && builder.getHeaders().size() > 0) {
                 return RetrofitManager.Companion.getApiService(RequestService.class, builder)
-                        .getObservableWithQueryJsonParamWithHeaders(builder.getUrl(), body, builder.getHeaders());
+                        .getObservableWithQueryJsonByPostWithHeaders(builder.getUrl(), body, builder.getHeaders());
             } else {
                 return RetrofitManager.Companion.getApiService(RequestService.class, builder)
-                        .getObservableWithQueryJsonParam(builder.getUrl(), body);
+                        .getObservableWithQueryJsonByPost(builder.getUrl(), body);
+            }
+        } else if (builder.getHttpType() == RequestBuilder.HttpType.BODY_POST) {
+            if (builder.getHeaders() != null && builder.getHeaders().size() > 0) {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonByPostWithHeaders(builder.getUrl(), builder.getBody(), builder.getHeaders());
+            } else {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonByPost(builder.getUrl(), builder.getBody());
+            }
+        } else if (builder.getHttpType() == RequestBuilder.HttpType.DEFAULT_DELETE) {
+            if (builder.getHeaders() != null && builder.getHeaders().size() > 0) {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithDefaultDeleteHeaders(builder.getUrl(), builder.getHeaders());
+            } else {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithDefaultDelete(builder.getUrl());
+            }
+        } else if (builder.getHttpType() == RequestBuilder.HttpType.JSON_PARAM_DELETE) {
+            RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), ConvertParamUtils.convertParamToJson(builder));
+            if (builder.getHeaders() != null && builder.getHeaders().size() > 0) {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonParamDeleteHeaders(builder.getUrl(), body, builder.getHeaders());
+            } else {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonParamDelete(builder.getUrl(), body);
+            }
+        }else if (builder.getHttpType() == RequestBuilder.HttpType.BODY_DELETE) {
+            if (builder.getHeaders() != null && builder.getHeaders().size() > 0) {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonParamDeleteHeaders(builder.getUrl(), builder.getBody(), builder.getHeaders());
+            } else {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonParamDelete(builder.getUrl(), builder.getBody());
+            }
+        }else if (builder.getHttpType() == RequestBuilder.HttpType.JSON_PARAM_PUT) {
+            RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), ConvertParamUtils.convertParamToJson(builder));
+            if (builder.getHeaders() != null && builder.getHeaders().size() > 0) {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonByPutWithHeaders(builder.getUrl(), body, builder.getHeaders());
+            } else {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonByPut(builder.getUrl(), body);
+            }
+        }else if (builder.getHttpType() == RequestBuilder.HttpType.BODY_PUT) {
+            if (builder.getHeaders() != null && builder.getHeaders().size() > 0) {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonByPutWithHeaders(builder.getUrl(), builder.getBody(), builder.getHeaders());
+            } else {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonByPut(builder.getUrl(), builder.getBody());
+            }
+        }else if (builder.getHttpType() == RequestBuilder.HttpType.JSON_PARAM_PATCH) {
+            RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), ConvertParamUtils.convertParamToJson(builder));
+            if (builder.getHeaders() != null && builder.getHeaders().size() > 0) {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonByPatchWithHeaders(builder.getUrl(), body, builder.getHeaders());
+            } else {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonByPatch(builder.getUrl(), body);
+            }
+        }else if (builder.getHttpType() == RequestBuilder.HttpType.BODY_PATCH) {
+            if (builder.getHeaders() != null && builder.getHeaders().size() > 0) {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonByPatchWithHeaders(builder.getUrl(), builder.getBody(), builder.getHeaders());
+            } else {
+                return RetrofitManager.Companion.getApiService(RequestService.class, builder)
+                        .getObservableWithQueryJsonByPatch(builder.getUrl(), builder.getBody());
             }
         }
         return null;
@@ -160,17 +235,17 @@ public class RequestMethodImpl implements RequestMethod {
                     @SuppressLint("StaticFieldLeak")
                     @Override
                     public void _onNext(DownloadInfo t) {
-                        if(!t.isFinish()&&!NetworkUtils.isNetworkConnected(Config.Companion.getCONTEXT())){
+                        if (!t.isFinish() && !NetworkUtils.isNetworkConnected(Config.Companion.getCONTEXT())) {
                             NetWorkCodeException.ResponseThrowable ex = new NetWorkCodeException.ResponseThrowable();
                             ex.setCode(NetWorkCodeException.Companion.getNETWORD_ERROR());
                             ex.setErrorMessage(NetWorkCodeException.Companion.getNETWORD_ERROR_MESSAGE());
                             builder.getRxObservableListener().onError(ex);
-                        }else if(!t.isFinish()){
+                        } else if (!t.isFinish()) {
                             NetWorkCodeException.ResponseThrowable ex = new NetWorkCodeException.ResponseThrowable();
                             ex.setCode(NetWorkCodeException.Companion.getUNKNOWN());
                             ex.setErrorMessage("下载中断,请检查下载文件是否存在异常");
                             builder.getRxObservableListener().onError(ex);
-                        }else{
+                        } else {
                             builder.getRxObservableListener().onNext((T) t);
                         }
                     }

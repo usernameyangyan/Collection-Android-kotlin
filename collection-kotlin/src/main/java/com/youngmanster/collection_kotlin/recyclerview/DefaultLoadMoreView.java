@@ -1,6 +1,7 @@
 package com.youngmanster.collection_kotlin.recyclerview;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -57,7 +58,7 @@ public class DefaultLoadMoreView extends BaseLoadMoreView {
 		switch (state){
 			case STATE_LOADING:
 				loadMoreLl.setVisibility(VISIBLE);
-				noDataTv.setVisibility(INVISIBLE);
+				noDataTv.setVisibility(GONE);
 				break;
 			case STATE_COMPLETE:
 				this.setVisibility(GONE);

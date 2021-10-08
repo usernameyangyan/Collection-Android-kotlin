@@ -6,6 +6,7 @@ import android.content.ComponentCallbacks;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,7 +58,13 @@ public class Density {
 
 
     private static void setDefault(Activity activity) {
-        setAppOrientation(activity);
+
+        boolean isCancel=activity instanceof CancelAdapt;
+
+        if(!isCancel){
+            setAppOrientation(activity);
+        }
+
     }
 
     private static void setAppOrientation(@Nullable Activity activity) {

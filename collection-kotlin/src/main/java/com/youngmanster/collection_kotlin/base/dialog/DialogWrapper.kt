@@ -1,4 +1,4 @@
-package com.youngmanster.collection_kotlin.base.dialog.new
+package com.youngmanster.collection_kotlin.base.dialog
 
 /**
  * Created by yangy

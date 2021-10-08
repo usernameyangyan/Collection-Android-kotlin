@@ -43,7 +43,10 @@ class RetrofitManager {
             if (Config.DEBUG) {
                 val logging = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
                     override fun log(message: String) {
-                        Log.d("RetrofitManager", "收到响应: $message")
+                        if(requestBuilder!!.isNeedLog){
+                            Log.d("RetrofitManager", "收到响应: $message")
+                        }
+
                     }
                 })
 

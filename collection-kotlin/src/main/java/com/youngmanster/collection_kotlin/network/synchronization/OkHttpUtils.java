@@ -34,8 +34,12 @@ public class OkHttpUtils {
 
             if ((requestBuilder.getHttpType() == RequestBuilder.HttpType.DEFAULT_GET ||
                     requestBuilder.getHttpType() == RequestBuilder.HttpType.DEFAULT_POST ||
-                    requestBuilder.getHttpType() == RequestBuilder.HttpType.JSON_PARAM_POST||
-                    requestBuilder.getHttpType() == RequestBuilder.HttpType.MULTIPLE_MULTIPART_POST) &&
+                    requestBuilder.getHttpType() == RequestBuilder.HttpType.JSON_PARAM_POST ||
+                    requestBuilder.getHttpType() == RequestBuilder.HttpType.MULTIPLE_MULTIPART_POST ||
+                    requestBuilder.getHttpType() == RequestBuilder.HttpType.MULTIPLE_MULTIPART_PUT ||
+                    requestBuilder.getHttpType() == RequestBuilder.HttpType.JSON_PARAM_PUT ||
+                    requestBuilder.getHttpType() == RequestBuilder.HttpType.JSON_PARAM_PATCH ||
+                    requestBuilder.getHttpType() == RequestBuilder.HttpType.JSON_PARAM_DELETE) &&
                     (requestBuilder.getReqType() == RequestBuilder.ReqType.NO_CACHE_MODEL ||
                             requestBuilder.getReqType() == RequestBuilder.ReqType.NO_CACHE_LIST ||
                             requestBuilder.getReqType() == RequestBuilder.ReqType.DEFAULT_CACHE_MODEL ||
@@ -58,6 +62,14 @@ public class OkHttpUtils {
                         Object value = requestBuilder.getRequestParam().get(key);
                         urlBuilder.addQueryParameter(key, value.toString());
                     }
+
+
+                    Set headerSet = requestBuilder.getHeaders().keySet();
+                    for (Object o : headerSet) {
+                        String key = (String) o;
+                        String value = requestBuilder.getHeaders().get(key);
+                        builder.addHeader(key,value);
+                    }
                     builder.url(urlBuilder.build()).get();
 
                 } else if (requestBuilder.getHttpType() == RequestBuilder.HttpType.DEFAULT_POST) {
@@ -68,14 +80,22 @@ public class OkHttpUtils {
                         Object value = requestBuilder.getRequestParam().get(key);
                         requestBody.add(key, value.toString());
                     }
+
+                    Set headerSet = requestBuilder.getHeaders().keySet();
+                    for (Object o : headerSet) {
+                        String key = (String) o;
+                        String value = requestBuilder.getHeaders().get(key);
+                        builder.addHeader(key,value);
+                    }
                     builder.post(requestBody.build());
-                }else if(requestBuilder.getHttpType() == RequestBuilder.HttpType.MULTIPLE_MULTIPART_POST){
+                } else if (requestBuilder.getHttpType() == RequestBuilder.HttpType.MULTIPLE_MULTIPART_POST ||
+                        requestBuilder.getHttpType() == RequestBuilder.HttpType.MULTIPLE_MULTIPART_PUT) {
 
                     //上传图片需要 MultipartBody
 
                     MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
-                    for(MultipartBody.Part part:requestBuilder.getParts()){
+                    for (MultipartBody.Part part : requestBuilder.getParts()) {
                         body.addPart(part);
                     }
 
@@ -86,15 +106,22 @@ public class OkHttpUtils {
                         body.addFormDataPart(key, value.toString());
                     }
 
+                    Set headerSet = requestBuilder.getHeaders().keySet();
+                    for (Object o : headerSet) {
+                        String key = (String) o;
+                        String value = requestBuilder.getHeaders().get(key);
+                        builder.addHeader(key,value);
+                    }
+
                     RequestBody body1 = body.build();
                     builder.url(url)
                             .post(body1);
 
                 } else {
                     String data;
-                    if(requestBuilder.getNoKeyParam()!=null){
-                        data=requestBuilder.getNoKeyParam().toString();
-                    }else{
+                    if (requestBuilder.getNoKeyParam() != null) {
+                        data = requestBuilder.getNoKeyParam().toString();
+                    } else {
                         data = GsonUtils.getGsonWithoutExpose().toJson(requestBuilder.getRequestParam());
                     }
 
@@ -104,8 +131,17 @@ public class OkHttpUtils {
                             .post(requestBody);
                 }
 
+                Set headerSet = requestBuilder.getHeaders().keySet();
+                for (Object o : headerSet) {
+                    String key = (String) o;
+                    String value = requestBuilder.getHeaders().get(key);
+                    builder.addHeader(key,value);
+                }
+
                 Request okRequest = builder.build();
                 Response response = okHttpClient.newCall(okRequest).execute();
+
+
 
                 if (response.code() == 200) {
                     String body = response.body().string();
@@ -138,15 +174,15 @@ public class OkHttpUtils {
             } else {
                 NetWorkCodeException.ResponseThrowable e = new NetWorkCodeException.ResponseThrowable();
                 e.setCode(1000);
-                e.setErrorMessage("暂只支持DEFAULT_GET、DEFAULT_POST、JSON_PARAM_POST和MULTIPLE_MULTIPART_POST四种请求方式,支持NO_CACHE_MODEL、No_CACHE_LIST、DEFAULT_CACHE_MODEL以及DEFAULT_CACHE_LIST四种数据方式，其它的请求以及数据方式正在开发中");
+                e.setErrorMessage("暂不支持的格式");
 
             }
         } catch (IOException e) {
             NetWorkCodeException.ResponseThrowable e1 = new NetWorkCodeException.ResponseThrowable();
-            if(!NetworkUtils.isNetworkConnected(Config.Companion.getCONTEXT())){
+            if (!NetworkUtils.isNetworkConnected(Config.Companion.getCONTEXT())) {
                 e1.setCode(NetWorkCodeException.Companion.getNETWORD_ERROR());
                 e1.setErrorMessage("网络错误");
-            }else{
+            } else {
                 e1.setCode(NetWorkCodeException.Companion.getHTTP_ERROR());
                 e1.setErrorMessage("服务器异常");
             }

@@ -77,6 +77,7 @@ class MVPActivity:BaseActivity<BasePresenter<*>>(), BaseRecyclerViewAdapter.OnIt
 
     //重写
     override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>, @NonNull grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PermissionManager.PERMISSION_REQUEST_CODE) {//PERMISSION_REQUEST_CODE为请求权限的请求值
             //有必须权限选择了禁止
             if (permissionManager?.shouldShowRequestPermissionsCode == PermissionManager.EXIST_NECESSARY_PERMISSIONS_PROHIBTED) {

@@ -30,7 +30,7 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        space = DisplayUtils.dip2px(context!!, 20f)
+        space = DisplayUtils.dip2px(20f)
         if(this.layoutRes!=0){
             this.mainView = LayoutInflater.from(context).inflate(layoutRes, null)
         }else{
@@ -40,7 +40,7 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
 
         }
 
-        builder = AlertDialog.Builder(context!!)
+        builder = AlertDialog.Builder(requireContext())
         if (mainView != null) {
             builder!!.setView(mainView)
         }
@@ -124,7 +124,7 @@ abstract class BaseDialogFragment :DialogFragment(),View.OnTouchListener{
     }
 
     private fun showConfig() {
-        screenWidthPixels = DisplayUtils.getScreenWidthPixels(context!!)
+        screenWidthPixels = DisplayUtils.getScreenWidthPixels()
         val params = this.dialog!!.window?.attributes
         params?.width   = (screenWidthPixels - space * 2)
         params?.gravity  = Gravity.CENTER

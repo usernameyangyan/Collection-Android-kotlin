@@ -89,7 +89,7 @@ class FragmentWeChatFeaturedNoCommonClass :BaseFragment<WeChatFeaturedNoCommonCl
     }
 
     override fun onError(errorMsg: String) {
-        ToastUtils.showToast(activity,errorMsg)
+        ToastUtils.showToast(errorMsg)
         if(mDatas.size == 0){
             state_view.showViewByState(StateView.STATE_DISCONNECT)
         }

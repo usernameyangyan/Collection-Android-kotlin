@@ -4,11 +4,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import com.youngmanster.collection_kotlin.base.dialog.CommonDialog
-import com.youngmanster.collection_kotlin.base.dialog.new.DialogWrapper
-import com.youngmanster.collection_kotlin.base.dialog.new.IDialog
-import com.youngmanster.collection_kotlin.base.dialog.new.YYDialog
-import com.youngmanster.collection_kotlin.base.dialog.new.YYDialogsManager
+import com.youngmanster.collection_kotlin.base.dialog.*
 import com.youngmanster.collection_kotlin.mvp.BasePresenter
 import com.youngmanster.collection_kotlin.utils.GlideUtils
 import com.youngmanster.collection_kotlin.utils.ToastUtils
@@ -54,14 +50,13 @@ class DialogActivity :BaseActivity<BasePresenter<*>>(),View.OnClickListener{
                     .setNegativeButton("取消", object : IDialog.OnClickListener {
                         override fun onClick(dialog: IDialog?) {
                             dialog?.dismiss()
-                            ToastUtils.showToast(this@DialogActivity, "点击了取消按钮")
+                            ToastUtils.showToast( "点击了取消按钮")
                         }
 
                     }).setPositiveButton("确定", object : IDialog.OnClickListener {
                         override fun onClick(dialog: IDialog?) {
                             dialog?.dismiss()
                             ToastUtils.showToast(
-                                this@DialogActivity,
                                 "点击了确定按钮"
                             )
                         }
@@ -85,7 +80,6 @@ class DialogActivity :BaseActivity<BasePresenter<*>>(),View.OnClickListener{
                         override fun onClick(dialog: IDialog?) {
                             dialog?.dismiss()
                             ToastUtils.showToast(
-                                this@DialogActivity,
                                 "点击了确定按钮"
                             )
                         }
@@ -109,18 +103,18 @@ class DialogActivity :BaseActivity<BasePresenter<*>>(),View.OnClickListener{
                         ) {
                             val btn_take_photo = view?.findViewById<Button>(R.id.btn_take_photo)
                             btn_take_photo?.setOnClickListener {
-                                ToastUtils.showToast(this@DialogActivity, "拍照")
+                                ToastUtils.showToast("拍照")
                                 dialog?.dismiss()
                             }
                             val btn_select_photo = view?.findViewById<Button>(R.id.btn_select_photo)
                             btn_select_photo?.setOnClickListener {
-                                ToastUtils.showToast(this@DialogActivity, "相册选取")
+                                ToastUtils.showToast("相册选取")
                                 dialog?.dismiss()
                             }
                             val btn_cancel_dialog =
                                 view?.findViewById<Button>(R.id.btn_cancel_dialog)
                             btn_cancel_dialog?.setOnClickListener {
-                                ToastUtils.showToast(this@DialogActivity, "取消")
+                                ToastUtils.showToast("取消")
                                 dialog?.dismiss()
                             }
                         }
@@ -155,7 +149,7 @@ class DialogActivity :BaseActivity<BasePresenter<*>>(),View.OnClickListener{
                                 R.mipmap.ic_bttom_loading_01,iv_ad!!)
 
                             iv_ad.setOnClickListener {
-                                ToastUtils.showToast(this@DialogActivity, "点击图片")
+                                ToastUtils.showToast("点击图片")
                                 dialog?.dismiss()
                             }
                         }
@@ -179,7 +173,7 @@ class DialogActivity :BaseActivity<BasePresenter<*>>(),View.OnClickListener{
                             GlideUtils.loadImg(this@DialogActivity,"http://pic1.win4000.com/m00/15/39/849f010d29e38c27a1116fec69e3149f.jpg",
                                 R.mipmap.ic_bttom_loading_01,iv_ad!!)
                             iv_ad.setOnClickListener {
-                                ToastUtils.showToast(this@DialogActivity, "点击图片")
+                                ToastUtils.showToast("点击图片")
                                 dialog?.dismiss()
                             }
                         }

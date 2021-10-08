@@ -42,13 +42,14 @@ class PermissionActivity :BaseActivity<BasePresenter<*>>(){
 
     //重写
     override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>, @NonNull grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PermissionManager.PERMISSION_REQUEST_CODE) {//PERMISSION_REQUEST_CODE为请求权限的请求值
             //有必须权限选择了禁止
             if (permissionManager?.shouldShowRequestPermissionsCode == PermissionManager.EXIST_NECESSARY_PERMISSIONS_PROHIBTED) {
-                ToastUtils.showToast(this, "可以在这里设置重新跳出权限请求提示框")
+                ToastUtils.showToast("可以在这里设置重新跳出权限请求提示框")
             } //有必须权限选择了禁止不提醒
             else if (permissionManager?.shouldShowRequestPermissionsCode == PermissionManager.EXIST_NECESSARY_PERMISSIONS_PROHIBTED_NOT_REMIND) {
-                ToastUtils.showToast(this, "可以在这里弹出提示框提示去应用设置页开启权限")
+                ToastUtils.showToast("可以在这里弹出提示框提示去应用设置页开启权限")
                 permissionManager?.startAppSettings()
             }
         }

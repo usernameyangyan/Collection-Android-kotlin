@@ -58,7 +58,7 @@ public interface MultiValueMap<K, V> {
      */
     List<V> remove(K key);
 
-    void remove(K key,int index);
+    void remove(K key, int index);
 
     /**
      * 移除所有的值。

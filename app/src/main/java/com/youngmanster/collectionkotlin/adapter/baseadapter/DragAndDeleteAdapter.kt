@@ -18,7 +18,7 @@ class DragAndDeleteAdapter(mContext: Context, mLayoutResId: Int, mDatas: ArrayLi
     private var mHeight: Int=0
 
     init {
-        mHeight = DisplayUtils.dip2px(mContext, 100f)
+        mHeight = DisplayUtils.dip2px(100f)
     }
 
     override fun convert(baseViewHolder: BaseViewHolder, t: String) {

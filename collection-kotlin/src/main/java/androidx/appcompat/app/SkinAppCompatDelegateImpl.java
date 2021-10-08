@@ -2,8 +2,6 @@ package androidx.appcompat.app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
